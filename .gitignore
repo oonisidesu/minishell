@@ -1,0 +1,6 @@
+minishell
+
+.DS_Store
+*.code-workspace
+*.o
+*.a
