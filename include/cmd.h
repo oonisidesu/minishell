@@ -1,39 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell.h                                        :+:      :+:    :+:   */
+/*   cmd.h                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ootsuboyoshiyuki <ootsuboyoshiyuki@stud    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/02/14 16:21:32 by ootsuboyosh       #+#    #+#             */
-/*   Updated: 2024/02/14 17:32:57 by ootsuboyosh      ###   ########.fr       */
+/*   Created: 2024/02/14 16:25:22 by ootsuboyosh       #+#    #+#             */
+/*   Updated: 2024/02/14 17:36:33 by ootsuboyosh      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MINISHELL_H
-# define MINISHELL_H
+#ifndef CMD_H
+# define CMD_H
 
-# include "buildin.h"
-# include "cmd.h"
 # include "env_val.h"
-# include "history.h"
 
-// シグナル用グローバル変数
-int				g_signal;
-
-typedef struct s_minishell
+typedef struct s_cmd
 {
-	// cmd構造体
-	t_cmd		*cmd;
+	int				argc;
+	char			**argv;
+	int				status;
+	int				pid;
+	struct s_cmd	*next;
+}					t_cmd;
 
-	// history構造体
-	t_history	*hist;
-
-	// 環境変数構造体
-	t_env_val	*env_val;
-
-	// 返り値
-	int			status_code;
-}				t_minishell;
+t_cmd				*parse_command_line(char *buf, t_env_val *env_val);
 
 #endif
