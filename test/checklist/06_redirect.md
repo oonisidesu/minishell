@@ -15,3 +15,6 @@ bb
 c
 EOF
 ```
+
+- heredocでctrl-cした時の終了コードに注意
+
