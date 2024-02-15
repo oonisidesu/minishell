@@ -3,20 +3,21 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ootsuboyoshiyuki <ootsuboyoshiyuki@stud    +#+  +:+       +#+        */
+/*   By: susumuyagi <susumuyagi@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/14 16:21:32 by ootsuboyosh       #+#    #+#             */
-/*   Updated: 2024/02/14 17:32:57 by ootsuboyosh      ###   ########.fr       */
+/*   Updated: 2024/02/15 16:30:30 by susumuyagi       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
-# include "buildin.h"
 # include "cmd.h"
 # include "env_val.h"
 # include "history.h"
+
+# define TOO_MANY_ARGS "Error: too many arguments\n"
 
 // シグナル用グローバル変数
 int				g_signal;

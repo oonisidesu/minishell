@@ -1,6 +1,14 @@
 NAME := minishell
-CFLAGS := -Wall -Wextra -Werror -Iinclude
-SRCS := src/minishell.c
+
+# libft
+LIBFT_DIR := ./libft
+LIBFT := $(LIBFT_DIR)/libft.a
+
+CFLAGS := -Wall -Wextra -Werror -I./include -I$(LIBFT_DIR) -O2
+LDFLAGS := -L$(LIBFT_DIR)
+LIBS := -lft -lreadline
+
+SRCS := src/minishell.c src/paser/prompt.c
 OBJS := $(SRCS:.c=.o)
 
 all: $(NAME)
@@ -10,6 +18,9 @@ $(NAME): $(OBJS) $(LIBFT)
 
 #%.o: %.c
 #	$(CC) $(CFLAGS) $(INCLUDES) -c $< -o $@
+
+$(LIBFT):
+	$(MAKE) -j4 -C $(LIBFT_DIR)
 
 .PHONY: clean fclean re
 
