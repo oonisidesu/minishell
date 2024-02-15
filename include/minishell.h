@@ -6,7 +6,7 @@
 /*   By: susumuyagi <susumuyagi@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/14 16:21:32 by ootsuboyosh       #+#    #+#             */
-/*   Updated: 2024/02/15 16:30:30 by susumuyagi       ###   ########.fr       */
+/*   Updated: 2024/02/15 18:19:20 by susumuyagi       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,6 @@
 
 # include "cmd.h"
 # include "env_val.h"
-# include "history.h"
 
 # define TOO_MANY_ARGS "Error: too many arguments\n"
 
@@ -27,11 +26,8 @@ typedef struct s_minishell
 	// cmd構造体
 	t_cmd		*cmd;
 
-	// history構造体
-	t_history	*hist;
-
 	// 環境変数構造体
-	t_env_val	*env_val;
+	t_env_val	*env;
 
 	// 返り値
 	int			status_code;
