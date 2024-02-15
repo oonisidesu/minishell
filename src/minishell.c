@@ -6,13 +6,13 @@
 /*   By: susumuyagi <susumuyagi@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/15 13:22:07 by susumuyagi        #+#    #+#             */
-/*   Updated: 2024/02/15 16:31:51 by susumuyagi       ###   ########.fr       */
+/*   Updated: 2024/02/15 17:39:34 by susumuyagi       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 #include "minishell.h"
-#include "prompt.h"
+#include "paser/prompt.h"
 #include <unistd.h>
 
 int	main(int argc, char **argv, char **envp)
