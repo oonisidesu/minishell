@@ -6,7 +6,7 @@
 /*   By: susumuyagi <susumuyagi@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/15 14:13:54 by susumuyagi        #+#    #+#             */
-/*   Updated: 2024/02/15 17:56:22 by susumuyagi       ###   ########.fr       */
+/*   Updated: 2024/02/16 12:18:53 by susumuyagi       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,7 @@ void	prompt(t_minishell *minish)
 	char	*buf;
 
 	(void)minish;
-	ft_putstr_fd(PROMPT, STDOUT_FILENO);
-	buf = readline(NULL);
+	buf = readline(PROMPT);
 	if (buf == NULL)
 	{
 		ft_putstr_fd(READ_ERR, STDERR_FILENO);
