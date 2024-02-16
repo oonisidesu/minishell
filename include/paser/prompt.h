@@ -1,36 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell.h                                        :+:      :+:    :+:   */
+/*   prompt.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: susumuyagi <susumuyagi@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/02/14 16:21:32 by ootsuboyosh       #+#    #+#             */
-/*   Updated: 2024/02/15 18:19:20 by susumuyagi       ###   ########.fr       */
+/*   Created: 2024/02/15 14:19:35 by susumuyagi        #+#    #+#             */
+/*   Updated: 2024/02/15 17:40:53 by susumuyagi       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MINISHELL_H
-# define MINISHELL_H
+#ifndef PROMPT_H
+# define PROMPT_H
 
-# include "cmd.h"
-# include "env_val.h"
+# define PROMPT "minishell $ "
+# define READ_ERR "Error: Can not read line\n"
 
-# define TOO_MANY_ARGS "Error: too many arguments\n"
-
-// シグナル用グローバル変数
-int				g_signal;
-
-typedef struct s_minishell
-{
-	// cmd構造体
-	t_cmd		*cmd;
-
-	// 環境変数構造体
-	t_env_val	*env;
-
-	// 返り値
-	int			status_code;
-}				t_minishell;
+void	prompt(t_minishell *minish);
 
 #endif

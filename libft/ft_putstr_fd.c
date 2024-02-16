@@ -1,24 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   history.h                                          :+:      :+:    :+:   */
+/*   ft_putstr_fd.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ootsuboyoshiyuki <ootsuboyoshiyuki@stud    +#+  +:+       +#+        */
+/*   By: susumuyagi <susumuyagi@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/02/14 16:21:32 by ootsuboyosh       #+#    #+#             */
-/*   Updated: 2024/02/14 18:00:25 by ootsuboyosh      ###   ########.fr       */
+/*   Created: 2023/05/24 11:52:34 by susumuyagi        #+#    #+#             */
+/*   Updated: 2024/02/15 16:23:06 by susumuyagi       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef HISTORY_H
-# define HISTORY_H
+#include "libft.h"
+#include <unistd.h>
 
-# define MAX_HIST_NUM 100
-
-typedef struct s_history
+ssize_t	ft_putstr_fd(char *s, int fd)
 {
-	char				*cmd_list[MAX_HIST_NUM];
-	int hist_idx;
-}						t_history;
-
-#endif
+	if (!s)
+		return (0);
+	return (write(fd, s, ft_strlen(s)));
+}

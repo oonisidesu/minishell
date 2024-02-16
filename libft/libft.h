@@ -1,36 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell.h                                        :+:      :+:    :+:   */
+/*   libft.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: susumuyagi <susumuyagi@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/02/14 16:21:32 by ootsuboyosh       #+#    #+#             */
-/*   Updated: 2024/02/15 18:19:20 by susumuyagi       ###   ########.fr       */
+/*   Created: 2023/05/18 15:49:00 by susumuyagi        #+#    #+#             */
+/*   Updated: 2024/02/15 16:12:07 by susumuyagi       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MINISHELL_H
-# define MINISHELL_H
+#ifndef LIBFT_H
+# define LIBFT_H
 
-# include "cmd.h"
-# include "env_val.h"
+# include <stddef.h>
+# include <unistd.h>
 
-# define TOO_MANY_ARGS "Error: too many arguments\n"
-
-// シグナル用グローバル変数
-int				g_signal;
-
-typedef struct s_minishell
-{
-	// cmd構造体
-	t_cmd		*cmd;
-
-	// 環境変数構造体
-	t_env_val	*env;
-
-	// 返り値
-	int			status_code;
-}				t_minishell;
+size_t	ft_strlen(const char *s);
+ssize_t	ft_putstr_fd(char *s, int fd);
 
 #endif

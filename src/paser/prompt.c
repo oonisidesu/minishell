@@ -1,36 +1,35 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell.h                                        :+:      :+:    :+:   */
+/*   prompt.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: susumuyagi <susumuyagi@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/02/14 16:21:32 by ootsuboyosh       #+#    #+#             */
-/*   Updated: 2024/02/15 18:19:20 by susumuyagi       ###   ########.fr       */
+/*   Created: 2024/02/15 14:13:54 by susumuyagi        #+#    #+#             */
+/*   Updated: 2024/02/16 12:18:53 by susumuyagi       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MINISHELL_H
-# define MINISHELL_H
+#include "libft.h"
+#include "minishell.h"
+#include "paser/prompt.h"
+#include <readline/readline.h>
+#include <stdlib.h>
 
-# include "cmd.h"
-# include "env_val.h"
-
-# define TOO_MANY_ARGS "Error: too many arguments\n"
-
-// シグナル用グローバル変数
-int				g_signal;
-
-typedef struct s_minishell
+void	prompt(t_minishell *minish)
 {
-	// cmd構造体
-	t_cmd		*cmd;
+	char	*buf;
 
-	// 環境変数構造体
-	t_env_val	*env;
-
-	// 返り値
-	int			status_code;
-}				t_minishell;
-
-#endif
+	(void)minish;
+	buf = readline(PROMPT);
+	if (buf == NULL)
+	{
+		ft_putstr_fd(READ_ERR, STDERR_FILENO);
+		return ;
+	}
+	add_history(buf);
+	printf("readline: [%s]\n", buf);
+	// parse(buf);
+	// 実行
+	free(buf);
+}
