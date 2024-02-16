@@ -1,28 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   libft.h                                            :+:      :+:    :+:   */
+/*   ft_isdigit.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: susumuyagi <susumuyagi@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/05/18 15:49:00 by susumuyagi        #+#    #+#             */
-/*   Updated: 2024/02/16 17:02:29 by susumuyagi       ###   ########.fr       */
+/*   Created: 2023/05/18 16:57:00 by susumuyagi        #+#    #+#             */
+/*   Updated: 2023/05/18 17:00:47 by susumuyagi       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef LIBFT_H
-# define LIBFT_H
-
-# include <stddef.h>
-# include <unistd.h>
-
-int		ft_isalnum(int c);
-int		ft_isalpha(int c);
-int		ft_isdigit(int c);
-int		ft_ispunct(int c);
-int		ft_isspace(int c);
-size_t	ft_strlen(const char *s);
-int		ft_strncmp(const char *s1, const char *s2, size_t n);
-ssize_t	ft_putstr_fd(char *s, int fd);
-
-#endif
+int	ft_isdigit(int c)
+{
+	return ('0' <= c && c <= '9');
+}

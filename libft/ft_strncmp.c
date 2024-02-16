@@ -1,28 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   libft.h                                            :+:      :+:    :+:   */
+/*   ft_strncmp.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: susumuyagi <susumuyagi@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/05/18 15:49:00 by susumuyagi        #+#    #+#             */
-/*   Updated: 2024/02/16 17:02:29 by susumuyagi       ###   ########.fr       */
+/*   Created: 2023/05/20 16:51:22 by susumuyagi        #+#    #+#             */
+/*   Updated: 2024/02/16 15:16:12 by susumuyagi       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef LIBFT_H
-# define LIBFT_H
+#include "libft.h"
 
-# include <stddef.h>
-# include <unistd.h>
+int	ft_strncmp(const char *s1, const char *s2, size_t n)
+{
+	size_t	i;
 
-int		ft_isalnum(int c);
-int		ft_isalpha(int c);
-int		ft_isdigit(int c);
-int		ft_ispunct(int c);
-int		ft_isspace(int c);
-size_t	ft_strlen(const char *s);
-int		ft_strncmp(const char *s1, const char *s2, size_t n);
-ssize_t	ft_putstr_fd(char *s, int fd);
-
-#endif
+	if (n == 0 && (!s1 || !s2))
+		return (0);
+	i = 0;
+	while (s1[i] && s2[i] && i < n)
+	{
+		if (s1[i] != s2[i])
+			return ((unsigned char)s1[i] - (unsigned char)s2[i]);
+		i++;
+	}
+	if (i == n)
+		return (0);
+	return ((unsigned char)s1[i] - (unsigned char)s2[i]);
+}

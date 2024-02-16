@@ -1,28 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   libft.h                                            :+:      :+:    :+:   */
+/*   lexer.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: susumuyagi <susumuyagi@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/05/18 15:49:00 by susumuyagi        #+#    #+#             */
-/*   Updated: 2024/02/16 17:02:29 by susumuyagi       ###   ########.fr       */
+/*   Created: 2024/02/15 14:19:35 by susumuyagi        #+#    #+#             */
+/*   Updated: 2024/02/17 16:20:38 by susumuyagi       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef LIBFT_H
-# define LIBFT_H
+#ifndef LEXER_H
+#define LEXER_H
 
-# include <stddef.h>
-# include <unistd.h>
+#include "minishell.h"
 
-int		ft_isalnum(int c);
-int		ft_isalpha(int c);
-int		ft_isdigit(int c);
-int		ft_ispunct(int c);
-int		ft_isspace(int c);
-size_t	ft_strlen(const char *s);
-int		ft_strncmp(const char *s1, const char *s2, size_t n);
-ssize_t	ft_putstr_fd(char *s, int fd);
+int tokenize(t_minishell* minish);
+void free_tokens(t_token* cur);
 
 #endif
