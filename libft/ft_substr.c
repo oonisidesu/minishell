@@ -1,34 +1,42 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   prompt.c                                           :+:      :+:    :+:   */
+/*   ft_substr.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: susumuyagi <susumuyagi@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/02/15 14:13:54 by susumuyagi        #+#    #+#             */
-/*   Updated: 2024/02/18 17:00:37 by susumuyagi       ###   ########.fr       */
+/*   Created: 2023/05/21 16:59:48 by susumuyagi        #+#    #+#             */
+/*   Updated: 2024/02/19 10:55:02 by susumuyagi       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
-#include "minishell.h"
-#include "parser/lexer.h"
-#include "parser/parser.h"
-#include "parser/prompt.h"
-#include <readline/readline.h>
 #include <stdlib.h>
 
-void	prompt(t_minishell *minish)
+char	*ft_substr(char const *s, unsigned int start, size_t len)
 {
-	minish->line = readline(PROMPT);
-	if (minish->line == NULL)
+	char	*ret;
+	size_t	i;
+
+	if (!s)
+		return (NULL);
+	while (*s && start)
 	{
-		ft_putstr_fd(READ_ERR, STDERR_FILENO);
-		return ;
+		s++;
+		start--;
 	}
-	add_history(minish->line);
-	tokenize(minish);
-	parse(minish);
-	// 実行
-	free_minishell(minish);
+	i = 0;
+	while (s[i] && i < len)
+		i++;
+	ret = (char *)malloc(sizeof(char) * (i + 1));
+	if (!ret)
+		return (NULL);
+	ret[i] = '\0';
+	i = 0;
+	while (s[i] && i < len)
+	{
+		ret[i] = s[i];
+		i++;
+	}
+	return (ret);
 }

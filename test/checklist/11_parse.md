@@ -27,6 +27,37 @@ bash-3.2$
 ```
 
 
+
+https://cs61.seas.harvard.edu/site/2021/Shell/
+```
+commandline ::= list
+          |  list ";"
+          |  list "&"
+
+list     ::=  conditional
+          |   list ";" conditional
+          |   list "&" conditional
+
+conditional ::=  pipeline
+          |   conditional "&&" pipeline
+          |   conditional "||" pipeline
+
+pipeline ::=  command
+          |   pipeline "|" command
+
+command  ::=  word
+          |   redirection
+          |   command word
+          |   command redirection
+
+redirection  ::=  redirectionop filename
+redirectionop  ::=  "<"  |  ">"  |  "2>"
+```
+
+
+
+
+
 bash EBNF
 https://github.com/cbeust/kash/blob/master/src/main/resources/bash.ebnf
 

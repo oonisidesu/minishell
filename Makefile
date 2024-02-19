@@ -4,11 +4,11 @@ NAME := minishell
 LIBFT_DIR := ./libft
 LIBFT := $(LIBFT_DIR)/libft.a
 
-CFLAGS := -Wall -Wextra -Werror -I./include -I$(LIBFT_DIR) -O2
+CFLAGS := -Wall -Wextra -Werror -I./include -I$(LIBFT_DIR) -O0 -g
 LDFLAGS := -L$(LIBFT_DIR)
 LIBS := -lft -lreadline
 
-SRCS := src/minishell.c src/parser/prompt.c src/parser/lexer.c
+SRCS := src/minishell.c src/parser/prompt.c src/parser/lexer.c src/parser/parser.c
 OBJS := $(SRCS:.c=.o)
 
 all: $(NAME)

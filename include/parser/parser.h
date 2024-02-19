@@ -1,29 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   cmd.h                                              :+:      :+:    :+:   */
+/*   parser.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ootsuboyoshiyuki <ootsuboyoshiyuki@stud    +#+  +:+       +#+        */
+/*   By: susumuyagi <susumuyagi@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/02/14 16:25:22 by ootsuboyosh       #+#    #+#             */
-/*   Updated: 2024/02/14 17:36:33 by ootsuboyosh      ###   ########.fr       */
+/*   Created: 2024/02/15 14:19:35 by susumuyagi        #+#    #+#             */
+/*   Updated: 2024/02/19 10:25:36 by susumuyagi       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef CMD_H
-# define CMD_H
+#ifndef PARSER_H
+# define PARSER_H
 
-# include "env_val.h"
+# include "minishell.h"
 
-typedef struct s_cmd
-{
-	int				argc;
-	char			**argv;
-	int				status;
-	int				pid;
-	struct s_cmd	*next;
-}					t_cmd;
+# define SYNTAX_ERROR "minishell: syntax error near unexpected token "
 
-t_cmd				*parse_command_line(char *buf, t_env_val *env_val);
+int	parse(t_minishell *minish);
 
 #endif

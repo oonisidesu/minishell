@@ -1,29 +1,38 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   libft.h                                            :+:      :+:    :+:   */
+/*   node.h                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: susumuyagi <susumuyagi@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/05/18 15:49:00 by susumuyagi        #+#    #+#             */
-/*   Updated: 2024/02/19 10:53:52 by susumuyagi       ###   ########.fr       */
+/*   Created: 2024/02/14 16:25:22 by ootsuboyosh       #+#    #+#             */
+/*   Updated: 2024/02/19 12:51:03 by susumuyagi       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef LIBFT_H
-# define LIBFT_H
+#ifndef NODE_H
+# define NODE_H
 
-# include <stddef.h>
-# include <unistd.h>
+typedef enum
+{
+	ND_REDIRECT_OUT,    // >
+	ND_REDIRECT_APPEND, // >>
+	ND_REDIRECT_IN,     // <
+	ND_HEREDOC,         // <<
+	ND_PIPE,            // |
+	ND_COMMAND,         // command
+}					e_node_kind;
 
-int		ft_isalnum(int c);
-int		ft_isalpha(int c);
-int		ft_isdigit(int c);
-int		ft_ispunct(int c);
-int		ft_isspace(int c);
-size_t	ft_strlen(const char *s);
-int		ft_strncmp(const char *s1, const char *s2, size_t n);
-ssize_t	ft_putstr_fd(char *s, int fd);
-char	*ft_substr(char const *s, unsigned int start, size_t len);
+typedef struct s_node
+{
+	e_node_kind		kind;
+	int				argc;
+	char			**argv;
+	int				status;
+	int				pid;
+	char			*path;
+	struct s_node	*redirect;
+	struct s_node	*next;
+}					t_node;
 
 #endif
