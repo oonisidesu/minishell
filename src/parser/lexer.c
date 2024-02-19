@@ -6,7 +6,7 @@
 /*   By: susumuyagi <susumuyagi@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/15 17:20:20 by susumuyagi        #+#    #+#             */
-/*   Updated: 2024/02/19 15:24:24 by susumuyagi       ###   ########.fr       */
+/*   Updated: 2024/02/19 16:32:18 by susumuyagi       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,11 +56,14 @@ static bool	is_starts_with(char *s1, char *s2, int len)
 	return (ft_strncmp(s1, s2, len) == 0);
 }
 
+static bool	is_reserved(char p)
+{
+	return (p == '<' || p == '>' || p == '|' || p == ';');
+}
+
 static bool	is_word_char(char p)
 {
-	// TODO 一旦、全て空白で区切られていることを仮定。
-	// 後で書き直す必要あり
-	return (!ft_isspace(p) && p != '\n' && p != '\0');
+	return (!ft_isspace(p) && !is_reserved(p) && p != '\n' && p != '\0');
 }
 
 static size_t	count_word_len(char *p)
@@ -115,7 +118,7 @@ int	tokenize(t_minishell *minish)
 			p += 2;
 			continue ;
 		}
-		if (*p == '<' || *p == '>' || *p == '|' || *p == ';')
+		if (is_reserved(*p))
 		{
 			cur = new_token(TK_RESERVED, cur, p, 1);
 			p++;

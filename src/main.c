@@ -1,23 +1,35 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell.c                                        :+:      :+:    :+:   */
+/*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: susumuyagi <susumuyagi@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/15 13:22:07 by susumuyagi        #+#    #+#             */
-/*   Updated: 2024/02/19 16:27:44 by susumuyagi       ###   ########.fr       */
+/*   Updated: 2024/02/19 16:20:48 by susumuyagi       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "libft.h"
 #include "minishell.h"
-#include "parser/lexer.h"
-#include <stdlib.h>
+#include "parser/prompt.h"
 
-void	free_minishell(t_minishell *minish)
+int	main(int argc, char **argv, char **envp)
 {
-	free(minish->line);
-	free_tokens(minish->token);
-	// TODO free_nodesを作る
-	// free_nodes(minish->node);
+	t_minishell	minish;
+
+	(void)argv;
+	if (argc > 1)
+	{
+		ft_putstr_fd(TOO_MANY_ARGS, STDERR_FILENO);
+		return (1);
+	}
+	// 環境変数をminishell構造体に設定する
+	// TODO
+	(void)envp;
+	while (1)
+	{
+		prompt(&minish);
+	}
+	return (0);
 }
