@@ -6,7 +6,7 @@
 /*   By: susumuyagi <susumuyagi@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/15 17:37:32 by susumuyagi        #+#    #+#             */
-/*   Updated: 2024/02/19 15:05:59 by susumuyagi       ###   ########.fr       */
+/*   Updated: 2024/02/19 15:29:25 by susumuyagi       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@ static void	print_nodes(t_node *node)
 	int		i;
 	t_node	*r;
 
+	printf("=== node ==================================\n");
 	while (node)
 	{
 		printf("--node(argc: %d)--------------\n", node->argc);
@@ -145,15 +146,15 @@ void	redirection(t_minishell *minish, t_node **redirect_cur)
 	{
 		node = new_redirect_node(ND_REDIRECT_OUT, minish);
 	}
-	if (consume(minish, ">>") && expect_word(minish))
+	else if (consume(minish, ">>") && expect_word(minish))
 	{
 		node = new_redirect_node(ND_REDIRECT_APPEND, minish);
 	}
-	if (consume(minish, "<") && expect_word(minish))
+	else if (consume(minish, "<") && expect_word(minish))
 	{
 		node = new_redirect_node(ND_REDIRECT_IN, minish);
 	}
-	if (consume(minish, "<<") && expect_word(minish))
+	else if (consume(minish, "<<") && expect_word(minish))
 	{
 		node = new_redirect_node(ND_HEREDOC, minish);
 	}

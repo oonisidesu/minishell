@@ -6,7 +6,7 @@
 /*   By: susumuyagi <susumuyagi@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/15 17:20:20 by susumuyagi        #+#    #+#             */
-/*   Updated: 2024/02/17 16:27:07 by susumuyagi       ###   ########.fr       */
+/*   Updated: 2024/02/19 15:24:24 by susumuyagi       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@ static void	print_tokens(t_token *tok)
 {
 	char	c;
 
+	printf("=== token ==================================\n");
 	while (tok)
 	{
 		c = '0' + tok->kind;
@@ -55,11 +56,6 @@ static bool	is_starts_with(char *s1, char *s2, int len)
 	return (ft_strncmp(s1, s2, len) == 0);
 }
 
-static bool	is_word_char_begin(char p)
-{
-	return (ft_isalpha(p) || p == '_' || p == '-');
-}
-
 static bool	is_word_char(char p)
 {
 	// TODO 一旦、全て空白で区切られていることを仮定。
@@ -72,11 +68,8 @@ static size_t	count_word_len(char *p)
 	char	*q;
 
 	q = p;
-	if (is_word_char_begin(*p))
-	{
-		while (is_word_char(*p))
-			p++;
-	}
+	while (is_word_char(*p))
+		p++;
 	return (p - q);
 }
 
@@ -116,23 +109,23 @@ int	tokenize(t_minishell *minish)
 			p++;
 			continue ;
 		}
-		word_len = count_word_len(p);
-		if (word_len)
-		{
-			cur = new_token(TK_WORD, cur, p, word_len);
-			p += word_len;
-			continue ;
-		}
 		if (is_starts_with("<<", p, 2) || is_starts_with(">>", p, 2))
 		{
 			cur = new_token(TK_RESERVED, cur, p, 2);
 			p += 2;
 			continue ;
 		}
-		if (ft_ispunct(*p))
+		if (*p == '<' || *p == '>' || *p == '|' || *p == ';')
 		{
 			cur = new_token(TK_RESERVED, cur, p, 1);
 			p++;
+			continue ;
+		}
+		word_len = count_word_len(p);
+		if (word_len)
+		{
+			cur = new_token(TK_WORD, cur, p, word_len);
+			p += word_len;
 			continue ;
 		}
 		return (error_at(&head));
