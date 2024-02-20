@@ -1,34 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: susumuyagi <susumuyagi@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/02/15 13:22:07 by susumuyagi        #+#    #+#             */
-/*   Updated: 2024/02/20 16:42:19 by susumuyagi       ###   ########.fr       */
+/*   Created: 2024/02/20 16:23:06 by susumuyagi        #+#    #+#             */
+/*   Updated: 2024/02/20 16:43:12 by susumuyagi       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
 #include "minishell.h"
-#include "parser/prompt.h"
-#include "variable/env.h"
 
-int	main(int argc, char **argv, char **envp)
+void	set_envp(t_minishell *minish, char **envp)
 {
-	t_minishell	minish;
+	// TODO envpをt_var型のリストに変換して格納する
+	// minish->envpは後で消す。
+	minish->envp = envp;
+}
 
-	(void)argv;
-	if (argc > 1)
-	{
-		ft_putstr_fd(TOO_MANY_ARGS, STDERR_FILENO);
-		return (1);
-	}
-	set_envp(&minish, envp);
-	while (1)
-	{
-		prompt(&minish);
-	}
-	return (0);
+char	**get_envp(t_minishell *minish)
+{
+	// TODO t_var型のリストをchar**型のenvpに変換して返す
+	return (minish->envp);
 }
