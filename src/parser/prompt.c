@@ -1,23 +1,34 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell.c                                        :+:      :+:    :+:   */
+/*   prompt.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: susumuyagi <susumuyagi@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/02/15 13:22:07 by susumuyagi        #+#    #+#             */
-/*   Updated: 2024/02/19 16:27:44 by susumuyagi       ###   ########.fr       */
+/*   Created: 2024/02/15 14:13:54 by susumuyagi        #+#    #+#             */
+/*   Updated: 2024/02/18 17:00:37 by susumuyagi       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "libft.h"
 #include "minishell.h"
 #include "parser/lexer.h"
+#include "parser/parser.h"
+#include "parser/prompt.h"
+#include <readline/readline.h>
 #include <stdlib.h>
 
-void	free_minishell(t_minishell *minish)
+void	prompt(t_minishell *minish)
 {
-	free(minish->line);
-	free_tokens(minish->token);
-	// TODO free_nodesを作る
-	// free_nodes(minish->node);
+	minish->line = readline(PROMPT);
+	if (minish->line == NULL)
+	{
+		ft_putstr_fd(READ_ERR, STDERR_FILENO);
+		return ;
+	}
+	add_history(minish->line);
+	tokenize(minish);
+	parse(minish);
+	// 実行
+	free_minishell(minish);
 }

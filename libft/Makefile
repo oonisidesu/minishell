@@ -10,7 +10,8 @@ CFLAGS := -Wall -Wextra -Werror -O2
 # 	ft_lstnew.c ft_lstadd_front.c ft_lstsize.c ft_lstlast.c ft_lstadd_back.c \
 # 	ft_lstdelone.c ft_lstclear.c ft_lstiter.c ft_lstmap.c \
 # 	ft_printf.c ft_puthex_utils.c ft_putnbr_utils.c ft_putstr_utils.c
-SRCS := ft_putstr_fd.c ft_strlen.c
+SRCS := ft_putstr_fd.c ft_strlen.c ft_isspace.c ft_ispunct.c ft_strncmp.c \
+	ft_isalnum.c ft_isalpha.c ft_isdigit.c ft_substr.c
 
 OBJS := $(SRCS:.c=.o)
 

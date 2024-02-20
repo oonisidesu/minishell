@@ -1,23 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell.c                                        :+:      :+:    :+:   */
+/*   lexer.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: susumuyagi <susumuyagi@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/02/15 13:22:07 by susumuyagi        #+#    #+#             */
-/*   Updated: 2024/02/19 16:27:44 by susumuyagi       ###   ########.fr       */
+/*   Created: 2024/02/15 14:19:35 by susumuyagi        #+#    #+#             */
+/*   Updated: 2024/02/17 16:20:38 by susumuyagi       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
-#include "parser/lexer.h"
-#include <stdlib.h>
+#ifndef LEXER_H
+#define LEXER_H
 
-void	free_minishell(t_minishell *minish)
-{
-	free(minish->line);
-	free_tokens(minish->token);
-	// TODO free_nodesを作る
-	// free_nodes(minish->node);
-}
+#include "minishell.h"
+
+int tokenize(t_minishell* minish);
+void free_tokens(t_token* cur);
+
+#endif
