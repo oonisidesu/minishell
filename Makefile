@@ -8,7 +8,7 @@ CFLAGS := -Wall -Wextra -Werror -I./include -I$(LIBFT_DIR) -O0 -g
 LDFLAGS := -L$(LIBFT_DIR)
 LIBS := -lft -lreadline
 
-SRCS := src/main.c src/minishell.c src/parser/prompt.c src/parser/lexer.c src/parser/parser.c
+SRCS := src/main.c src/minishell.c src/parser/prompt.c src/parser/lexer.c src/parser/parser.c src/variable/env.c
 OBJS := $(SRCS:.c=.o)
 
 all: $(NAME)
