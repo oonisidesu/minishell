@@ -8,7 +8,7 @@ READLINE_DIR := ./readline-8.2
 READLINE := $(READLINE_DIR)/libreadline.a
 
 INCLUDES := -I./include -I$(LIBFT_DIR) -I$(READLINE_DIR)
-CFLAGS := -Wall -Wextra -Werror $(INCLUDES) -O0 -g
+CFLAGS := -Wall -Wextra -Werror -O0 -g
 LDFLAGS := -L$(LIBFT_DIR) -L$(READLINE_DIR)
 LIBS := -lft -lreadline -lhistory -ltermcap
 
@@ -20,8 +20,8 @@ all: $(NAME)
 $(NAME): $(OBJS) $(LIBFT) $(READLINE)
 	$(CC) $(OBJS) $(LDFLAGS) $(LIBS) -o $(NAME)
 
-#%.o: %.c
-#	$(CC) $(CFLAGS) $(INCLUDES) -c $< -o $@
+%.o: %.c
+	$(CC) $(CFLAGS) $(INCLUDES) -c $< -o $@
 
 $(LIBFT):
 	$(MAKE) -j4 -C $(LIBFT_DIR)
