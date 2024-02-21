@@ -4,3 +4,6 @@ minishell
 *.code-workspace
 *.o
 *.a
+
+readline-8.2
+readline-8.2.tar.gz
