@@ -26,7 +26,7 @@ $(LIBFT):
 	$(MAKE) -j4 -C $(LIBFT_DIR)
 
 $(READLINE):
-	curl -O ftp://ftp.cwru.edu/pub/bash/readline-8.2.tar.gz
+	curl -O ftp://ftp.gnu.org/gnu/readline/readline-8.2.tar.gz
 	tar xvzf readline-8.2.tar.gz
 	cd $(READLINE_DIR) && ./configure && $(MAKE) -j4
 
