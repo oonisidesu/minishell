@@ -14,6 +14,10 @@ LIBS := -lft -lreadline -lhistory -ltermcap
 SRCS := src/main.c src/minishell.c src/parser/prompt.c src/parser/lexer.c src/parser/parser.c src/variable/env.c
 OBJS := $(SRCS:.c=.o)
 
+INCLUDE	= -I./libft -I$(shell brew --prefix readline)/include
+.c.o:
+	$(CC) $(CFLAGS) $(INCLUDE) -c $< -o $(<:.c=.o)
+
 all: $(NAME)
 
 $(NAME): $(OBJS) $(LIBFT) $(READLINE)
