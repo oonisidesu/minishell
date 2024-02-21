@@ -8,7 +8,7 @@ READLINE_DIR := ./readline-8.2
 READLINE := $(READLINE_DIR)/libreadline.a
 
 INCLUDES := -I./include -I$(LIBFT_DIR) -I$(READLINE_DIR)
-CFLAGS := -Wall -Wextra -Werror -O0 -g
+CFLAGS := -Wall -Wextra -Werror -O0 -g -DREADLINE_LIBRARY -DRL_LIBRARY_VERSION='"8.2"'
 LDFLAGS := -L$(LIBFT_DIR) -L$(READLINE_DIR)
 LIBS := -lft -lreadline -lhistory -ltermcap
 
