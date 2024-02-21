@@ -1,21 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   env.h                                              :+:      :+:    :+:   */
+/*   ft_toupper.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: susumuyagi <susumuyagi@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/02/14 16:21:32 by ootsuboyosh       #+#    #+#             */
-/*   Updated: 2024/02/21 13:42:24 by susumuyagi       ###   ########.fr       */
+/*   Created: 2023/05/21 14:24:49 by susumuyagi        #+#    #+#             */
+/*   Updated: 2023/05/21 14:25:48 by susumuyagi       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef ENV_H
-# define ENV_H
-
-# include "minishell.h"
-
-void	set_envp(t_minishell *minish, char **envp);
-char	**get_envp(t_minishell *minish);
-
-#endif
+int	ft_toupper(int c)
+{
+	if ('a' <= c && c <= 'z')
+		return (c - ('a' - 'A'));
+	return (c);
+}

@@ -1,42 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   ft_putstr_utils.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: susumuyagi <susumuyagi@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/02/15 13:22:07 by susumuyagi        #+#    #+#             */
-/*   Updated: 2024/02/21 21:42:55 by susumuyagi       ###   ########.fr       */
+/*   Created: 2023/06/03 15:27:52 by susumuyagi        #+#    #+#             */
+/*   Updated: 2023/09/30 15:15:34 by susumuyagi       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
-#include "minishell.h"
-#include "parser/prompt.h"
-#include "readline.h"
-#include "variable/env.h"
 
-int	check_state(void)
+ssize_t	ft_putstr(int fd, char *str)
 {
-	// TODO
-	return (0);
+	if (!str)
+		return (write(fd, "(null)", 6));
+	return (write(fd, str, ft_strlen(str)));
 }
 
-int	main(int argc, char **argv, char **envp)
+ssize_t	ft_putchar(int fd, char c)
 {
-	t_minishell	minish;
-
-	(void)argv;
-	rl_event_hook = check_state;
-	if (argc > 1)
-	{
-		ft_printf_fd(STDERR_FILENO, TOO_MANY_ARGS);
-		return (1);
-	}
-	set_envp(&minish, envp);
-	while (1)
-	{
-		prompt(&minish);
-	}
-	return (0);
+	return (write(fd, &c, 1));
 }

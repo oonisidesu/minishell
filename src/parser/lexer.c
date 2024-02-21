@@ -6,7 +6,7 @@
 /*   By: susumuyagi <susumuyagi@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/15 17:20:20 by susumuyagi        #+#    #+#             */
-/*   Updated: 2024/02/19 16:32:18 by susumuyagi       ###   ########.fr       */
+/*   Updated: 2024/02/21 21:45:19 by susumuyagi       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,7 +90,7 @@ void	free_tokens(t_token *cur)
 
 static int	error_at(t_token *head)
 {
-	ft_putstr_fd(CANNOT_TOKENIZE, STDERR_FILENO);
+	ft_printf_fd(STDERR_FILENO, CANNOT_TOKENIZE);
 	free_tokens(head->next);
 	return (EXIT_FAILURE);
 }
