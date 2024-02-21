@@ -7,16 +7,13 @@ LIBFT := $(LIBFT_DIR)/libft.a
 READLINE_DIR := ./readline-8.2
 READLINE := $(READLINE_DIR)/libreadline.a
 
-CFLAGS := -Wall -Wextra -Werror -I./include -I$(LIBFT_DIR) -O0 -g
+INCLUDES := -I./include -I$(LIBFT_DIR) -I$(READLINE_DIR)
+CFLAGS := -Wall -Wextra -Werror $(INCLUDES) -O0 -g
 LDFLAGS := -L$(LIBFT_DIR) -L$(READLINE_DIR)
 LIBS := -lft -lreadline -lhistory -ltermcap
 
 SRCS := src/main.c src/minishell.c src/parser/prompt.c src/parser/lexer.c src/parser/parser.c src/variable/env.c
 OBJS := $(SRCS:.c=.o)
-
-INCLUDE	= -I./libft -I$(shell brew --prefix readline)/include
-.c.o:
-	$(CC) $(CFLAGS) $(INCLUDE) -c $< -o $(<:.c=.o)
 
 all: $(NAME)
 
