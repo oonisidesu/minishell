@@ -19,7 +19,7 @@ OBJS := $(SRCS:.c=.o)
 
 all: $(NAME)
 
-$(NAME): $(OBJS) $(LIBFT) $(READLINE)
+$(NAME): $(READLINE) $(OBJS) $(LIBFT)
 	$(CC) $(OBJS) $(LDFLAGS) $(LIBS) -o $(NAME)
 
 %.o: %.c
@@ -32,6 +32,7 @@ $(READLINE):
 	curl -O ftp://ftp.gnu.org/gnu/readline/readline-8.2.tar.gz
 	tar xvzf readline-8.2.tar.gz
 	cd $(READLINE_DIR) && ./configure && $(MAKE) -j4
+
 
 .PHONY: clean fclean re
 
@@ -46,3 +47,10 @@ fclean: clean
 	$(RM) readline-8.2.tar.gz
 
 re: fclean all
+
+# test
+.PHONY: unit_test
+
+unit_test: $(READLINE) $(LIBFT)
+	cd test/unit && \
+	cmake -S . -B build && cmake --build build &&  cd build && ctest
