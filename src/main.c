@@ -3,7 +3,7 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ootsuboyoshiyuki <ootsuboyoshiyuki@stud    +#+  +:+       +#+        */
+/*   By: susumuyagi <susumuyagi@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/15 13:22:07 by susumuyagi        #+#    #+#             */
 /*   Updated: 2024/02/22 13:02:50 by ootsuboyosh      ###   ########.fr       */
@@ -28,7 +28,7 @@ int	main(int argc, char **argv, char **envp)
 	rl_event_hook = signal_monitor;
 	if (argc > 1)
 	{
-		ft_putstr_fd(TOO_MANY_ARGS, STDERR_FILENO);
+		ft_printf_fd(STDERR_FILENO, TOO_MANY_ARGS);
 		return (1);
 	}
 	set_envp(&minish, envp);

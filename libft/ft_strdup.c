@@ -1,21 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   env.h                                              :+:      :+:    :+:   */
+/*   ft_strdup.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: susumuyagi <susumuyagi@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/02/14 16:21:32 by ootsuboyosh       #+#    #+#             */
-/*   Updated: 2024/02/21 13:42:24 by susumuyagi       ###   ########.fr       */
+/*   Created: 2023/05/21 16:44:23 by susumuyagi        #+#    #+#             */
+/*   Updated: 2023/06/01 10:11:35 by susumuyagi       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef ENV_H
-# define ENV_H
+#include "libft.h"
+#include <stdlib.h>
 
-# include "minishell.h"
+char	*ft_strdup(const char *s1)
+{
+	size_t	len;
+	char	*ret;
 
-void	set_envp(t_minishell *minish, char **envp);
-char	**get_envp(t_minishell *minish);
-
-#endif
+	len = ft_strlen(s1);
+	ret = (char *)malloc(sizeof(char) * (len + 1));
+	if (!ret)
+		return (NULL);
+	ft_strlcpy(ret, s1, len + 1);
+	return (ret);
+}

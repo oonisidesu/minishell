@@ -1,21 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_putstr_fd.c                                     :+:      :+:    :+:   */
+/*   exec.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: susumuyagi <susumuyagi@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/05/24 11:52:34 by susumuyagi        #+#    #+#             */
-/*   Updated: 2024/02/15 16:23:06 by susumuyagi       ###   ########.fr       */
+/*   Created: 2024/02/19 16:23:27 by susumuyagi        #+#    #+#             */
+/*   Updated: 2024/02/21 22:29:09 by susumuyagi       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
-#include <unistd.h>
+#include "exec/find_path.h"
+#include "exec/pipe.h"
+#include "exec/process.h"
+#include "minishell.h"
 
-ssize_t	ft_putstr_fd(char *s, int fd)
+void	exec(t_minishell *minish)
 {
-	if (!s)
-		return (0);
-	return (write(fd, s, ft_strlen(s)));
+	set_cmd_path(minish);
+	exec_pipe(minish);
+	wait_prosesses(minish);
+	set_status_code(minish);
 }
