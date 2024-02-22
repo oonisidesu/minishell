@@ -6,7 +6,7 @@
 /*   By: susumuyagi <susumuyagi@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/12 12:06:41 by susumuyagi        #+#    #+#             */
-/*   Updated: 2024/02/21 22:10:10 by susumuyagi       ###   ########.fr       */
+/*   Updated: 2024/02/22 10:16:45 by susumuyagi       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,14 +29,14 @@ static void	init_fds(int *prev_fds, int *fds)
 
 static void	connect_io(t_node *node, t_node *head, int prev_fds[], int fds[])
 {
-	if (!(node == head))
+	if (node != head)
 	{
 		close(STDIN_FILENO);
 		dup2(prev_fds[0], STDIN_FILENO);
 		close(prev_fds[0]);
 		close(prev_fds[1]);
 	}
-	if (!(node->next == NULL))
+	if (node->next != NULL)
 	{
 		close(fds[0]);
 		close(STDOUT_FILENO);
@@ -47,7 +47,7 @@ static void	connect_io(t_node *node, t_node *head, int prev_fds[], int fds[])
 
 static void	pipe_and_fork(t_node *node, int fds[])
 {
-	if (!(node->next == NULL))
+	if (node->next != NULL)
 	{
 		if (pipe(fds) < 0)
 		{

@@ -6,7 +6,7 @@
 /*   By: susumuyagi <susumuyagi@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/12 12:06:41 by susumuyagi        #+#    #+#             */
-/*   Updated: 2024/02/21 22:31:09 by susumuyagi       ###   ########.fr       */
+/*   Updated: 2024/02/22 10:35:10 by susumuyagi       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,6 +66,7 @@ void	wait_prosesses(t_minishell *minish)
 		waitpid(node->pid, &node->wait_status, 0);
 		if (WIFEXITED(node->wait_status))
 		{
+			node->wait_status = WEXITSTATUS(node->wait_status);
 		}
 		else if (WIFSIGNALED(node->wait_status))
 		{
@@ -73,7 +74,7 @@ void	wait_prosesses(t_minishell *minish)
 				ft_strsignal(WTERMSIG(node->wait_status)),
 				WTERMSIG(node->wait_status));
 			node->wait_status |= 128;
-			exit(node->wait_status);
+			// exit(node->wait_status);
 		}
 		else if (WIFSTOPPED(node->wait_status))
 		{
@@ -91,7 +92,7 @@ void	set_status_code(t_minishell *minish)
 	t_node	*node;
 
 	node = minish->node;
-	while (!(node->next == NULL))
+	while (node->next != NULL)
 	{
 		node = node->next;
 	}

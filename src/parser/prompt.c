@@ -6,7 +6,7 @@
 /*   By: susumuyagi <susumuyagi@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/15 14:13:54 by susumuyagi        #+#    #+#             */
-/*   Updated: 2024/02/21 22:32:06 by susumuyagi       ###   ########.fr       */
+/*   Updated: 2024/02/22 10:37:00 by susumuyagi       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,4 +32,8 @@ void	prompt(t_minishell *minish)
 	parse(minish);
 	exec(minish);
 	free_minishell(minish);
+	// debug //////////////////////////////////////
+	// TODO 後で消す
+	printf("minish->status_code: %d\n", minish->status_code);
+	///////////////////////////////////////////////
 }
