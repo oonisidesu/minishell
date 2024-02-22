@@ -6,7 +6,7 @@
 /*   By: susumuyagi <susumuyagi@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/15 14:13:54 by susumuyagi        #+#    #+#             */
-/*   Updated: 2024/02/22 10:37:00 by susumuyagi       ###   ########.fr       */
+/*   Updated: 2024/02/22 11:15:50 by susumuyagi       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,10 @@ void	prompt(t_minishell *minish)
 	if (minish->line == NULL)
 	{
 		ft_printf_fd(STDERR_FILENO, READ_ERR);
+		return ;
+	}
+	if (ft_strlen(minish->line) == 0)
+	{
 		return ;
 	}
 	add_history(minish->line);
