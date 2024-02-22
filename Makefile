@@ -19,7 +19,7 @@ OBJS := $(SRCS:.c=.o)
 
 all: $(NAME)
 
-$(NAME): $(OBJS) $(LIBFT) $(READLINE)
+$(NAME): $(READLINE) $(OBJS) $(LIBFT)
 	$(CC) $(OBJS) $(LDFLAGS) $(LIBS) -o $(NAME)
 
 %.o: %.c
