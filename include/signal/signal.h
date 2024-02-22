@@ -1,31 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell.c                                        :+:      :+:    :+:   */
+/*   signal.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ootsuboyoshiyuki <ootsuboyoshiyuki@stud    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/02/15 13:22:07 by susumuyagi        #+#    #+#             */
-/*   Updated: 2024/02/22 16:15:24 by ootsuboyosh      ###   ########.fr       */
+/*   Created: 2024/02/22 12:16:18 by ootsuboyosh       #+#    #+#             */
+/*   Updated: 2024/02/22 16:32:48 by ootsuboyosh      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
-#include "parser/lexer.h"
-#include <stdlib.h>
+#ifndef SIGNAL_H
+# define SIGNAL_H
 
-void	init_minishell(t_minishell *minish)
-{
-	minish->line = NULL;
-	minish->token = NULL;
-	minish->node = NULL;
-	minish->status_code = 0;
-}
+# include "../minishell.h"
+# include "readline.h"
+# include <signal.h>
 
-void	free_minishell(t_minishell *minish)
-{
-	free(minish->line);
-	free_tokens(minish->token);
-	// TODO free_nodesを作る
-	// free_nodes(minish->node);
-}
+# define CTRL_C_ONE 1
+# define CTRL_C_TWO 2
+
+void	ctrl_c_handler(int sig);
+void	ctrl_c_clean_handler(t_minishell *minish);
+void    ctrl_d_clean_handler(t_minishell *minish);
+int	    signal_monitor(void);
+
+#endif

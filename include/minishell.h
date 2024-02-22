@@ -6,7 +6,7 @@
 /*   By: ootsuboyoshiyuki <ootsuboyoshiyuki@stud    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/14 16:21:32 by ootsuboyosh       #+#    #+#             */
-/*   Updated: 2024/02/21 17:39:49 by ootsuboyosh      ###   ########.fr       */
+/*   Updated: 2024/02/22 16:34:30 by ootsuboyosh      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,11 +18,12 @@
 # include "variable/var.h"
 # include <stdbool.h>
 # include <stdio.h>
+# include <signal.h>
 
 # define TOO_MANY_ARGS "Error: too many arguments\n"
 
 // シグナル用グローバル変数
-int					g_signal;
+static	volatile	sig_atomic_t	g_signal;
 
 typedef enum
 {
@@ -56,6 +57,7 @@ typedef struct s_minishell
 	e_error_kind	error_kind;
 }					t_minishell;
 
+void				init_minishell(t_minishell *minish);
 void				free_minishell(t_minishell *minish);
 
 #endif
