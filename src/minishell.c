@@ -3,16 +3,24 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: susumuyagi <susumuyagi@student.42.fr>      +#+  +:+       +#+        */
+/*   By: ootsuboyoshiyuki <ootsuboyoshiyuki@stud    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/15 13:22:07 by susumuyagi        #+#    #+#             */
-/*   Updated: 2024/02/19 16:27:44 by susumuyagi       ###   ########.fr       */
+/*   Updated: 2024/02/22 16:15:24 by ootsuboyosh      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 #include "parser/lexer.h"
 #include <stdlib.h>
+
+void	init_minishell(t_minishell *minish)
+{
+	minish->line = NULL;
+	minish->token = NULL;
+	minish->node = NULL;
+	minish->status_code = 0;
+}
 
 void	free_minishell(t_minishell *minish)
 {
