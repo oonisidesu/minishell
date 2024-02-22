@@ -51,6 +51,6 @@ re: fclean all
 # test
 .PHONY: unit_test
 
-unit_test:
+unit_test: $(READLINE) $(LIBFT)
 	cd test/unit && \
 	cmake -S . -B build && cmake --build build &&  cd build && ctest
