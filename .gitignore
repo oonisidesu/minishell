@@ -7,3 +7,7 @@ minishell
 
 readline-8.2
 readline-8.2.tar.gz
+
+test/unit/build
+test/unit/testBin
+test/unit/Makefile

@@ -33,6 +33,7 @@ $(READLINE):
 	tar xvzf readline-8.2.tar.gz
 	cd $(READLINE_DIR) && ./configure && $(MAKE) -j4
 
+
 .PHONY: clean fclean re
 
 clean:
@@ -46,3 +47,10 @@ fclean: clean
 	$(RM) readline-8.2.tar.gz
 
 re: fclean all
+
+# test
+.PHONY: unit_test
+
+unit_test:
+	cd test/unit && \
+	cmake -S . -B build && cmake --build build &&  cd build && ctest
