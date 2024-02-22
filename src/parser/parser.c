@@ -6,7 +6,7 @@
 /*   By: susumuyagi <susumuyagi@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/15 17:37:32 by susumuyagi        #+#    #+#             */
-/*   Updated: 2024/02/19 15:29:25 by susumuyagi       ###   ########.fr       */
+/*   Updated: 2024/02/21 22:16:42 by susumuyagi       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,18 +46,49 @@ static void	print_nodes(t_node *node)
 }
 ////////////////////////////////////////////////////////////////
 
+t_node	*malloc_and_init_node(e_node_kind kind)
+{
+	t_node	*node;
+
+	node = (t_node *)malloc(sizeof(t_node));
+	if (node == NULL)
+	{
+		return (NULL);
+	}
+	// TODO 固定長になっているので、後で可変にする
+	node->argv = (char **)malloc(sizeof(char *) * 100);
+	if (node->argv == NULL)
+	{
+		free(node);
+		return (NULL);
+	}
+	node->kind = kind;
+	node->argc = 0;
+	node->wait_status = -1;
+	node->pid = -1;
+	node->path = NULL;
+	node->has_x = false;
+	node->exist_cmd = false;
+	node->redirect = NULL;
+	node->next = NULL;
+	return (node);
+}
+
 t_node	*new_redirect_node(e_node_kind kind, t_minishell *minish)
 {
 	t_node	*node;
 	t_token	*t;
 
 	t = minish->cur_token;
-	node = (t_node *)malloc(sizeof(t_node));
-	// TODO エラー処理
-	node->kind = kind;
+	node = malloc_and_init_node(kind);
+	// TODO エラー処理ちゃんと書く
+	if (!node)
+	{
+		minish->error_kind = ERR_MALLOC;
+		return (NULL);
+	}
 	node->path = ft_substr(t->str, 0, t->len);
 	// TODO エラー処理 ft_substrの中でmalloc
-	node->next = NULL;
 	minish->cur_token = t->next;
 	return (node);
 }
@@ -66,19 +97,13 @@ t_node	*new_command_node(t_minishell *minish)
 {
 	t_node	*node;
 
-	node = (t_node *)malloc(sizeof(t_node));
+	node = malloc_and_init_node(ND_COMMAND);
 	// TODO エラー処理ちゃんと書く
 	if (!node)
 	{
 		minish->error_kind = ERR_MALLOC;
 		return (NULL);
 	}
-	node->kind = ND_COMMAND;
-	node->argc = 0;
-	// TODO 固定長になっているので、後で可変にする
-	node->argv = (char **)malloc(sizeof(char *) * 100);
-	node->redirect = NULL;
-	node->next = NULL;
 	return (node);
 }
 
@@ -108,7 +133,7 @@ bool	occurred_syntax_error(t_minishell *minish)
 {
 	if (minish->error_kind == ERR_SYNTAX)
 	{
-		ft_putstr_fd(SYNTAX_ERROR, STDERR_FILENO);
+		ft_printf_fd(STDERR_FILENO, SYNTAX_ERROR);
 		write(STDERR_FILENO, "`", 1);
 		write(STDERR_FILENO, minish->cur_token->str, minish->cur_token->len);
 		write(STDERR_FILENO, "'\n", 2);

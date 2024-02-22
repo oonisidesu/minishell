@@ -1,21 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   env.h                                              :+:      :+:    :+:   */
+/*   exec.h                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: susumuyagi <susumuyagi@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/02/14 16:21:32 by ootsuboyosh       #+#    #+#             */
-/*   Updated: 2024/02/21 13:42:24 by susumuyagi       ###   ########.fr       */
+/*   Created: 2024/02/15 14:19:35 by susumuyagi        #+#    #+#             */
+/*   Updated: 2024/02/21 22:32:54 by susumuyagi       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef ENV_H
-# define ENV_H
+#ifndef EXEC_H
+# define EXEC_H
 
 # include "minishell.h"
 
-void	set_envp(t_minishell *minish, char **envp);
-char	**get_envp(t_minishell *minish);
+void	exec(t_minishell *minish);
 
 #endif

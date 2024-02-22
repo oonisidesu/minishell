@@ -12,7 +12,8 @@ CFLAGS := -Wall -Wextra -Werror -O0 -g -DREADLINE_LIBRARY -DRL_LIBRARY_VERSION='
 LDFLAGS := -L$(LIBFT_DIR) -L$(READLINE_DIR)
 LIBS := -lft -lreadline -lhistory -ltermcap
 
-SRCS := src/main.c src/minishell.c src/parser/prompt.c src/parser/lexer.c src/parser/parser.c src/variable/env.c
+SRCS := src/main.c src/minishell.c src/parser/prompt.c src/parser/lexer.c src/parser/parser.c src/variable/env.c \
+	src/exec/exec.c src/exec/find_path.c src/exec/pipe.c src/exec/process.c src/exec/redirect.c src/exec/ft_strsignal.c
 OBJS := $(SRCS:.c=.o)
 
 all: $(NAME)
