@@ -6,7 +6,7 @@
 /*   By: ootsuboyoshiyuki <ootsuboyoshiyuki@stud    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/15 13:22:07 by susumuyagi        #+#    #+#             */
-/*   Updated: 2024/02/22 16:01:01 by ootsuboyosh      ###   ########.fr       */
+/*   Updated: 2024/02/24 21:12:27 by ootsuboyosh      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ int	main(int argc, char **argv, char **envp)
 		ft_printf_fd(STDERR_FILENO, TOO_MANY_ARGS);
 		return (1);
 	}
-	set_envp(&minish, envp);
+	set_envp(&minish, envp, VAR_ENV);
 	while (1)
 	{
 		prompt(&minish);

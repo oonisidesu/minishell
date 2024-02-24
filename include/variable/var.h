@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   var.h                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: susumuyagi <susumuyagi@student.42.fr>      +#+  +:+       +#+        */
+/*   By: ootsuboyoshiyuki <ootsuboyoshiyuki@stud    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/14 16:21:32 by ootsuboyosh       #+#    #+#             */
-/*   Updated: 2024/02/20 16:28:38 by susumuyagi       ###   ########.fr       */
+/*   Updated: 2024/02/24 19:37:01 by ootsuboyosh      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
