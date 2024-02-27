@@ -6,10 +6,11 @@
 /*   By: susumuyagi <susumuyagi@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/12 12:06:41 by susumuyagi        #+#    #+#             */
-/*   Updated: 2024/02/22 10:35:10 by susumuyagi       ###   ########.fr       */
+/*   Updated: 2024/02/27 17:29:31 by susumuyagi       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "builtin/builtin.h"
 #include "exec/ft_strsignal.h"
 #include "exec/process.h"
 #include "libft.h"
@@ -63,25 +64,32 @@ void	wait_prosesses(t_minishell *minish)
 	node = minish->node;
 	while (node)
 	{
-		waitpid(node->pid, &node->wait_status, 0);
-		if (WIFEXITED(node->wait_status))
+		if (IS_BUILTIN(node))
 		{
-			node->wait_status = WEXITSTATUS(node->wait_status);
-		}
-		else if (WIFSIGNALED(node->wait_status))
-		{
-			ft_printf_fd(STDERR_FILENO, "%s: %d\n",
-				ft_strsignal(WTERMSIG(node->wait_status)),
-				WTERMSIG(node->wait_status));
-			node->wait_status |= 128;
-			// exit(node->wait_status);
-		}
-		else if (WIFSTOPPED(node->wait_status))
-		{
+			lookup_builtin_func(node->argv[0])(minish, node);
 		}
 		else
 		{
-			perror("abnormal exit");
+			waitpid(node->pid, &node->wait_status, 0);
+			if (WIFEXITED(node->wait_status))
+			{
+				node->wait_status = WEXITSTATUS(node->wait_status);
+			}
+			else if (WIFSIGNALED(node->wait_status))
+			{
+				ft_printf_fd(STDERR_FILENO, "%s: %d\n",
+					ft_strsignal(WTERMSIG(node->wait_status)),
+					WTERMSIG(node->wait_status));
+				node->wait_status |= 128;
+				// exit(node->wait_status);
+			}
+			else if (WIFSTOPPED(node->wait_status))
+			{
+			}
+			else
+			{
+				perror("abnormal exit");
+			}
 		}
 		node = node->next;
 	}

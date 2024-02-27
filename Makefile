@@ -15,6 +15,8 @@ LIBS := -lft -lreadline -lhistory -ltermcap
 SRCS := src/main.c src/minishell.c src/parser/prompt.c src/parser/lexer.c src/parser/parser.c \
 	src/variable/env.c src/variable/var.c \
 	src/exec/exec.c src/exec/find_path.c src/exec/pipe.c src/exec/process.c src/exec/redirect.c src/exec/ft_strsignal.c \
+	src/builtin/builtin.c src/builtin/builtin_echo.c src/builtin/builtin_cd.c src/builtin/builtin_pwd.c src/builtin/builtin_export.c \
+	src/builtin/builtin_unset.c src/builtin/builtin_env.c src/builtin/builtin_exit.c  \
   	src/signal/signal.c
 OBJS := $(SRCS:.c=.o)
 
