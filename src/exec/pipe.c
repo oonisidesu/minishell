@@ -6,7 +6,7 @@
 /*   By: susumuyagi <susumuyagi@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/12 12:06:41 by susumuyagi        #+#    #+#             */
-/*   Updated: 2024/02/27 17:32:08 by susumuyagi       ###   ########.fr       */
+/*   Updated: 2024/02/28 12:51:31 by susumuyagi       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,7 +111,11 @@ void	exec_pipe(t_minishell *minish)
 		}
 		connect_io(node, minish->node, prev_fds, fds);
 		redirect(node);
-		if (!IS_BUILTIN(node))
+		if (IS_BUILTIN(node))
+		{
+			node = node->next;
+		}
+		else
 		{
 			exec_cmd(node, envp);
 		}
