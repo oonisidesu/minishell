@@ -27,7 +27,7 @@ list(REMOVE_ITEM LIB_SRCS ../../src/main.c)
 
 add_library(libminishell ${LIB_SRCS})
 
-set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -DREADLINE_LIBRARY")
+set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -DREADLINE_LIBRARY -O0 -g")
 include_directories(
   ${CMAKE_CURRENT_SOURCE_DIR}/../../include ,
   ${CMAKE_CURRENT_SOURCE_DIR}/../../libft ,

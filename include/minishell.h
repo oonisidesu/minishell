@@ -6,7 +6,7 @@
 /*   By: ootsuboyoshiyuki <ootsuboyoshiyuki@stud    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/14 16:21:32 by ootsuboyosh       #+#    #+#             */
-/*   Updated: 2024/02/22 16:34:30 by ootsuboyosh      ###   ########.fr       */
+/*   Updated: 2024/02/27 14:03:14 by ootsuboyosh      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ typedef struct s_minishell
 	t_var			*var;
 	// TODO 後で消す（envpをt_varに変換して保持予定）
 	// pipe作成時にenvpが必要なため、仮で作成
-	char			**envp;
+	// char			**envp;
 
 	// 返り値
 	int				status_code;

@@ -6,7 +6,7 @@
 /*   By: ootsuboyoshiyuki <ootsuboyoshiyuki@stud    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/15 13:22:07 by susumuyagi        #+#    #+#             */
-/*   Updated: 2024/02/22 16:15:24 by ootsuboyosh      ###   ########.fr       */
+/*   Updated: 2024/02/27 14:03:42 by ootsuboyosh      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,11 @@ void	init_minishell(t_minishell *minish)
 {
 	minish->line = NULL;
 	minish->token = NULL;
+	minish->cur_token = NULL;
 	minish->node = NULL;
+	minish->var = NULL;
 	minish->status_code = 0;
+	minish->error_kind = ERR_NONE;
 }
 
 void	free_minishell(t_minishell *minish)
