@@ -3,74 +3,85 @@
 /*                                                        :::      ::::::::   */
 /*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: susumuyagi <susumuyagi@student.42.fr>      +#+  +:+       +#+        */
+/*   By: ootsuboyoshiyuki <ootsuboyoshiyuki@stud    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/20 16:23:06 by susumuyagi        #+#    #+#             */
-/*   Updated: 2024/02/26 13:39:20 by susumuyagi       ###   ########.fr       */
+/*   Updated: 2024/02/27 18:35:38 by ootsuboyosh      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "variable/env.h"
 #include "variable/var.h"
 
-t_var	*create_var(e_var_type type, char *key, char *val)
+int	ft_strchr_int(const char *s, int c)
 {
-	t_var	*new_var;
-
-	new_var = (t_var *)malloc(sizeof(t_var));
-	if (new_var == NULL)
-		return (NULL);
-	new_var->type = type;
-	new_var->key = ft_strdup(key);
-	if (new_var->key == NULL)
-		return (free(new_var), NULL);
-	new_var->val = ft_strdup(val);
-	if (new_var->val == NULL)
-		return (free(new_var->key), free(new_var), NULL);
-	new_var->next = NULL;
-	return (new_var);
-}
-
-void	add_var(t_var **head, t_var *new_var)
-{
-	t_var	*current;
-
-	new_var->next = NULL;
-	if (*head == NULL)
-		*head = new_var;
-	else
-	{
-		current = *head;
-		while (current->next)
-			current = current->next;
-		current->next = new_var;
-	}
-}
-
-void	set_envp(t_minishell *minish, const char **envp, e_var_type type)
-{
-	size_t	i;
-	char	*equal_sign;
-	t_var	*new_var;
+	int	i;
 
 	i = 0;
-	// envp をループして、各変数をリンクリストに追加する
-	while (envp[i])
+	while (s[i])
 	{
-		equal_sign = ft_strchr(envp[i], '=');
-		if (equal_sign)
-		{
-			// '='を'\0'に変えて、keyとvalを分ける
-			*equal_sign = '\0';
-			// keyとvalを使って新しいt_var型の変数を作成
-			new_var = create_var(type, envp[i], equal_sign + 1);
-			// 新しい変数をリンクリストに追加
-			add_var(&(minish->var), new_var);
-		}
+		if (s[i] == (char)c)
+			return (i);
 		i++;
 	}
-	// minish->envpは後で消す。
-	minish->envp = envp;
+	return (-1);
+}
+
+char *get_key_from_env(const char *envp)
+{
+	char	*key;
+	int		equal_sign_index;
+
+	equal_sign_index = ft_strchr_int(envp, '=');
+	if (equal_sign_index == -1)
+		return (NULL);
+	key = ft_substr(envp, 0, equal_sign_index);
+	if (key == NULL)
+		return (NULL);
+	return (key);
+}
+
+char *get_val_from_env(const char *envp)
+{
+	char	*val;
+	int		equal_sign_index;
+
+	equal_sign_index = ft_strchr_int(envp, '=');
+	if (equal_sign_index == -1)
+		return (NULL);
+	val = ft_strdup(envp + equal_sign_index + 1);
+	if (val == NULL)
+		return (NULL);
+	return (val);
+}
+
+void set_envp(t_minishell *minish, const char **envp)
+{
+	int		i;
+	char	*key;
+	char	*val;
+
+	i = 0;
+	while (envp[i])
+	{
+		key = get_key_from_env(envp[i]);
+		if (key == NULL)
+		{
+			minish->error_kind = ERR_MALLOC;
+			return ;
+		}
+		;
+		val = get_val_from_env(envp[i]);
+		if (val == NULL)
+		{
+			minish->error_kind = ERR_MALLOC;
+			return ;
+		}
+		add_or_update_var(minish, key, val, VAR_ENV);
+		free(key);
+		free(val);
+		i++;
+	}
 }
 
 char	*join_key_val(char *key, char *separator, char *val)
@@ -116,19 +127,25 @@ char	**get_envp(t_minishell *minish)
 	j = 0;
 	while (current)
 	{
-		envp[i] = join_key_val(current->key, "=", current->val);
-		if (envp[i] == NULL)
+		printf("current->type: %d\n", current->type);
+		if (current->type == VAR_ENV)
 		{
-			minish->error_kind = ERR_MALLOC;
-			// error_kindにERR_MALLOCを設定しているのでここでfreeしなくてもいい？
-			while (j < i)
+			envp[i] = join_key_val(current->key, "=", current->val);
+			if (envp[i] == NULL)
 			{
-				free(envp[j]);
-				j++;
+				minish->error_kind = ERR_MALLOC;
+				while (j < i)
+				{
+					free(envp[j]);
+					j++;
+				}
+				free(envp);
+				return (NULL);
 			}
-			free(envp);
-			return (NULL);
 		}
+		else
+			envp[i] = NULL;
+		printf("%s\n", envp[i]);
 		current = current->next;
 		i++;
 	}
