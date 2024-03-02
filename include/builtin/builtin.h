@@ -6,7 +6,7 @@
 /*   By: susumuyagi <susumuyagi@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/27 15:11:25 by susumuyagi        #+#    #+#             */
-/*   Updated: 2024/02/27 16:05:54 by susumuyagi       ###   ########.fr       */
+/*   Updated: 2024/03/02 15:24:10 by susumuyagi       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,10 @@
 # define BUILTIN_H
 
 # include "minishell.h"
+
+# define RUN_PARENT -2
+# define IS_BUILTIN(node) (lookup_builtin_func((node)->argv[0]) != NULL)
+# define IS_IN_PIPE(minish) ((minish)->node->next != NULL)
 
 typedef void	(*t_builtin_func)(t_minishell *minish, t_node *node);
 
