@@ -6,7 +6,7 @@
 /*   By: susumuyagi <susumuyagi@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/12 12:06:41 by susumuyagi        #+#    #+#             */
-/*   Updated: 2024/02/27 17:29:31 by susumuyagi       ###   ########.fr       */
+/*   Updated: 2024/03/02 11:12:56 by susumuyagi       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ void	wait_prosesses(t_minishell *minish)
 	{
 		if (IS_BUILTIN(node))
 		{
-			lookup_builtin_func(node->argv[0])(minish, node);
+			// lookup_builtin_func(node->argv[0])(minish, node);
 		}
 		else
 		{

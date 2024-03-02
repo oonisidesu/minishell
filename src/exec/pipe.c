@@ -6,7 +6,7 @@
 /*   By: susumuyagi <susumuyagi@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/12 12:06:41 by susumuyagi        #+#    #+#             */
-/*   Updated: 2024/02/28 12:51:31 by susumuyagi       ###   ########.fr       */
+/*   Updated: 2024/03/02 12:57:18 by susumuyagi       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,19 +30,39 @@ static void	init_fds(int *prev_fds, int *fds)
 
 static void	connect_io(t_node *node, t_node *head, int prev_fds[], int fds[])
 {
-	if (node != head)
+	if (IS_BUILTIN(node))
 	{
-		close(STDIN_FILENO);
-		dup2(prev_fds[0], STDIN_FILENO);
-		close(prev_fds[0]);
-		close(prev_fds[1]);
+		// if (node != head)
+		// {
+		// 	close(STDIN_FILENO);
+		// 	dup2(prev_fds[0], STDIN_FILENO);
+		// 	close(prev_fds[0]);
+		// 	close(prev_fds[1]);
+		// }
+		// if (node->next != NULL)
+		// {
+		// 	close(fds[0]);
+		// 	close(STDOUT_FILENO);
+		// 	dup2(fds[1], STDOUT_FILENO);
+		// 	close(fds[1]);
+		// }
 	}
-	if (node->next != NULL)
+	else
 	{
-		close(fds[0]);
-		close(STDOUT_FILENO);
-		dup2(fds[1], STDOUT_FILENO);
-		close(fds[1]);
+		if (node != head)
+		{
+			close(STDIN_FILENO);
+			dup2(prev_fds[0], STDIN_FILENO);
+			close(prev_fds[0]);
+			close(prev_fds[1]);
+		}
+		if (node->next != NULL)
+		{
+			close(fds[0]);
+			close(STDOUT_FILENO);
+			dup2(fds[1], STDOUT_FILENO);
+			close(fds[1]);
+		}
 	}
 }
 
@@ -113,6 +133,7 @@ void	exec_pipe(t_minishell *minish)
 		redirect(node);
 		if (IS_BUILTIN(node))
 		{
+			lookup_builtin_func(node->argv[0])(minish, node);
 			node = node->next;
 		}
 		else
