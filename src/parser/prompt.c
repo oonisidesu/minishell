@@ -6,7 +6,7 @@
 /*   By: susumuyagi <susumuyagi@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/15 14:13:54 by susumuyagi        #+#    #+#             */
-/*   Updated: 2024/02/27 14:45:05 by susumuyagi       ###   ########.fr       */
+/*   Updated: 2024/03/02 15:51:40 by susumuyagi       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ void	prompt(t_minishell *minish)
 	// debug //////////////////////////////////////
 	// ft_strlen(minish->line) == 0の時も確認したいのでとりあえず
 	// TODO 後で消す
-	printf("minish->status_code: %d\n", minish->status_code);
+	// printf("minish->status_code: %d\n", minish->status_code);
 	///////////////////////////////////////////////
 	if (ft_strlen(minish->line) == 0)
 	{
