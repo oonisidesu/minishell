@@ -6,7 +6,7 @@
 /*   By: susumuyagi <susumuyagi@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/15 17:20:20 by susumuyagi        #+#    #+#             */
-/*   Updated: 2024/02/21 21:45:19 by susumuyagi       ###   ########.fr       */
+/*   Updated: 2024/03/02 11:16:56 by susumuyagi       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,23 +17,23 @@
 #include <stdlib.h>
 
 /////////////// debug /////////////////////////////////////////////////
-#include <stdio.h>
+// #include <stdio.h>
 
-static void	print_tokens(t_token *tok)
-{
-	char	c;
+// static void	print_tokens(t_token *tok)
+// {
+// 	char	c;
 
-	printf("=== token ==================================\n");
-	while (tok)
-	{
-		c = '0' + tok->kind;
-		write(STDOUT_FILENO, &c, 1);
-		write(STDOUT_FILENO, " ", 1);
-		write(STDOUT_FILENO, tok->str, tok->len);
-		write(STDOUT_FILENO, "\n", 1);
-		tok = tok->next;
-	}
-}
+// 	printf("=== token ==================================\n");
+// 	while (tok)
+// 	{
+// 		c = '0' + tok->kind;
+// 		write(STDOUT_FILENO, &c, 1);
+// 		write(STDOUT_FILENO, " ", 1);
+// 		write(STDOUT_FILENO, tok->str, tok->len);
+// 		write(STDOUT_FILENO, "\n", 1);
+// 		tok = tok->next;
+// 	}
+// }
 ////////////////////////////////////////////////////////////////
 
 // generate new token and connect to the current token
@@ -137,7 +137,7 @@ int	tokenize(t_minishell *minish)
 	minish->token = head.next;
 	///////////////////////////////////////
 	// TODO 後で消す
-	print_tokens(minish->token);
+	// print_tokens(minish->token);
 	///////////////////////////////////////
 	return (EXIT_SUCCESS);
 }
