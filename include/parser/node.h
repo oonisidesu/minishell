@@ -6,7 +6,7 @@
 /*   By: susumuyagi <susumuyagi@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/14 16:25:22 by ootsuboyosh       #+#    #+#             */
-/*   Updated: 2024/02/27 17:38:47 by susumuyagi       ###   ########.fr       */
+/*   Updated: 2024/03/02 14:29:12 by susumuyagi       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,8 @@
 # include <stdbool.h>
 
 # define BUILTIN_PID -2
-# define IS_BUILTIN(node) ((node)->pid == BUILTIN_PID)
+// # define IS_BUILTIN(node) ((node)->pid == BUILTIN_PID)
+# define IS_BUILTIN(node) (lookup_builtin_func((node)->argv[0]) != NULL)
 
 typedef enum
 {
@@ -40,6 +41,7 @@ typedef struct s_node
 	char			*path;
 	bool			has_x;
 	bool			exist_cmd;
+	bool			in_pipe;
 
 	struct s_node	*redirect;
 	struct s_node	*next;
