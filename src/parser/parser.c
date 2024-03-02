@@ -6,7 +6,7 @@
 /*   By: susumuyagi <susumuyagi@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/15 17:37:32 by susumuyagi        #+#    #+#             */
-/*   Updated: 2024/02/21 22:16:42 by susumuyagi       ###   ########.fr       */
+/*   Updated: 2024/03/02 11:16:49 by susumuyagi       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,33 +17,33 @@
 #include <unistd.h>
 
 /////////////// debug /////////////////////////////////////////////////
-#include <stdio.h>
+// #include <stdio.h>
 
-static void	print_nodes(t_node *node)
-{
-	int		i;
-	t_node	*r;
+// static void	print_nodes(t_node *node)
+// {
+// 	int		i;
+// 	t_node	*r;
 
-	printf("=== node ==================================\n");
-	while (node)
-	{
-		printf("--node(argc: %d)--------------\n", node->argc);
-		for (int i = 0; i < node->argc; i++)
-		{
-			printf("argv[%d]: %s\n", i, node->argv[i]);
-		}
-		i = 0;
-		r = node->redirect;
-		while (r)
-		{
-			printf("redirect[%d]: [%d] %s\n", i, r->kind, r->path);
-			i++;
-			r = r->next;
-		}
-		printf("------------------------------\n");
-		node = node->next;
-	}
-}
+// 	printf("=== node ==================================\n");
+// 	while (node)
+// 	{
+// 		printf("--node(argc: %d)--------------\n", node->argc);
+// 		for (int i = 0; i < node->argc; i++)
+// 		{
+// 			printf("argv[%d]: %s\n", i, node->argv[i]);
+// 		}
+// 		i = 0;
+// 		r = node->redirect;
+// 		while (r)
+// 		{
+// 			printf("redirect[%d]: [%d] %s\n", i, r->kind, r->path);
+// 			i++;
+// 			r = r->next;
+// 		}
+// 		printf("------------------------------\n");
+// 		node = node->next;
+// 	}
+// }
 ////////////////////////////////////////////////////////////////
 
 t_node	*malloc_and_init_node(e_node_kind kind)
@@ -233,7 +233,7 @@ int	parse(t_minishell *minish)
 	minish->node = head.next;
 	///////////////////////////////////////
 	// TODO 後で消す
-	print_nodes(minish->node);
+	// print_nodes(minish->node);
 	///////////////////////////////////////
 	return (0);
 }

@@ -8,10 +8,11 @@
 			"type": "lldb",
 			"request": "launch",
 			"name": "Debug",
-			// "program": "${workspaceFolder}/minishell",
-			"program": "${workspaceFolder}/test/unit/testBin/env",
+			"program": "${workspaceFolder}/minishell",
+			// "program": "${workspaceFolder}/test/unit/testBin/env",
 			"args": [],
-			"cwd": "${workspaceFolder}"
+			"cwd": "${workspaceFolder}",
+			// "stdio": ["${workspaceFolder}/test/e2e/case/status_code.in"]
 		}
 	]
 }

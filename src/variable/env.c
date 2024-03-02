@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ootsuboyoshiyuki <ootsuboyoshiyuki@stud    +#+  +:+       +#+        */
+/*   By: susumuyagi <susumuyagi@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/20 16:23:06 by susumuyagi        #+#    #+#             */
-/*   Updated: 2024/02/27 18:35:38 by ootsuboyosh      ###   ########.fr       */
+/*   Updated: 2024/03/02 11:15:01 by susumuyagi       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ int	ft_strchr_int(const char *s, int c)
 	return (-1);
 }
 
-char *get_key_from_env(const char *envp)
+char	*get_key_from_env(const char *envp)
 {
 	char	*key;
 	int		equal_sign_index;
@@ -41,7 +41,7 @@ char *get_key_from_env(const char *envp)
 	return (key);
 }
 
-char *get_val_from_env(const char *envp)
+char	*get_val_from_env(const char *envp)
 {
 	char	*val;
 	int		equal_sign_index;
@@ -55,7 +55,7 @@ char *get_val_from_env(const char *envp)
 	return (val);
 }
 
-void set_envp(t_minishell *minish, const char **envp)
+void	set_envp(t_minishell *minish, const char **envp)
 {
 	int		i;
 	char	*key;
@@ -69,8 +69,7 @@ void set_envp(t_minishell *minish, const char **envp)
 		{
 			minish->error_kind = ERR_MALLOC;
 			return ;
-		}
-		;
+		};
 		val = get_val_from_env(envp[i]);
 		if (val == NULL)
 		{
@@ -127,7 +126,7 @@ char	**get_envp(t_minishell *minish)
 	j = 0;
 	while (current)
 	{
-		printf("current->type: %d\n", current->type);
+		// printf("current->type: %d\n", current->type);
 		if (current->type == VAR_ENV)
 		{
 			envp[i] = join_key_val(current->key, "=", current->val);
@@ -145,7 +144,7 @@ char	**get_envp(t_minishell *minish)
 		}
 		else
 			envp[i] = NULL;
-		printf("%s\n", envp[i]);
+		// printf("%s\n", envp[i]);
 		current = current->next;
 		i++;
 	}

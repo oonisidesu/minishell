@@ -6,7 +6,7 @@
 /*   By: susumuyagi <susumuyagi@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/14 16:25:22 by ootsuboyosh       #+#    #+#             */
-/*   Updated: 2024/02/21 22:15:04 by susumuyagi       ###   ########.fr       */
+/*   Updated: 2024/03/02 15:07:13 by susumuyagi       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 # define NODE_H
 
 # include <stdbool.h>
+
 typedef enum
 {
 	ND_REDIRECT_OUT,    // >
@@ -36,6 +37,7 @@ typedef struct s_node
 	char			*path;
 	bool			has_x;
 	bool			exist_cmd;
+	bool			in_pipe;
 
 	struct s_node	*redirect;
 	struct s_node	*next;

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   var.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ootsuboyoshiyuki <ootsuboyoshiyuki@stud    +#+  +:+       +#+        */
+/*   By: susumuyagi <susumuyagi@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/20 16:23:06 by susumuyagi        #+#    #+#             */
-/*   Updated: 2024/02/29 16:16:56 by ootsuboyosh      ###   ########.fr       */
+/*   Updated: 2024/03/02 11:15:15 by susumuyagi       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ t_var	*create_var(e_var_type type, const char *key, const char *val)
 	return (new_var);
 }
 
-char *get_var(t_minishell *minish, const char *key)
+char	*get_var(t_minishell *minish, const char *key)
 {
 	t_var	*current;
 
@@ -45,22 +45,23 @@ char *get_var(t_minishell *minish, const char *key)
 	return (NULL);
 }
 
-void add_or_update_var(t_minishell *minish, const char *key, const char *val, e_var_type type) 
+void	add_or_update_var(t_minishell *minish, const char *key, const char *val,
+		e_var_type type)
 {
 	t_var	*new_var;
-	t_var *current;
-	
+	t_var	*current;
+
 	// update
 	current = minish->var;
-	while (current) 
+	while (current)
 	{
-		if (ft_strncmp(current->key, key, ft_strlen(current->key)) == 0) 
+		if (ft_strncmp(current->key, key, ft_strlen(current->key)) == 0)
 		{
-			printf("key: %s\n", current->key);
+			// printf("key: %s\n", current->key);
 			free(current->val);
 			current->val = ft_strdup(val);
 			current->type = type;
-			return;
+			return ;
 		}
 		current = current->next;
 	}
@@ -77,7 +78,7 @@ void add_or_update_var(t_minishell *minish, const char *key, const char *val, e_
 	}
 }
 
-void del_var(t_minishell *minish, const char *key)
+void	del_var(t_minishell *minish, const char *key)
 {
 	t_var	*current;
 	t_var	*prev;
@@ -100,10 +101,9 @@ void del_var(t_minishell *minish, const char *key)
 		prev = current;
 		current = current->next;
 	}
-
 }
 
-void free_var(t_minishell *minish)
+void	free_var(t_minishell *minish)
 {
 	t_var	*current;
 	t_var	*next;

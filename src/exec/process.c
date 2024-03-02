@@ -6,10 +6,11 @@
 /*   By: susumuyagi <susumuyagi@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/12 12:06:41 by susumuyagi        #+#    #+#             */
-/*   Updated: 2024/02/22 10:35:10 by susumuyagi       ###   ########.fr       */
+/*   Updated: 2024/03/02 15:26:00 by susumuyagi       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "builtin/builtin.h"
 #include "exec/ft_strsignal.h"
 #include "exec/process.h"
 #include "libft.h"
@@ -61,6 +62,10 @@ void	wait_prosesses(t_minishell *minish)
 	t_node	*node;
 
 	node = minish->node;
+	if (node->pid == RUN_PARENT)
+	{
+		return ;
+	}
 	while (node)
 	{
 		waitpid(node->pid, &node->wait_status, 0);
