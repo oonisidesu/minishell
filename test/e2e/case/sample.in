@@ -1,0 +1,3 @@
+ls case/data/file1.txt | cat | cat
+cat < case/data/file1.txt
+ls | wc -l case/data/file1.txt | cat

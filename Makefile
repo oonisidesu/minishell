@@ -53,8 +53,15 @@ fclean: clean
 re: fclean all
 
 # test
-.PHONY: unit_test
+.PHONY: unit_test e2e_test e2e_clean
 
 unit_test: $(READLINE) $(LIBFT)
 	cd test/unit && \
 	cmake -S . -B build && cmake --build build &&  cd build && ctest
+
+e2e_test: $(NAME) $(e2e_clean)
+	cd test/e2e && ./run_e2e.sh
+
+e2e_clean:
+	$(RM) test/e2e/out/*.out
+	$(RM) test/e2e/out/*.diff

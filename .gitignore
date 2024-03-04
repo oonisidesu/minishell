@@ -11,3 +11,6 @@ readline-8.2.tar.gz
 test/unit/build
 
 .vscode/*
+
+test/e2e/out/*.out
+test/e2e/out/*.diff
