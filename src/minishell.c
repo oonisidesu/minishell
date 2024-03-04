@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ootsuboyoshiyuki <ootsuboyoshiyuki@stud    +#+  +:+       +#+        */
+/*   By: susumuyagi <susumuyagi@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/15 13:22:07 by susumuyagi        #+#    #+#             */
-/*   Updated: 2024/02/27 14:03:42 by ootsuboyosh      ###   ########.fr       */
+/*   Updated: 2024/03/02 17:58:26 by susumuyagi       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,9 @@ void	init_minishell(t_minishell *minish)
 void	free_minishell(t_minishell *minish)
 {
 	free(minish->line);
+	minish->line = NULL;
 	free_tokens(minish->token);
-	// TODO free_nodesを作る
-	// free_nodes(minish->node);
+	minish->token = NULL;
+	free_nodes(minish->node);
+	minish->node = NULL;
 }

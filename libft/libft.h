@@ -6,7 +6,7 @@
 /*   By: susumuyagi <susumuyagi@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/18 15:49:00 by susumuyagi        #+#    #+#             */
-/*   Updated: 2024/03/02 16:38:44 by susumuyagi       ###   ########.fr       */
+/*   Updated: 2024/03/02 16:54:42 by susumuyagi       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,8 +34,6 @@ int					ft_isalpha(int c);
 int					ft_isascii(int c);
 int					ft_isdigit(int c);
 int					ft_isprint(int c);
-int					ft_isspace(int c);
-int					ft_ispunct(int c);
 
 void				*ft_memchr(const void *s, int c, size_t n);
 int					ft_memcmp(const void *s1, const void *s2, size_t n);
@@ -99,5 +97,32 @@ ssize_t				ft_putchar(int fd, char c);
 // my functions
 int					ft_strcmp(const char *s1, const char *s2);
 int					ft_printf_fd(int fd, const char *fmt, ...);
+int					ft_isspace(int c);
+int					ft_ispunct(int c);
+
+// get_next_line
+# ifndef BUFFER_SIZE
+#  define BUFFER_SIZE 4096
+# endif
+
+# define BLOCK_SIZE 4096
+# define READ_ERROR -99
+
+typedef struct s_buffer
+{
+	ssize_t			n;
+	char			*bufp;
+	char			buf[BUFFER_SIZE];
+}					t_buffer;
+
+typedef struct s_string
+{
+	char			*str;
+	size_t			max_len;
+	size_t			len;
+}					t_string;
+
+char				*get_next_line(int fd);
+int					ft_getc(int fd);
 
 #endif

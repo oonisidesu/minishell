@@ -1,0 +1,2 @@
+ls case/data/file1.txt | cat | cat
+cat case/data/file1.txt | cat | cat | cat | cat

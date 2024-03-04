@@ -10,7 +10,8 @@ SRCS=ft_atoi.c ft_calloc.c \
 	ft_lstnew.c ft_lstadd_front.c ft_lstsize.c ft_lstlast.c ft_lstadd_back.c \
 	ft_lstdelone.c ft_lstclear.c ft_lstiter.c ft_lstmap.c \
 	ft_printf.c ft_puthex_utils.c ft_putnbr_utils.c ft_putstr_utils.c \
-	ft_strcmp.c ft_isspace.c ft_ispunct.c
+	ft_strcmp.c ft_isspace.c ft_ispunct.c \
+	get_next_line_utils.c get_next_line.c
 
 OBJS=$(SRCS:.c=.o)
 

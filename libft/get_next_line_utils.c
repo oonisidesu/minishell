@@ -1,28 +1,38 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_calloc.c                                        :+:      :+:    :+:   */
+/*   get_next_line_utils.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: susumuyagi <susumuyagi@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/05/21 16:15:09 by susumuyagi        #+#    #+#             */
-/*   Updated: 2024/03/04 15:12:13 by susumuyagi       ###   ########.fr       */
+/*   Created: 2023/05/25 14:04:32 by susumuyagi        #+#    #+#             */
+/*   Updated: 2024/03/02 16:53:25 by susumuyagi       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
-#include <limits.h>
-#include <stdint.h>
+#include <stdio.h>
 #include <stdlib.h>
+#include <unistd.h>
 
-void	*ft_calloc(size_t count, size_t size)
+int	ft_getc(int fd)
 {
-	void	*ret;
+	static t_buffer	buf;
 
-	if (size > 0 && SIZE_MAX / size < count)
-		return (NULL);
-	ret = malloc(size * count);
-	if (!ret)
-		return (NULL);
-	return (ft_memset(ret, '\0', size * count));
+	if (buf.n == 0)
+	{
+		buf.n = read(fd, buf.buf, BUFFER_SIZE);
+		if (buf.n < 0)
+		{
+			buf.n = 0;
+			return (READ_ERROR);
+		}
+		buf.bufp = buf.buf;
+	}
+	if (--buf.n >= 0)
+	{
+		return ((unsigned char)*buf.bufp++);
+	}
+	buf.n = 0;
+	return (EOF);
 }

@@ -29,13 +29,13 @@ add_library(libminishell ${LIB_SRCS})
 
 set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -DREADLINE_LIBRARY -O0 -g")
 include_directories(
-  ${CMAKE_CURRENT_SOURCE_DIR}/../../include ,
-  ${CMAKE_CURRENT_SOURCE_DIR}/../../libft ,
-  ${CMAKE_CURRENT_SOURCE_DIR}/../../readline-8.2
+  "${CMAKE_CURRENT_SOURCE_DIR}/../../include" ,
+  "${CMAKE_CURRENT_SOURCE_DIR}/../../libft" ,
+  "${CMAKE_CURRENT_SOURCE_DIR}/../../readline-8.2"
 )
 link_directories(
-  ${CMAKE_CURRENT_SOURCE_DIR}/../../libft ,
-  ${CMAKE_CURRENT_SOURCE_DIR}/../../readline-8.2
+  "${CMAKE_CURRENT_SOURCE_DIR}/../../libft" ,
+  "${CMAKE_CURRENT_SOURCE_DIR}/../../readline-8.2"
 )
 target_link_libraries(libminishell ft readline)
 
