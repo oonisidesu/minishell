@@ -17,15 +17,23 @@ for test_case in case/*.in; do
   bash < "$test_case" > "out/${filename}_bash.out"
 
   # 出力を比較
-  diff -u "out/${filename}_minishell.out" "out/${filename}_bash.out" > out/${filename}.diff
+  diff "out/${filename}_minishell.out" "out/${filename}_bash.out" > out/${filename}.diff
   if [ $? -eq 0 ]; then
-    echo -e "Test case $filename ${GREEN}passed${NC}"
+    echo -e "Test case $filename:\t\t${GREEN}passed${NC}"
   else
-    echo -e "Test case $filename ${RED}failed${NC}"
-	all_tests_passed=false
+	echo "----------------------------------------diff-----"
+    cat "out/${filename}.diff"
+	echo "----------------------------------------minishell-----"
+    cat "out/${filename}_minishell.out"
+	echo "----------------------------------------bash-----"
+    cat "out/${filename}_bash.out"
+	echo "--------------------------------------------------"
+    echo -e "Test case $filename:\t\t${RED}failed${NC}"
+    all_tests_passed=false
   fi
 done
 
+# 終了ステータス
 if $all_tests_passed; then
   echo -e "${GREEN}All test cases passed${NC}"
   exit 0

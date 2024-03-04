@@ -1,4 +1,2 @@
 ls | cat | cat
-cd .
-pwd
 ls -al | cat -e

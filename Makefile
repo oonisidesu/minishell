@@ -1,5 +1,7 @@
 NAME := minishell
 
+UNAME := $(shell uname)
+
 # libft
 LIBFT_DIR := ./libft
 LIBFT := $(LIBFT_DIR)/libft.a
@@ -10,7 +12,14 @@ READLINE := $(READLINE_DIR)/libreadline.a
 INCLUDES := -I./include -I$(LIBFT_DIR) -I$(READLINE_DIR)
 CFLAGS := -Wall -Wextra -Werror -O0 -g -DREADLINE_LIBRARY -DRL_LIBRARY_VERSION='"8.2"'
 LDFLAGS := -L$(LIBFT_DIR) -L$(READLINE_DIR)
+
+ifeq ($(UNAME), Linux) # Linux
+LIBS := -lft -lreadline -lhistory -ltinfo
+endif
+ifeq ($(UNAME), Darwin) # Mac OS
 LIBS := -lft -lreadline -lhistory -ltermcap
+endif
+
 
 SRCS := src/main.c src/minishell.c \
 	src/parser/prompt.c src/parser/lexer.c src/parser/parser.c src/parser/node.c\
