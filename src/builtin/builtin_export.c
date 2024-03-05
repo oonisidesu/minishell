@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_export.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: susumuyagi <susumuyagi@student.42.fr>      +#+  +:+       +#+        */
+/*   By: ootsuboyoshiyuki <ootsuboyoshiyuki@stud    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/23 19:23:01 by susumuyagi        #+#    #+#             */
-/*   Updated: 2024/02/27 17:42:33 by susumuyagi       ###   ########.fr       */
+/*   Updated: 2024/03/05 13:52:29 by ootsuboyosh      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,10 +15,11 @@
 // TODO 後で消す
 #include <stdio.h>
 
-void	builtin_export(t_minishell *minish, t_node *node)
+int	builtin_export(t_minishell *minish, t_node *node)
 {
 	// TODO 後で実装する
 	(void)minish;
 	node->wait_status = 0;
 	printf("builtin_export\n");
+	return 0;
 }
