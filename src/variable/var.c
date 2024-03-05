@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   var.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: susumuyagi <susumuyagi@student.42.fr>      +#+  +:+       +#+        */
+/*   By: ootsuboyoshiyuki <ootsuboyoshiyuki@stud    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/20 16:23:06 by susumuyagi        #+#    #+#             */
-/*   Updated: 2024/03/02 11:15:15 by susumuyagi       ###   ########.fr       */
+/*   Updated: 2024/03/05 16:29:51 by ootsuboyosh      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,9 +55,8 @@ void	add_or_update_var(t_minishell *minish, const char *key, const char *val,
 	current = minish->var;
 	while (current)
 	{
-		if (ft_strncmp(current->key, key, ft_strlen(current->key)) == 0)
+		if (ft_strncmp(current->key, key, ft_strlen(key)) == 0)
 		{
-			// printf("key: %s\n", current->key);
 			free(current->val);
 			current->val = ft_strdup(val);
 			current->type = type;
