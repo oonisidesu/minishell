@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_echo.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: susumuyagi <susumuyagi@student.42.fr>      +#+  +:+       +#+        */
+/*   By: ootsuboyoshiyuki <ootsuboyoshiyuki@stud    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/23 19:23:01 by susumuyagi        #+#    #+#             */
-/*   Updated: 2024/02/27 17:42:27 by susumuyagi       ###   ########.fr       */
+/*   Updated: 2024/03/05 13:52:15 by ootsuboyosh      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,10 +15,11 @@
 // TODO 後で消す
 #include <stdio.h>
 
-void	builtin_echo(t_minishell *minish, t_node *node)
+int	builtin_echo(t_minishell *minish, t_node *node)
 {
 	// TODO 後で実装する
 	(void)minish;
 	node->wait_status = 0;
 	printf("builtin_echo\n");
+	return 0;
 }

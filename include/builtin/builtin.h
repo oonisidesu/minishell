@@ -6,7 +6,7 @@
 /*   By: ootsuboyoshiyuki <ootsuboyoshiyuki@stud    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/27 15:11:25 by susumuyagi        #+#    #+#             */
-/*   Updated: 2024/03/05 13:47:26 by ootsuboyosh      ###   ########.fr       */
+/*   Updated: 2024/03/05 13:51:03 by ootsuboyosh      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@
 # define MINISHEEL_FRONT "minishell: "
 # define CD "cd: "
 
-typedef void	(*t_builtin_func)(t_minishell *minish, t_node *node);
+typedef int	(*t_builtin_func)(t_minishell *minish, t_node *node);
 
 t_builtin_func	lookup_builtin_func(char *name);
 

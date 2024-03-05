@@ -3,17 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_exit.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: susumuyagi <susumuyagi@student.42.fr>      +#+  +:+       +#+        */
+/*   By: ootsuboyoshiyuki <ootsuboyoshiyuki@stud    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/23 19:23:01 by susumuyagi        #+#    #+#             */
-/*   Updated: 2024/02/27 17:32:52 by susumuyagi       ###   ########.fr       */
+/*   Updated: 2024/03/05 13:52:25 by ootsuboyosh      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 #include <stdlib.h>
 
-void	builtin_exit(t_minishell *minish, t_node *node)
+int	builtin_exit(t_minishell *minish, t_node *node)
 {
 	if (node->argc == 1)
 	{
@@ -21,4 +21,5 @@ void	builtin_exit(t_minishell *minish, t_node *node)
 		exit(minish->status_code);
 	}
 	// TODO 引数がある場合、ちゃんと書く
+	return 0;
 }

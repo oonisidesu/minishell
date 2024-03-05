@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_pwd.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: susumuyagi <susumuyagi@student.42.fr>      +#+  +:+       +#+        */
+/*   By: ootsuboyoshiyuki <ootsuboyoshiyuki@stud    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/23 19:23:01 by susumuyagi        #+#    #+#             */
-/*   Updated: 2024/03/02 15:38:24 by susumuyagi       ###   ########.fr       */
+/*   Updated: 2024/03/05 13:52:32 by ootsuboyosh      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 // TODO 後で消す
 #include <stdio.h>
 
-void	builtin_pwd(t_minishell *minish, t_node *node)
+int	builtin_pwd(t_minishell *minish, t_node *node)
 {
 	// TODO 後で実装する
 	(void)minish;
@@ -25,4 +25,5 @@ void	builtin_pwd(t_minishell *minish, t_node *node)
 	{
 		exit(node->wait_status);
 	}
+	return 0;
 }
