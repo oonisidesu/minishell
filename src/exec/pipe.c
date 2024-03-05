@@ -6,7 +6,7 @@
 /*   By: susumuyagi <susumuyagi@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/12 12:06:41 by susumuyagi        #+#    #+#             */
-/*   Updated: 2024/03/02 15:28:16 by susumuyagi       ###   ########.fr       */
+/*   Updated: 2024/03/05 13:57:11 by susumuyagi       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,6 +120,10 @@ void	exec_pipe(t_minishell *minish)
 		if (IS_BUILTIN(node))
 		{
 			lookup_builtin_func(node->argv[0])(minish, node);
+			if (node->in_pipe)
+			{
+				exit(node->wait_status);
+			}
 			node = node->next;
 		}
 		else
