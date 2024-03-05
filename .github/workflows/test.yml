@@ -1,9 +1,5 @@
 name: Run tests on pull requests to dev
 
-# on:
-#   push:
-#     branches:
-#       - "e2e_test"
 on:
   pull_request:
     branches:
@@ -20,9 +16,8 @@ jobs:
       - name: Build
         run: make
 
-      # ビルドでエラーになってしまう
-      # - name: Run unit tests
-      #   run: make unit_test
+      - name: Run unit tests
+        run: make unit_test
 
       - name: Run E2E tests
         run: make e2e_test
