@@ -12,7 +12,7 @@ TEST(Variable, set_envp_and_get_envp) {
   t_minishell minish;
 
   const char* expect[] = {"HOME=/home", "USER=me",    "PATH=/usr/bin",
-                          "ENV1=",      "ENV2=a=b=c", NULL};
+                          "ENV=",      "ENV2=a=b=c", NULL};
   init_minishell(&minish);
   set_envp(&minish, expect);
   char** actual = get_envp(&minish);

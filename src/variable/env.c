@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: susumuyagi <susumuyagi@student.42.fr>      +#+  +:+       +#+        */
+/*   By: ootsuboyoshiyuki <ootsuboyoshiyuki@stud    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/20 16:23:06 by susumuyagi        #+#    #+#             */
-/*   Updated: 2024/03/02 11:15:01 by susumuyagi       ###   ########.fr       */
+/*   Updated: 2024/03/05 16:28:30 by ootsuboyosh      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,7 +110,7 @@ char	**get_envp(t_minishell *minish)
 
 	env_elements = 0;
 	current = minish->var;
-	while (current != NULL)
+	while (current)
 	{
 		env_elements++;
 		current = current->next;
@@ -126,7 +126,6 @@ char	**get_envp(t_minishell *minish)
 	j = 0;
 	while (current)
 	{
-		// printf("current->type: %d\n", current->type);
 		if (current->type == VAR_ENV)
 		{
 			envp[i] = join_key_val(current->key, "=", current->val);
@@ -144,7 +143,6 @@ char	**get_envp(t_minishell *minish)
 		}
 		else
 			envp[i] = NULL;
-		// printf("%s\n", envp[i]);
 		current = current->next;
 		i++;
 	}
