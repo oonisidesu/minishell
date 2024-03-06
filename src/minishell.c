@@ -6,12 +6,13 @@
 /*   By: ootsuboyoshiyuki <ootsuboyoshiyuki@stud    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/15 13:22:07 by susumuyagi        #+#    #+#             */
-/*   Updated: 2024/03/05 14:28:41 by ootsuboyosh      ###   ########.fr       */
+/*   Updated: 2024/03/06 19:13:06 by ootsuboyosh      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 #include "parser/lexer.h"
+#include "variable/env.h"
 #include <stdlib.h>
 
 void	init_minishell(t_minishell *minish)
@@ -34,4 +35,10 @@ void	free_minishell(t_minishell *minish)
 	minish->token = NULL;
 	free_nodes(minish->node);
 	minish->node = NULL;
+}
+
+void	die_minishell(t_minishell *minish)
+{
+	free_minishell(minish);
+	free_var(minish);
 }
