@@ -1,0 +1,22 @@
+exit
+echo $?
+exit 2
+echo $?
+exit 355
+echo $?
+exit a
+echo $?
+exit 2 11
+echo $?
+exit a 11
+echo $?
+exit bc de
+echo $?
+exit 9223372036854775807
+echo $?
+exit -9223372036854775808
+echo $?
+exit 9223372036854775808
+echo $?
+exit -9223372036854775809
+echo $?
