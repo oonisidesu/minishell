@@ -6,7 +6,7 @@
 /*   By: ootsuboyoshiyuki <ootsuboyoshiyuki@stud    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/23 19:23:01 by susumuyagi        #+#    #+#             */
-/*   Updated: 2024/03/05 17:11:42 by ootsuboyosh      ###   ########.fr       */
+/*   Updated: 2024/03/06 19:40:14 by ootsuboyosh      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ int check_node_argv(t_minishell *minish, t_node *node)
 		node->argv[1] = get_var(minish, "HOME");
 		if (node->argv[1] == NULL)
 		{
-			ft_printf_fd(2, MINISHEEL_FRONT HOME_NOT_SET "\n");
+			ft_printf_fd(STDERR_FILENO, MINISHEEL COLON CD HOME_NOT_SET LINE_BREAK);
 			node->wait_status = 1;
 			return (node->wait_status);
 		}
@@ -45,7 +45,7 @@ int	builtin_cd(t_minishell *minish, t_node *node)
 		return (node->wait_status);
 	if (chdir(node->argv[1]) < 0 || !getcwd(pathname, PATHNAME_MAX)) 
 	{
-		ft_printf_fd(2, MINISHEEL_FRONT "cd: %s: %s\n", node->argv[1], strerror(errno));
+		ft_printf_fd(STDERR_FILENO, MINISHEEL COLON CD COLON "%s" COLON "%s" LINE_BREAK, node->argv[1], strerror(errno));
 		node->wait_status = 1;
 		return (node->wait_status) ;
 	}

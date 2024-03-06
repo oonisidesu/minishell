@@ -6,7 +6,7 @@
 /*   By: ootsuboyoshiyuki <ootsuboyoshiyuki@stud    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/27 15:11:25 by susumuyagi        #+#    #+#             */
-/*   Updated: 2024/03/06 19:16:33 by ootsuboyosh      ###   ########.fr       */
+/*   Updated: 2024/03/06 19:36:28 by ootsuboyosh      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 # define BUILTIN_H
 
 # include "minishell.h"
+# include "libft.h"
 # include <unistd.h>
 # include <errno.h>
 # include <string.h>

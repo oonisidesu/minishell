@@ -3,10 +3,15 @@ pwd
 cd case/permission
 pwd
 mkdir tmp
-cd `pwd`/tmp
+cd /bin/
 pwd
 cd ..
 pwd
 rmdir tmp
+cd
+pwd
+cd aaa | cd src
+pwd
+unset HOME
 cd
 pwd
