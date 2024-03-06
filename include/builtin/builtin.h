@@ -6,7 +6,7 @@
 /*   By: ootsuboyoshiyuki <ootsuboyoshiyuki@stud    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/27 15:11:25 by susumuyagi        #+#    #+#             */
-/*   Updated: 2024/03/05 17:11:13 by ootsuboyosh      ###   ########.fr       */
+/*   Updated: 2024/03/06 19:16:33 by ootsuboyosh      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,6 @@
 # define BUILTIN_H
 
 # include "minishell.h"
-# include "libft.h"
 # include <unistd.h>
 # include <errno.h>
 # include <string.h>
@@ -23,8 +22,14 @@
 # define IS_BUILTIN(node) (lookup_builtin_func((node)->argv[0]) != NULL)
 # define IS_IN_PIPE(minish) ((minish)->node->next != NULL)
 # define PATHNAME_MAX 10000
-# define MINISHEEL_FRONT "minishell: "
-# define HOME_NOT_SET "cd: HOME not set"
+# define LINE_BREAK "\n"
+# define COLON ": "
+# define MINISHEEL "minishell"
+# define CD "cd"
+# define EXIT "exit"
+# define HOME_NOT_SET "HOME not set"
+# define B_TOO_MANY_ARGS "too many arguments"
+# define NUM_ARG_REQUIRED "numeric argument required"
 
 typedef int	(*t_builtin_func)(t_minishell *minish, t_node *node);
 
