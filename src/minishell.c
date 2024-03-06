@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: susumuyagi <susumuyagi@student.42.fr>      +#+  +:+       +#+        */
+/*   By: ootsuboyoshiyuki <ootsuboyoshiyuki@stud    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/15 13:22:07 by susumuyagi        #+#    #+#             */
-/*   Updated: 2024/03/02 17:58:26 by susumuyagi       ###   ########.fr       */
+/*   Updated: 2024/03/05 14:28:41 by ootsuboyosh      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@ void	init_minishell(t_minishell *minish)
 	minish->node = NULL;
 	minish->var = NULL;
 	minish->status_code = 0;
+	minish->pwd = NULL;
 	minish->error_kind = ERR_NONE;
 }
 

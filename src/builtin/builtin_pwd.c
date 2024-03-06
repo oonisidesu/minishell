@@ -6,24 +6,27 @@
 /*   By: ootsuboyoshiyuki <ootsuboyoshiyuki@stud    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/23 19:23:01 by susumuyagi        #+#    #+#             */
-/*   Updated: 2024/03/05 13:52:32 by ootsuboyosh      ###   ########.fr       */
+/*   Updated: 2024/03/05 14:20:19 by ootsuboyosh      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+#include "builtin/builtin.h"
 #include <stdlib.h>
 // TODO 後で消す
 #include <stdio.h>
 
 int	builtin_pwd(t_minishell *minish, t_node *node)
 {
-	// TODO 後で実装する
-	(void)minish;
-	node->wait_status = EXIT_SUCCESS;
-	printf("builtin_pwd\n");
-	if (node->in_pipe)
+	char pathname[PATHNAME_MAX];
+	(void)node;
+
+	ft_memset(pathname, 0, PATHNAME_MAX);
+	if (!getcwd(pathname, PATHNAME_MAX))
 	{
-		exit(node->wait_status);
+		printf("%s\n", minish->pwd);
+		return (node->wait_status);
 	}
-	return 0;
+	printf("%s\n", pathname);
+	return (node->wait_status);
 }

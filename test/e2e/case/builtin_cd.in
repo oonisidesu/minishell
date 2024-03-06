@@ -1,0 +1,12 @@
+cd aa bb
+pwd
+cd case/permission
+pwd
+mkdir tmp
+cd `pwd`/tmp
+pwd
+cd ..
+pwd
+rmdir tmp
+cd
+pwd

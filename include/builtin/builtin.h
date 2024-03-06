@@ -6,7 +6,7 @@
 /*   By: ootsuboyoshiyuki <ootsuboyoshiyuki@stud    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/27 15:11:25 by susumuyagi        #+#    #+#             */
-/*   Updated: 2024/03/05 13:51:03 by ootsuboyosh      ###   ########.fr       */
+/*   Updated: 2024/03/05 17:11:13 by ootsuboyosh      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 # define BUILTIN_H
 
 # include "minishell.h"
+# include "libft.h"
 # include <unistd.h>
 # include <errno.h>
 # include <string.h>
@@ -23,7 +24,7 @@
 # define IS_IN_PIPE(minish) ((minish)->node->next != NULL)
 # define PATHNAME_MAX 10000
 # define MINISHEEL_FRONT "minishell: "
-# define CD "cd: "
+# define HOME_NOT_SET "cd: HOME not set"
 
 typedef int	(*t_builtin_func)(t_minishell *minish, t_node *node);
 

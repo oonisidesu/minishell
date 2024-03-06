@@ -6,7 +6,7 @@
 /*   By: ootsuboyoshiyuki <ootsuboyoshiyuki@stud    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/14 16:21:32 by ootsuboyosh       #+#    #+#             */
-/*   Updated: 2024/02/27 14:03:14 by ootsuboyosh      ###   ########.fr       */
+/*   Updated: 2024/03/05 14:19:15 by ootsuboyosh      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,7 @@ typedef struct s_minishell
 	// 返り値
 	int				status_code;
 
+	char			*pwd;
 	//
 	e_error_kind	error_kind;
 }					t_minishell;
