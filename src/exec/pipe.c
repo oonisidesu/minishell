@@ -6,7 +6,7 @@
 /*   By: susumuyagi <susumuyagi@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/12 12:06:41 by susumuyagi        #+#    #+#             */
-/*   Updated: 2024/03/05 13:57:11 by susumuyagi       ###   ########.fr       */
+/*   Updated: 2024/03/06 13:57:13 by susumuyagi       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,14 +78,12 @@ void	exec_pipe(t_minishell *minish)
 	t_node	*node;
 	char	**envp;
 
-	envp = get_envp(minish);
 	init_fds(prev_fds, fds);
 	node = minish->node;
 	while (node)
 	{
 		prev_fds[0] = fds[0];
 		prev_fds[1] = fds[1];
-		// pipe_and_fork(node, fds);
 		if (node->next != NULL)
 		{
 			if (pipe(fds) < 0)
@@ -128,6 +126,7 @@ void	exec_pipe(t_minishell *minish)
 		}
 		else
 		{
+			envp = get_envp(minish);
 			exec_cmd(node, envp);
 		}
 	}

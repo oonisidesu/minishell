@@ -6,7 +6,7 @@
 /*   By: susumuyagi <susumuyagi@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/21 12:26:12 by susumuyagi        #+#    #+#             */
-/*   Updated: 2024/02/21 22:49:18 by susumuyagi       ###   ########.fr       */
+/*   Updated: 2024/03/05 16:58:42 by susumuyagi       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,26 +29,18 @@ static void	free_array(void **array)
 	free(array);
 }
 
-static char	**split_path(char *envp[])
+static char	**split_path(char *var_path)
 {
 	char	**ret;
 
-	while (*envp)
+	ret = ft_split(var_path, ':');
+	if (!ret)
 	{
-		if (ft_strnstr(*envp, "PATH=", 5) && ft_strlen(*envp + 5))
-		{
-			ret = ft_split(*envp + 5, ':');
-			if (!ret)
-			{
-				perror("malloc");
-				exit(EXIT_FAILURE);
-				// TODO エラー処理
-			}
-			return (ret);
-		}
-		envp++;
+		perror("malloc");
+		exit(EXIT_FAILURE);
+		// TODO エラー処理
 	}
-	return (NULL);
+	return (ret);
 }
 
 static char	*join_path(char *path, char *cmd)
@@ -112,11 +104,10 @@ void	set_cmd_path(t_minishell *minish)
 {
 	t_node	*cur;
 	char	**path_array;
-	char	**envp;
+	char	*var_path;
 
-	envp = get_envp(minish);
-	// TODO エラー処理
-	path_array = split_path(envp);
+	var_path = get_var(minish, "PATH");
+	path_array = split_path(var_path);
 	// TODO エラー処理
 	cur = minish->node;
 	while (cur)
