@@ -6,7 +6,7 @@
 /*   By: ootsuboyoshiyuki <ootsuboyoshiyuki@stud    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/15 13:22:07 by susumuyagi        #+#    #+#             */
-/*   Updated: 2024/03/06 19:13:06 by ootsuboyosh      ###   ########.fr       */
+/*   Updated: 2024/03/07 14:06:01 by ootsuboyosh      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 #include "parser/lexer.h"
 #include "variable/env.h"
 #include <stdlib.h>
+#include <sys/param.h>
 
 void	init_minishell(t_minishell *minish)
 {
@@ -23,7 +24,7 @@ void	init_minishell(t_minishell *minish)
 	minish->node = NULL;
 	minish->var = NULL;
 	minish->status_code = 0;
-	minish->pwd = NULL;
+	minish->pwd = getcwd(NULL, MAXPATHLEN);
 	minish->error_kind = ERR_NONE;
 }
 

@@ -1,5 +1,6 @@
 cd aa bb
 pwd
+chmod 000 case/permission
 cd case/permission
 pwd
 mkdir tmp
@@ -14,4 +15,7 @@ cd aaa | cd src
 pwd
 unset HOME
 cd
+pwd
+cd tmp
+mv tmp tmpaaa
 pwd
