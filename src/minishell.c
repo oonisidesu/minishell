@@ -6,7 +6,7 @@
 /*   By: ootsuboyoshiyuki <ootsuboyoshiyuki@stud    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/15 13:22:07 by susumuyagi        #+#    #+#             */
-/*   Updated: 2024/03/07 14:06:01 by ootsuboyosh      ###   ########.fr       */
+/*   Updated: 2024/03/07 16:19:45 by ootsuboyosh      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,8 @@
 #include "variable/env.h"
 #include <stdlib.h>
 #include <sys/param.h>
+#include <errno.h>
+#include <string.h>
 
 void	init_minishell(t_minishell *minish)
 {
@@ -25,6 +27,8 @@ void	init_minishell(t_minishell *minish)
 	minish->var = NULL;
 	minish->status_code = 0;
 	minish->pwd = getcwd(NULL, MAXPATHLEN);
+	if (minish->pwd == NULL)
+		ft_printf_fd(STDERR_FILENO, "shell-init: " GETCWD_ERROR);
 	minish->error_kind = ERR_NONE;
 }
 

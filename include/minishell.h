@@ -6,7 +6,7 @@
 /*   By: ootsuboyoshiyuki <ootsuboyoshiyuki@stud    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/14 16:21:32 by ootsuboyosh       #+#    #+#             */
-/*   Updated: 2024/03/06 19:13:01 by ootsuboyosh      ###   ########.fr       */
+/*   Updated: 2024/03/07 16:20:42 by ootsuboyosh      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@
 # include <stdio.h>
 
 # define TOO_MANY_ARGS "Error: too many arguments\n"
+# define GETCWD_ERROR "error retrieving current directory: getcwd: cannot access parent directories: Permission denied\n"
 
 // シグナル用グローバル変数
 static volatile sig_atomic_t	g_signal;
@@ -50,7 +51,7 @@ typedef struct s_minishell
 	// 返り値
 	int							status_code;
 
-	char			*pwd;
+	char						*pwd;
 	//
 	e_error_kind				error_kind;
 }								t_minishell;

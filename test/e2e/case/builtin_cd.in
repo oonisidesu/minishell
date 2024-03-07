@@ -19,3 +19,7 @@ pwd
 cd tmp
 mv tmp tmpaaa
 pwd
+cd ../../../.././
+pwd
+#権限をなくした状態でbashやminishellを起動する
+#長い文字列

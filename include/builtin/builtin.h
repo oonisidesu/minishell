@@ -6,19 +6,14 @@
 /*   By: ootsuboyoshiyuki <ootsuboyoshiyuki@stud    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/27 15:11:25 by susumuyagi        #+#    #+#             */
-/*   Updated: 2024/03/07 14:01:23 by ootsuboyosh      ###   ########.fr       */
+/*   Updated: 2024/03/07 16:24:34 by ootsuboyosh      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef BUILTIN_H
 # define BUILTIN_H
 
-# include "libft.h"
 # include "minishell.h"
-# include <errno.h>
-# include <string.h>
-# include <sys/param.h>
-# include <unistd.h>
 
 # define RUN_PARENT -2
 # define IS_BUILTIN(node) (lookup_builtin_func((node)->argv[0]) != NULL)
