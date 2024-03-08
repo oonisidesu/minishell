@@ -6,7 +6,7 @@
 /*   By: susumuyagi <susumuyagi@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/15 17:37:32 by susumuyagi        #+#    #+#             */
-/*   Updated: 2024/03/02 11:16:49 by susumuyagi       ###   ########.fr       */
+/*   Updated: 2024/03/07 11:53:37 by susumuyagi       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -133,6 +133,7 @@ bool	occurred_syntax_error(t_minishell *minish)
 {
 	if (minish->error_kind == ERR_SYNTAX)
 	{
+		// TODO 後でちゃんと書く
 		ft_printf_fd(STDERR_FILENO, SYNTAX_ERROR);
 		write(STDERR_FILENO, "`", 1);
 		write(STDERR_FILENO, minish->cur_token->str, minish->cur_token->len);
