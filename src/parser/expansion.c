@@ -6,7 +6,7 @@
 /*   By: susumuyagi <susumuyagi@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/06 19:45:27 by susumuyagi        #+#    #+#             */
-/*   Updated: 2024/03/08 17:20:24 by susumuyagi       ###   ########.fr       */
+/*   Updated: 2024/03/08 17:34:04 by susumuyagi       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,7 +122,7 @@ static void	count_str_none(t_expansion *exp)
 {
 	if (exp->in_status != IN_NONE)
 		return ;
-	while (exp->i < exp->len)
+	while (!done(exp))
 	{
 		if (exp->str[exp->i] == '\'' || exp->str[exp->i] == '\"'
 			|| exp->str[exp->i] == '$')
@@ -137,9 +137,24 @@ static void	count_str_quote(t_expansion *exp)
 {
 	if (exp->in_status != IN_QUOTE)
 		return ;
-	while (exp->i < exp->len)
+	while (!done(exp))
 	{
 		if (exp->str[exp->i] == '\'')
+		{
+			break ;
+		}
+		exp->i++;
+	}
+	return ;
+}
+
+static void	count_str_d_quote(t_expansion *exp)
+{
+	if (exp->in_status != IN_D_QUOTE)
+		return ;
+	while (!done(exp))
+	{
+		if (exp->str[exp->i] == '\"' || exp->str[exp->i] == '$')
 		{
 			break ;
 		}
@@ -189,6 +204,12 @@ int	join_str_quote(t_minishell *minish, t_expansion *exp)
 	return (join_str(minish, exp));
 }
 
+int	join_str_d_quote(t_minishell *minish, t_expansion *exp)
+{
+	count_str_d_quote(exp);
+	return (join_str(minish, exp));
+}
+
 void	update_inside_status(t_expansion *exp)
 {
 	if (exp->str[exp->i] == '\'')
@@ -230,6 +251,8 @@ char	*expand_str(t_minishell *minish, t_token *tok)
 		if (join_str_none(minish, &exp))
 			return (NULL);
 		if (join_str_quote(minish, &exp))
+			return (NULL);
+		if (join_str_d_quote(minish, &exp))
 			return (NULL);
 	}
 	return (exp.ret);
