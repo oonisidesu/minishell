@@ -6,7 +6,7 @@
 /*   By: ootsuboyoshiyuki <ootsuboyoshiyuki@stud    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/20 16:23:06 by susumuyagi        #+#    #+#             */
-/*   Updated: 2024/03/05 16:29:51 by ootsuboyosh      ###   ########.fr       */
+/*   Updated: 2024/03/11 16:33:44 by ootsuboyosh      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ char	*get_var(t_minishell *minish, const char *key)
 	current = minish->var;
 	while (current)
 	{
-		if (ft_strncmp(current->key, key, ft_strlen(current->key)) == 0)
+		if (ft_strcmp(current->key, key) == 0)
 			return (current->val);
 		current = current->next;
 	}
@@ -55,7 +55,7 @@ void	add_or_update_var(t_minishell *minish, const char *key, const char *val,
 	current = minish->var;
 	while (current)
 	{
-		if (ft_strncmp(current->key, key, ft_strlen(key)) == 0)
+		if (ft_strcmp(current->key, key) == 0)
 		{
 			free(current->val);
 			current->val = ft_strdup(val);
@@ -86,7 +86,7 @@ void	del_var(t_minishell *minish, const char *key)
 	prev = NULL;
 	while (current)
 	{
-		if (ft_strncmp(current->key, key, ft_strlen(current->key)) == 0)
+		if (ft_strcmp(current->key, key) == 0)
 		{
 			if (prev == NULL)
 				minish->var = current->next;
