@@ -6,7 +6,7 @@
 /*   By: susumuyagi <susumuyagi@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/07 16:58:41 by susumuyagi        #+#    #+#             */
-/*   Updated: 2024/03/08 17:14:37 by susumuyagi       ###   ########.fr       */
+/*   Updated: 2024/03/11 11:34:13 by susumuyagi       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,6 @@ typedef struct s_expansion
 	e_inside_status	in_status;
 }					t_expansion;
 
-char				*expand_str(t_minishell *minish, t_token *tok);
+char				*expand(t_minishell *minish, t_token *tok);
 
 #endif

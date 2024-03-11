@@ -6,7 +6,7 @@
 /*   By: susumuyagi <susumuyagi@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/15 13:22:07 by susumuyagi        #+#    #+#             */
-/*   Updated: 2024/03/06 14:00:25 by susumuyagi       ###   ########.fr       */
+/*   Updated: 2024/03/11 10:59:30 by susumuyagi       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,8 +25,9 @@ int	main(int argc, const char **argv, const char **envp)
 {
 	t_minishell	minish;
 
-	(void)argv;
 	init_minishell(&minish);
+	minish.argc = argc;
+	minish.argv = argv;
 	signal(SIGINT, ctrl_c_handler);
 	rl_initialize();
 	rl_event_hook = signal_monitor;

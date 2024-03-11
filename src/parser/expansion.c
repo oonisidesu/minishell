@@ -6,7 +6,7 @@
 /*   By: susumuyagi <susumuyagi@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/06 19:45:27 by susumuyagi        #+#    #+#             */
-/*   Updated: 2024/03/08 17:34:04 by susumuyagi       ###   ########.fr       */
+/*   Updated: 2024/03/11 15:27:52 by susumuyagi       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,52 +21,59 @@
 // char	*extract_key(char *str)
 // {
 // }
+//
 
-// char	*special_param(char *s)
-// {
-// 	if (s[0] == '$')
-// 	{
-// 		if (ft_isdigit(s[1]))
-// 		{
-// 			// $0 ~ $9
-// 		}
-// 		else if (s[1] == '#')
-// 		{
-// 			// $#
-// 			// 引数の数
-// 		}
-// 		else if (s[1] == '$')
-// 		{
-// 			// $$
-// 		}
-// 		else if (s[1] == '*')
-// 		{
-// 			// $*
-// 			// 0以外のコマンドライン引数
-// 		}
-// 		else if (s[1] == '@')
-// 		{
-// 			// $@
-// 			// $*と同じ
-// 		}
-// 		else if (s[1] == '?')
-// 		{
-// 			// $?
-// 			// ステータスを返す
-// 		}
-// 		else if (s[1] == '-')
-// 		{
-// 			// $-
-// 			// シェルにセットされているオプションを保持している
-// 		}
-// 		else if (s[1] == '!')
-// 		{
-// 			// $!
-// 			// バックグラウンドで実行された直前のプロセスのプロセス番号を保持しています
-// 		}
-// 	}
-// 	return (NULL);
-// }
+static int	join_var(t_minishell *minish, t_expansion *exp, const char *str,
+		size_t var_len)
+{
+	char	*tmp;
+
+	if (ft_strlen(str) > 0)
+	{
+		tmp = exp->ret;
+		exp->ret = ft_strjoin(exp->ret, str);
+		if (!exp->ret)
+		{
+			minish->error_kind = ERR_MALLOC;
+			return (1);
+		}
+		free(tmp);
+	}
+	exp->i += var_len;
+	exp->n += var_len;
+	return (0);
+}
+
+static int	join_str(t_minishell *minish, t_expansion *exp)
+{
+	char	*word;
+	char	*tmp;
+	size_t	num;
+
+	num = exp->i - exp->n;
+	if (num == 0)
+	{
+		return (0);
+	}
+	word = ft_substr(exp->str, exp->n, num);
+	if (!word)
+	{
+		minish->error_kind = ERR_MALLOC;
+		return (1);
+	}
+	tmp = exp->ret;
+	exp->ret = ft_strjoin(exp->ret, word);
+	if (!exp->ret)
+	{
+		minish->error_kind = ERR_MALLOC;
+		free(word);
+		return (1);
+	}
+	free(word);
+	free(tmp);
+	exp->n += num;
+	return (0);
+}
 
 static int	init_expansion(t_expansion *exp, t_token *tok)
 {
@@ -81,22 +88,83 @@ static int	init_expansion(t_expansion *exp, t_token *tok)
 	return (0);
 }
 
-int	done(t_expansion *exp)
+static int	done(t_expansion *exp)
 {
 	return (exp->i >= exp->len);
 }
 
-int	expand_special_param(t_minishell *minish, t_expansion *exp)
+static int	expand_special_param(t_minishell *minish, t_expansion *exp)
 {
-	(void)minish;
-	(void)exp;
+	int		ret;
+	char	*str;
+
+	if (exp->str[exp->i] != '$')
+	{
+		return (0);
+	}
+	if (exp->str[exp->i + 1] == '0')
+	{
+		// $0
+		return (join_var(minish, exp, minish->argv[0], 2));
+	}
+	else if (ft_isdigit(exp->str[exp->i + 1]))
+	{
+		// $1 ~ $9
+		return (join_var(minish, exp, "", 2));
+	}
+	else if (exp->str[exp->i + 1] == '#')
+	{
+		// $#
+		// 引数の数 minishellは引数を受け付けないため、0固定
+		return (join_var(minish, exp, "0", 2));
+	}
+	else if (exp->str[exp->i + 1] == '$')
+	{
+		// $$ : getpid()が使えないため、何もしない
+		return (0);
+	}
+	else if (exp->str[exp->i + 1] == '*')
+	{
+		// $* : 0以外のコマンドライン引数
+		return (join_var(minish, exp, "", 2));
+	}
+	else if (exp->str[exp->i + 1] == '@')
+	{
+		// $@ : $*と同じ
+		return (join_var(minish, exp, "", 2));
+	}
+	else if (exp->str[exp->i + 1] == '?')
+	{
+		// $? : ステータスを返す
+		str = ft_itoa(minish->status_code);
+		ret = join_var(minish, exp, str, 2);
+		free(str);
+		return (ret);
+	}
+	else if (exp->str[exp->i + 1] == '-')
+	{
+		// $- : // シェルにセットされているオプションを保持している
+		return (join_var(minish, exp, "", 2));
+	}
+	else if (exp->str[exp->i + 1] == '!')
+	{
+		// $! : バックグラウンドで実行された直前のプロセスのプロセス番号を保持しています
+		return (join_var(minish, exp, "0", 2));
+	}
 	return (0);
 }
 
-int	expand_variable(t_minishell *minish, t_expansion *exp)
+static int	expand_variable(t_minishell *minish, t_expansion *exp)
 {
 	(void)minish;
-	(void)exp;
+	if (exp->str[exp->i] != '$')
+	{
+		return (0);
+	}
+	if (exp->str[exp->i + 1] != '\0')
+	{
+		return (0);
+	}
 	return (0);
 }
 
@@ -163,54 +231,25 @@ static void	count_str_d_quote(t_expansion *exp)
 	return ;
 }
 
-int	join_str(t_minishell *minish, t_expansion *exp)
-{
-	char	*word;
-	char	*tmp;
-	size_t	num;
-
-	num = exp->i - exp->n;
-	if (num > 0)
-	{
-		word = ft_substr(exp->str, exp->n, num);
-		if (!word)
-		{
-			minish->error_kind = ERR_MALLOC;
-			return (1);
-		}
-		tmp = exp->ret;
-		exp->ret = ft_strjoin(exp->ret, word);
-		if (!exp->ret)
-		{
-			minish->error_kind = ERR_MALLOC;
-			free(word);
-			return (1);
-		}
-		exp->n += num;
-		free(tmp);
-	}
-	return (0);
-}
-
-int	join_str_none(t_minishell *minish, t_expansion *exp)
+static int	join_str_none(t_minishell *minish, t_expansion *exp)
 {
 	count_str_none(exp);
 	return (join_str(minish, exp));
 }
 
-int	join_str_quote(t_minishell *minish, t_expansion *exp)
+static int	join_str_quote(t_minishell *minish, t_expansion *exp)
 {
 	count_str_quote(exp);
 	return (join_str(minish, exp));
 }
 
-int	join_str_d_quote(t_minishell *minish, t_expansion *exp)
+static int	join_str_d_quote(t_minishell *minish, t_expansion *exp)
 {
 	count_str_d_quote(exp);
 	return (join_str(minish, exp));
 }
 
-void	update_inside_status(t_expansion *exp)
+static void	update_inside_status(t_expansion *exp)
 {
 	if (exp->str[exp->i] == '\'')
 	{
@@ -232,7 +271,7 @@ void	update_inside_status(t_expansion *exp)
 	}
 }
 
-char	*expand_str(t_minishell *minish, t_token *tok)
+char	*expand(t_minishell *minish, t_token *tok)
 {
 	t_expansion	exp;
 
