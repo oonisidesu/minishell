@@ -33,29 +33,20 @@ TEST(Variable, add)
 TEST(Variable, update)
 {
 	t_minishell	minish;
-	const char	*expect[] = {"HOME=/home", "USER=me", "PATH=/usr/bin", "ENV1=",
+	const char	*envp[] = {"HOME=/home", "USER=me", "PATH=/usr/bin", "ENV1=",
 			"ENV2=a=b=c", NULL};
+	const char	*expect[] = {"HOME=/home", "USER=me", "PATH=/usr/bin",
+			"ENV1=update", "ENV2=a=b=c", "ENV=add", NULL};
 	char		**actual;
 
 	init_minishell(&minish);
-	set_envp(&minish, expect);
+	set_envp(&minish, envp);
 	add_or_update_var(&minish, "ENV1", "update", VAR_ENV);
 	add_or_update_var(&minish, "ENV", "add", VAR_ENV);
 	actual = get_envp(&minish);
 	for (size_t i = 0; expect[i]; ++i)
 	{
-		if (i == 3)
-		{
-			EXPECT_STRNE(expect[i], actual[i]);
-		}
-		else if (i == 5)
-		{
-			EXPECT_STRNE(expect[i], actual[i]);
-		}
-		else
-		{
-			EXPECT_STREQ(expect[i], actual[i]);
-		}
+		EXPECT_STREQ(expect[i], actual[i]);
 	}
 }
 
@@ -63,12 +54,14 @@ TEST(Variable, update)
 TEST(Variable, del)
 {
 	t_minishell	minish;
-	const char	*expect[] = {"HOME=/home", "USER=me", "PATH=/usr/bin", "ENV1=",
+	const char	*envp[] = {"HOME=/home", "USER=me", "PATH=/usr/bin", "ENV1=",
 			"ENV2=a=b=c", NULL};
+	const char	*expect[] = {"HOME=/home", "USER=me", "PATH=/usr/bin", "ENV1=",
+			"ENV3=add", NULL};
 	char		**actual;
 
 	init_minishell(&minish);
-	set_envp(&minish, expect);
+	set_envp(&minish, envp);
 	del_var(&minish, "ENV");
 	del_var(&minish, "1ENV");
 	del_var(&minish, "ENV2");
@@ -76,14 +69,7 @@ TEST(Variable, del)
 	actual = get_envp(&minish);
 	for (size_t i = 0; expect[i]; ++i)
 	{
-		if (i == 4)
-		{
-			EXPECT_STRNE(expect[i], actual[i]);
-		}
-		else
-		{
-			EXPECT_STREQ(expect[i], actual[i]);
-		}
+		EXPECT_STREQ(expect[i], actual[i]);
 	}
 }
 
@@ -92,12 +78,14 @@ TEST(Variable, get)
 {
 	t_minishell minish;
 
-	const char *expect[] = {"HOME=/home", "USER=me", "PATH=/usr/bin", "ENV1=",
+	const char *envp[] = {"HOME=/home", "USER=me", "PATH=/usr/bin", "ENV1=",
 		"ENV2=a=b=c", NULL};
+	const char *expect[] = {"a=b=c", NULL};
+
 	init_minishell(&minish);
-	set_envp(&minish, expect);
+	set_envp(&minish, envp);
 	char *actual = get_var(&minish, "ENV2");
 	char *actual1 = get_var(&minish, "ENV");
-	EXPECT_STREQ("a=b=c", actual);
-	EXPECT_STREQ(NULL, actual1);
+	EXPECT_STREQ(expect[0], actual);
+	EXPECT_STREQ(expect[1], actual1);
 }
