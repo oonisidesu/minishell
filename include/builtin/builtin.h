@@ -6,7 +6,7 @@
 /*   By: ootsuboyoshiyuki <ootsuboyoshiyuki@stud    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/27 15:11:25 by susumuyagi        #+#    #+#             */
-/*   Updated: 2024/03/07 16:24:34 by ootsuboyosh      ###   ########.fr       */
+/*   Updated: 2024/03/07 18:02:35 by ootsuboyosh      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@
 # define IS_BUILTIN(node) (lookup_builtin_func((node)->argv[0]) != NULL)
 # define IS_IN_PIPE(minish) ((minish)->node->next != NULL)
 # define BUILTIN_ERROR "minishell: %s: %s: %s\n"
+# define BUILTIN_ERROR_NOT_ARGS "minishell: %s: %s\n"
 # define HOME_NOT_SET "minishell: cd: HOME not set\n"
 # define B_TOO_MANY_ARGS "too many arguments"
 # define NUM_ARG_REQUIRED "numeric argument required"
