@@ -4,6 +4,7 @@ extern "C" {
 #include "libft.h"
 #include "minishell.h"
 #include "parser/expansion.h"
+#include "variable/env.h"
 }
 
 TEST(Expansion, word) {
@@ -60,11 +61,11 @@ TEST(Expansion, double_quote) {
 
   init_minishell(&minish);
 
-  std::string str = "'12$ENV1%&'abcd!'$ENV2'@#123'$ENV3'\"'hello'\"";
+  std::string str = "\"12abc\"\"\"\"'hello'\"";
   tok.str = strdup(str.c_str());
   tok.len = str.size();
 
-  const char* expected = "12$ENV1%&abcd!$ENV2@#123$ENV3'hello'";
+  const char* expected = "12abc'hello'";
   char* actual = expand(&minish, &tok);
 
   EXPECT_STREQ(expected, actual);
@@ -120,6 +121,25 @@ TEST(Expansion, special_param_in_quote_and_d_quote) {
   tok.len = str.size();
 
   const char* expected = "abc$00$11$22$33$4456789123";
+  char* actual = expand(&minish, &tok);
+
+  EXPECT_STREQ(expected, actual);
+}
+
+TEST(Expansion, variable) {
+  t_minishell minish;
+  t_token tok;
+
+  const char* envp[] = {"HOME=/home", "USER=me",    "PATH=/bin:/usr/bin",
+                        "ENV=",       "ENV2=a=b=c", NULL};
+  init_minishell(&minish);
+  set_envp(&minish, envp);
+
+  std::string str = "12$PATH%\"$HOME\"ABC$XXX%$$\"1$\"abc'$ENV'$ENV$ENV2";
+  tok.str = strdup(str.c_str());
+  tok.len = str.size();
+
+  const char* expected = "12/bin:/usr/bin%/homeABC%$$1$abc$ENVa=b=c";
   char* actual = expand(&minish, &tok);
 
   EXPECT_STREQ(expected, actual);

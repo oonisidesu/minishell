@@ -6,32 +6,77 @@
 /*   By: susumuyagi <susumuyagi@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/06 19:45:27 by susumuyagi        #+#    #+#             */
-/*   Updated: 2024/03/11 15:27:52 by susumuyagi       ###   ########.fr       */
+/*   Updated: 2024/03/12 12:18:52 by susumuyagi       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 #include "minishell.h"
 #include "parser/expansion.h"
+#include "variable/env.h"
 #include <parser/token.h>
 #include <stddef.h>
 #include <stdio.h>
 #include <stdlib.h>
 
-// char	*extract_key(char *str)
-// {
-// }
-//
+static bool	is_special_param(t_expansion *exp)
+{
+	if (exp->str[exp->i] != '$')
+		return (false);
+	if (ft_isdigit(exp->str[exp->i + 1]) || exp->str[exp->i + 1] == '#'
+		|| exp->str[exp->i + 1] == '$' || exp->str[exp->i + 1] == '*'
+		|| exp->str[exp->i + 1] == '@' || exp->str[exp->i + 1] == '?'
+		|| exp->str[exp->i + 1] == '-' || exp->str[exp->i + 1] == '!')
+	{
+		return (true);
+	}
+	return (false);
+}
 
-static int	join_var(t_minishell *minish, t_expansion *exp, const char *str,
+static int	done(t_expansion *exp)
+{
+	return (exp->i >= exp->len);
+}
+
+static char	*extract_key(t_minishell *minish, t_expansion *exp)
+{
+	size_t	len;
+	char	*key;
+
+	if (exp->str[exp->i] != '$')
+	{
+		return (NULL);
+	}
+	if (!(exp->str[exp->i + 1] == '_' || ft_isalpha(exp->str[exp->i + 1])))
+	{
+		return (NULL);
+	}
+	exp->i += 2;
+	while (!done(exp) && (ft_isalnum(exp->str[exp->i])
+			|| exp->str[exp->i] == '_'))
+	{
+		exp->i++;
+	}
+	len = exp->i - (exp->n + 1);
+	key = ft_substr(exp->str, exp->n + 1, len);
+	if (!key)
+	{
+		minish->error_kind = ERR_MALLOC;
+		return (NULL);
+	}
+	exp->n = exp->i;
+	return (key);
+}
+
+static int	join_var(t_minishell *minish, t_expansion *exp, const char *var,
 		size_t var_len)
 {
 	char	*tmp;
 
-	if (ft_strlen(str) > 0)
+	if (var != NULL && ft_strlen(var) > 0)
 	{
 		tmp = exp->ret;
-		exp->ret = ft_strjoin(exp->ret, str);
+		exp->ret = ft_strjoin(exp->ret, var);
 		if (!exp->ret)
 		{
 			minish->error_kind = ERR_MALLOC;
@@ -88,11 +133,6 @@ static int	init_expansion(t_expansion *exp, t_token *tok)
 	return (0);
 }
 
-static int	done(t_expansion *exp)
-{
-	return (exp->i >= exp->len);
-}
-
 static int	expand_special_param(t_minishell *minish, t_expansion *exp)
 {
 	int		ret;
@@ -120,8 +160,8 @@ static int	expand_special_param(t_minishell *minish, t_expansion *exp)
 	}
 	else if (exp->str[exp->i + 1] == '$')
 	{
-		// $$ : getpid()が使えないため、何もしない
-		return (0);
+		// $$ : getpid()が使えないため、$出力
+		return (join_var(minish, exp, "$", 1));
 	}
 	else if (exp->str[exp->i + 1] == '*')
 	{
@@ -156,35 +196,34 @@ static int	expand_special_param(t_minishell *minish, t_expansion *exp)
 
 static int	expand_variable(t_minishell *minish, t_expansion *exp)
 {
-	(void)minish;
-	if (exp->str[exp->i] != '$')
+	int		ret;
+	char	*key;
+
+	if (!(exp->in_status == IN_NONE || exp->in_status == IN_D_QUOTE))
 	{
 		return (0);
 	}
-	if (exp->str[exp->i + 1] != '\0')
+	if (is_special_param(exp))
 	{
 		return (0);
 	}
-	return (0);
+	key = extract_key(minish, exp);
+	if (minish->error_kind == ERR_MALLOC)
+	{
+		return (1);
+	}
+	if (!key)
+	{
+		if (exp->str[exp->i] == '$')
+		{
+			return (join_var(minish, exp, "$", 1));
+		}
+		return (0);
+	}
+	ret = join_var(minish, exp, get_var(minish, key), 0);
+	free(key);
+	return (ret);
 }
-
-// else if (s[i + 1] == '_' || ft_isalnum(s[i + 1]))
-// char	*tmp;
-// char	*sparam;
-// if (exp->p[0] == '$' && exp->i + 1 < exp->len)
-// {
-// 	if (exp->p[1] == '_' || ft_isalnum(exp->p[1]))
-// 	{
-// 		// 変数
-// 	}
-// 	else
-// 	{
-// 		// $?
-// 		// ステータスを返す
-// 	}
-// }
-
-// $ ' "
 
 static void	count_str_none(t_expansion *exp)
 {
