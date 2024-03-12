@@ -6,7 +6,7 @@
 /*   By: susumuyagi <susumuyagi@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/15 17:20:20 by susumuyagi        #+#    #+#             */
-/*   Updated: 2024/03/12 15:54:15 by susumuyagi       ###   ########.fr       */
+/*   Updated: 2024/03/12 17:25:19 by susumuyagi       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,7 @@ static t_token	*new_token(e_token_kind kind, t_token *cur, char *str,
 	tok->kind = kind;
 	tok->str = str;
 	tok->len = len;
+	tok->next = NULL;
 	cur->next = tok;
 	return (tok);
 }
