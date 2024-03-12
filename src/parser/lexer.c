@@ -6,7 +6,7 @@
 /*   By: susumuyagi <susumuyagi@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/15 17:20:20 by susumuyagi        #+#    #+#             */
-/*   Updated: 2024/03/02 11:16:56 by susumuyagi       ###   ########.fr       */
+/*   Updated: 2024/03/12 15:54:15 by susumuyagi       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,18 +61,59 @@ static bool	is_reserved(char p)
 	return (p == '<' || p == '>' || p == '|' || p == ';');
 }
 
-static bool	is_word_char(char p)
+static e_inside_status	update_in_status(char p, e_inside_status in_status)
 {
-	return (!ft_isspace(p) && !is_reserved(p) && p != '\n' && p != '\0');
+	if (p == '\'')
+	{
+		if (in_status == IN_QUOTE)
+			return (IN_NONE);
+		else if (in_status == IN_NONE)
+			return (IN_QUOTE);
+	}
+	else if (p == '\"')
+	{
+		if (in_status == IN_D_QUOTE)
+			return (IN_NONE);
+		else if (in_status == IN_NONE)
+			return (IN_D_QUOTE);
+	}
+	return (in_status);
 }
 
-static size_t	count_word_len(char *p)
+static bool	is_word_char(char p, e_inside_status in_status)
 {
-	char	*q;
+	if (in_status == IN_QUOTE)
+	{
+		return (true);
+	}
+	else if (in_status == IN_D_QUOTE)
+	{
+		return (true);
+	}
+	return (!ft_isspace(p) && !is_reserved(p));
+}
 
+static ssize_t	count_word_len(char *p)
+{
+	char			*q;
+	e_inside_status	in_status;
+
+	bool is_continue ;
+	in_status = IN_NONE;
 	q = p;
-	while (is_word_char(*p))
+	while (*p != '\n' && *p != '\0')
+	{
+		is_continue = is_word_char(*p, in_status);
+		in_status = update_in_status(*p, in_status);
+		if (!is_continue)
+			break ;
 		p++;
+	}
+	if (in_status != IN_NONE)
+	{
+		// "、'が閉じられていない
+		return (-in_status);
+	}
 	return (p - q);
 }
 
@@ -100,7 +141,7 @@ int	tokenize(t_minishell *minish)
 	char	*p;
 	t_token	head;
 	t_token	*cur;
-	size_t	word_len;
+	ssize_t	word_len;
 
 	head.next = NULL;
 	cur = &head;
@@ -125,7 +166,7 @@ int	tokenize(t_minishell *minish)
 			continue ;
 		}
 		word_len = count_word_len(p);
-		if (word_len)
+		if (word_len > 0)
 		{
 			cur = new_token(TK_WORD, cur, p, word_len);
 			p += word_len;

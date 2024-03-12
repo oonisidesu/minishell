@@ -6,21 +6,15 @@
 /*   By: susumuyagi <susumuyagi@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/07 16:58:41 by susumuyagi        #+#    #+#             */
-/*   Updated: 2024/03/11 11:34:13 by susumuyagi       ###   ########.fr       */
+/*   Updated: 2024/03/12 15:12:59 by susumuyagi       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef EXPANSION_H
 # define EXPANSION_H
 
+# include "minishell.h"
 # include <stddef.h>
-
-typedef enum
-{
-	IN_NONE,
-	IN_QUOTE,
-	IN_D_QUOTE,
-}					e_inside_status;
 
 typedef struct s_expansion
 {
