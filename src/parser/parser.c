@@ -6,12 +6,13 @@
 /*   By: susumuyagi <susumuyagi@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/15 17:37:32 by susumuyagi        #+#    #+#             */
-/*   Updated: 2024/03/07 11:53:37 by susumuyagi       ###   ########.fr       */
+/*   Updated: 2024/03/12 12:39:42 by susumuyagi       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 #include "minishell.h"
+#include "parser/expansion.h"
 #include "parser/parser.h"
 #include <stdlib.h>
 #include <unistd.h>
@@ -77,9 +78,9 @@ t_node	*malloc_and_init_node(e_node_kind kind)
 t_node	*new_redirect_node(e_node_kind kind, t_minishell *minish)
 {
 	t_node	*node;
-	t_token	*t;
+	t_token	*tok;
 
-	t = minish->cur_token;
+	tok = minish->cur_token;
 	node = malloc_and_init_node(kind);
 	// TODO エラー処理ちゃんと書く
 	if (!node)
@@ -87,9 +88,9 @@ t_node	*new_redirect_node(e_node_kind kind, t_minishell *minish)
 		minish->error_kind = ERR_MALLOC;
 		return (NULL);
 	}
-	node->path = ft_substr(t->str, 0, t->len);
+	node->path = expand(minish, tok);
 	// TODO エラー処理 ft_substrの中でmalloc
-	minish->cur_token = t->next;
+	minish->cur_token = tok->next;
 	return (node);
 }
 
@@ -145,8 +146,7 @@ bool	occurred_syntax_error(t_minishell *minish)
 
 void	put_argv(t_node *node, t_minishell *minish)
 {
-	node->argv[node->argc] = ft_substr(minish->cur_token->str, 0,
-			minish->cur_token->len);
+	node->argv[node->argc] = expand(minish, minish->cur_token);
 	// TODO エラー処理
 	node->argc++;
 	minish->cur_token = minish->cur_token->next;
