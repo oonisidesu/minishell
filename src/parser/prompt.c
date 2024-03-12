@@ -6,7 +6,7 @@
 /*   By: susumuyagi <susumuyagi@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/15 14:13:54 by susumuyagi        #+#    #+#             */
-/*   Updated: 2024/03/04 13:52:41 by susumuyagi       ###   ########.fr       */
+/*   Updated: 2024/03/12 17:35:30 by susumuyagi       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,8 @@ void	prompt(t_minishell *minish)
 		return ;
 	}
 	add_history(minish->line);
-	tokenize(minish);
+	if (tokenize(minish))
+		return ;
 	parse(minish);
 	exec(minish);
 	free_minishell(minish);

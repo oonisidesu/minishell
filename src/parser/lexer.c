@@ -6,7 +6,7 @@
 /*   By: susumuyagi <susumuyagi@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/15 17:20:20 by susumuyagi        #+#    #+#             */
-/*   Updated: 2024/03/12 17:25:19 by susumuyagi       ###   ########.fr       */
+/*   Updated: 2024/03/12 17:32:57 by susumuyagi       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,7 +113,7 @@ static ssize_t	count_word_len(char *p)
 	if (in_status != IN_NONE)
 	{
 		// "、'が閉じられていない
-		return (-in_status);
+		return (-1);
 	}
 	return (p - q);
 }
