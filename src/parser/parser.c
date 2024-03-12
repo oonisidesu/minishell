@@ -6,12 +6,13 @@
 /*   By: susumuyagi <susumuyagi@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/15 17:37:32 by susumuyagi        #+#    #+#             */
-/*   Updated: 2024/03/02 11:16:49 by susumuyagi       ###   ########.fr       */
+/*   Updated: 2024/03/12 17:01:06 by susumuyagi       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 #include "minishell.h"
+#include "parser/expansion.h"
 #include "parser/parser.h"
 #include <stdlib.h>
 #include <unistd.h>
@@ -77,9 +78,9 @@ t_node	*malloc_and_init_node(e_node_kind kind)
 t_node	*new_redirect_node(e_node_kind kind, t_minishell *minish)
 {
 	t_node	*node;
-	t_token	*t;
+	t_token	*tok;
 
-	t = minish->cur_token;
+	tok = minish->cur_token;
 	node = malloc_and_init_node(kind);
 	// TODO エラー処理ちゃんと書く
 	if (!node)
@@ -87,9 +88,9 @@ t_node	*new_redirect_node(e_node_kind kind, t_minishell *minish)
 		minish->error_kind = ERR_MALLOC;
 		return (NULL);
 	}
-	node->path = ft_substr(t->str, 0, t->len);
+	node->path = expand(minish, tok);
 	// TODO エラー処理 ft_substrの中でmalloc
-	minish->cur_token = t->next;
+	minish->cur_token = tok->next;
 	return (node);
 }
 
@@ -133,6 +134,7 @@ bool	occurred_syntax_error(t_minishell *minish)
 {
 	if (minish->error_kind == ERR_SYNTAX)
 	{
+		// TODO 後でちゃんと書く
 		ft_printf_fd(STDERR_FILENO, SYNTAX_ERROR);
 		write(STDERR_FILENO, "`", 1);
 		write(STDERR_FILENO, minish->cur_token->str, minish->cur_token->len);
@@ -144,8 +146,7 @@ bool	occurred_syntax_error(t_minishell *minish)
 
 void	put_argv(t_node *node, t_minishell *minish)
 {
-	node->argv[node->argc] = ft_substr(minish->cur_token->str, 0,
-			minish->cur_token->len);
+	node->argv[node->argc] = expand(minish, minish->cur_token);
 	// TODO エラー処理
 	node->argc++;
 	minish->cur_token = minish->cur_token->next;
@@ -217,18 +218,16 @@ int	parse(t_minishell *minish)
 	t_node	head;
 	t_node	*cur;
 	t_node	*node;
-	int		i;
 
 	minish->error_kind = ERR_NONE;
 	minish->cur_token = minish->token;
+	head.next = NULL;
 	cur = &head;
-	i = 0;
-	while (!at_eof(minish) && !occurred_syntax_error(minish) && i < 5)
+	while (!at_eof(minish) && !occurred_syntax_error(minish))
 	{
 		node = command(minish);
 		cur->next = node;
 		cur = node;
-		i++;
 	}
 	minish->node = head.next;
 	///////////////////////////////////////

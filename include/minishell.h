@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ootsuboyoshiyuki <ootsuboyoshiyuki@stud    +#+  +:+       +#+        */
+/*   By: susumuyagi <susumuyagi@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/14 16:21:32 by ootsuboyosh       #+#    #+#             */
-/*   Updated: 2024/03/07 16:20:42 by ootsuboyosh      ###   ########.fr       */
+/*   Updated: 2024/03/11 10:58:38 by susumuyagi       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,11 @@ typedef struct s_minishell
 	int							status_code;
 
 	char						*pwd;
-	//
+
+	// 起動時の引数
+	int							argc;
+	const char					**argv;
+
 	e_error_kind				error_kind;
 }								t_minishell;
 

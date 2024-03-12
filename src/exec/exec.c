@@ -6,7 +6,7 @@
 /*   By: susumuyagi <susumuyagi@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/19 16:23:27 by susumuyagi        #+#    #+#             */
-/*   Updated: 2024/02/28 14:08:56 by susumuyagi       ###   ########.fr       */
+/*   Updated: 2024/03/12 17:01:33 by susumuyagi       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,8 @@ void	exec(t_minishell *minish)
 {
 	int	orig_io[2];
 
+	if (minish->node == NULL)
+		return ;
 	set_cmd_path(minish);
 	save_orig_io(orig_io);
 	exec_pipe(minish);

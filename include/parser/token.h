@@ -6,7 +6,7 @@
 /*   By: susumuyagi <susumuyagi@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/15 14:19:35 by susumuyagi        #+#    #+#             */
-/*   Updated: 2024/02/17 16:20:31 by susumuyagi       ###   ########.fr       */
+/*   Updated: 2024/03/12 15:17:20 by susumuyagi       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,13 @@
 # include <stddef.h>
 
 # define CANNOT_TOKENIZE "Error: Cannot tokenize\n"
+
+typedef enum
+{
+	IN_NONE,
+	IN_QUOTE,
+	IN_D_QUOTE,
+}	e_inside_status;
 
 typedef enum
 {
