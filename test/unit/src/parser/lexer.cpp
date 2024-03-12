@@ -115,3 +115,29 @@ TEST(Lexer, nest_quote) {
     EXPECT_EQ(expected_kind[i], actual_kind[i]);
   }
 }
+
+TEST(Lexer, only_space) {
+  t_minishell minish;
+  minish.line = ft_strdup("     \t   ");
+
+  tokenize(&minish);
+
+  std::vector<const char*> expected = {""};
+
+  std::vector<int> expected_kind = {2};
+
+  std::vector<const char*> actual = {};
+  std::vector<int> actual_kind = {};
+
+  for (auto token = minish.token; token; token = token->next) {
+    actual.push_back(strndup(token->str, token->len));
+    actual_kind.push_back(token->kind);
+  }
+
+  ASSERT_EQ(expected.size(), actual.size());
+
+  for (size_t i = 0; i < expected.size(); ++i) {
+    EXPECT_STREQ(expected[i], actual[i]);
+    EXPECT_EQ(expected_kind[i], actual_kind[i]);
+  }
+}

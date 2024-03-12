@@ -6,7 +6,7 @@
 /*   By: susumuyagi <susumuyagi@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/15 17:37:32 by susumuyagi        #+#    #+#             */
-/*   Updated: 2024/03/12 12:39:42 by susumuyagi       ###   ########.fr       */
+/*   Updated: 2024/03/12 17:01:06 by susumuyagi       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -218,18 +218,16 @@ int	parse(t_minishell *minish)
 	t_node	head;
 	t_node	*cur;
 	t_node	*node;
-	int		i;
 
 	minish->error_kind = ERR_NONE;
 	minish->cur_token = minish->token;
+	head.next = NULL;
 	cur = &head;
-	i = 0;
-	while (!at_eof(minish) && !occurred_syntax_error(minish) && i < 5)
+	while (!at_eof(minish) && !occurred_syntax_error(minish))
 	{
 		node = command(minish);
 		cur->next = node;
 		cur = node;
-		i++;
 	}
 	minish->node = head.next;
 	///////////////////////////////////////
