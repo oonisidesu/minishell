@@ -6,7 +6,7 @@
 /*   By: susumuyagi <susumuyagi@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/15 17:37:32 by susumuyagi        #+#    #+#             */
-/*   Updated: 2024/03/12 17:01:06 by susumuyagi       ###   ########.fr       */
+/*   Updated: 2024/03/13 15:57:10 by susumuyagi       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,11 +71,31 @@ t_node	*malloc_and_init_node(e_node_kind kind)
 	node->has_x = false;
 	node->exist_cmd = false;
 	node->redirect = NULL;
+	node->declare = NULL;
 	node->next = NULL;
 	return (node);
 }
 
 t_node	*new_redirect_node(e_node_kind kind, t_minishell *minish)
+{
+	t_node	*node;
+	t_token	*tok;
+
+	tok = minish->cur_token;
+	node = malloc_and_init_node(kind);
+	// TODO エラー処理ちゃんと書く
+	if (!node)
+	{
+		minish->error_kind = ERR_MALLOC;
+		return (NULL);
+	}
+	node->path = expand(minish, tok);
+	// TODO エラー処理 ft_substrの中でmalloc
+	minish->cur_token = tok->next;
+	return (node);
+}
+
+t_node	*new_declare_node(e_node_kind kind, t_minishell *minish)
 {
 	t_node	*node;
 	t_token	*tok;
@@ -191,24 +211,47 @@ void	redirection(t_minishell *minish, t_node **redirect_cur)
 	}
 }
 
+void	declaration(t_minishell *minish, t_node **declare_cur)
+{
+	t_node	*node;
+
+	node = new_declare_node(ND_DECLARE, minish);
+	if (node)
+	{
+		(*declare_cur)->next = node;
+		*declare_cur = node;
+	}
+}
+
 t_node	*command(t_minishell *minish)
 {
 	t_node	*node;
 	t_node	redirect_head;
 	t_node	*redirect_cur;
+	t_node	declare_head;
+	t_node	*declare_cur;
 
 	node = new_command_node(minish);
 	redirect_head.next = NULL;
 	redirect_cur = &redirect_head;
+	declare_head.next = NULL;
+	declare_cur = &declare_head;
 	while (!at_eof(minish) && !at_pipe(minish))
 	{
 		redirection(minish, &redirect_cur);
+		if (node->argc == 0 && is_var_declaration(minish->cur_token->str,
+				minish->cur_token->len))
+		{
+			declaration(minish, &declare_cur);
+			continue ;
+		}
 		if (minish->cur_token->kind == TK_WORD)
 		{
 			put_argv(node, minish);
 		}
 	}
 	node->redirect = redirect_head.next;
+	node->declare = declare_head.next;
 	consume(minish, "|");
 	return (node);
 }
