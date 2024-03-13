@@ -6,7 +6,7 @@
 /*   By: susumuyagi <susumuyagi@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/15 17:37:32 by susumuyagi        #+#    #+#             */
-/*   Updated: 2024/03/13 17:37:46 by susumuyagi       ###   ########.fr       */
+/*   Updated: 2024/03/13 19:35:24 by susumuyagi       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,12 +112,16 @@ static t_node	*new_declare_node(e_node_kind kind, t_minishell *minish)
 	key_val = expand(minish, tok);
 	if (!key_val)
 	{
+		free(node);
 		minish->error_kind = ERR_MALLOC;
 		return (NULL);
 	}
+	free(node->argv);
 	node->argv = divide_key_val(key_val);
 	if (!node->argv)
 	{
+		free(node);
+		free(key_val);
 		minish->error_kind = ERR_MALLOC;
 		return (NULL);
 	}

@@ -45,6 +45,34 @@ TEST(Variable, update) {
   }
 }
 
+// 更新（）
+TEST(Variable, update_dont_demotion) {
+  t_minishell minish;
+  const char* envp[] = {"HOME=/home", "USER=me",    "PATH=/usr/bin",
+                        "ENV1=",      "ENV2=a=b=c", NULL};
+  const char* expect[] = {"HOME=/home",
+                          "USER=me",
+                          "PATH=/usr/bin",
+                          "ENV1=update_dont_demotion1",
+                          "ENV2=a=b=c",
+                          "ENV=update_type",
+                          NULL};
+  char** actual;
+
+  init_minishell(&minish);
+  set_envp(&minish, envp);
+  add_or_update_var(&minish, "ENV1", "update", VAR_ENV);
+  add_or_update_var(&minish, "ENV", "add", VAR_SHELL);
+  // 降格させない
+  add_or_update_var(&minish, "ENV1", "update_dont_demotion1", VAR_SHELL);
+  // 昇格させる
+  add_or_update_var(&minish, "ENV", "update_type", VAR_ENV);
+  actual = get_envp(&minish);
+  for (size_t i = 0; expect[i]; ++i) {
+    EXPECT_STREQ(expect[i], actual[i]);
+  }
+}
+
 // 削除
 TEST(Variable, del) {
   t_minishell minish;
