@@ -6,7 +6,7 @@
 /*   By: susumuyagi <susumuyagi@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/15 17:37:32 by susumuyagi        #+#    #+#             */
-/*   Updated: 2024/03/13 15:57:10 by susumuyagi       ###   ########.fr       */
+/*   Updated: 2024/03/13 17:37:46 by susumuyagi       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@
 // }
 ////////////////////////////////////////////////////////////////
 
-t_node	*malloc_and_init_node(e_node_kind kind)
+static t_node	*malloc_and_init_node(e_node_kind kind)
 {
 	t_node	*node;
 
@@ -76,7 +76,7 @@ t_node	*malloc_and_init_node(e_node_kind kind)
 	return (node);
 }
 
-t_node	*new_redirect_node(e_node_kind kind, t_minishell *minish)
+static t_node	*new_redirect_node(e_node_kind kind, t_minishell *minish)
 {
 	t_node	*node;
 	t_token	*tok;
@@ -95,10 +95,11 @@ t_node	*new_redirect_node(e_node_kind kind, t_minishell *minish)
 	return (node);
 }
 
-t_node	*new_declare_node(e_node_kind kind, t_minishell *minish)
+static t_node	*new_declare_node(e_node_kind kind, t_minishell *minish)
 {
 	t_node	*node;
 	t_token	*tok;
+	char	*key_val;
 
 	tok = minish->cur_token;
 	node = malloc_and_init_node(kind);
@@ -108,13 +109,25 @@ t_node	*new_declare_node(e_node_kind kind, t_minishell *minish)
 		minish->error_kind = ERR_MALLOC;
 		return (NULL);
 	}
-	node->path = expand(minish, tok);
+	key_val = expand(minish, tok);
+	if (!key_val)
+	{
+		minish->error_kind = ERR_MALLOC;
+		return (NULL);
+	}
+	node->argv = divide_key_val(key_val);
+	if (!node->argv)
+	{
+		minish->error_kind = ERR_MALLOC;
+		return (NULL);
+	}
+	free(key_val);
 	// TODO エラー処理 ft_substrの中でmalloc
 	minish->cur_token = tok->next;
 	return (node);
 }
 
-t_node	*new_command_node(t_minishell *minish)
+static t_node	*new_command_node(t_minishell *minish)
 {
 	t_node	*node;
 
@@ -128,7 +141,7 @@ t_node	*new_command_node(t_minishell *minish)
 	return (node);
 }
 
-bool	consume(t_minishell *minish, char *op)
+static bool	consume(t_minishell *minish, char *op)
 {
 	t_token	*token;
 
@@ -140,7 +153,7 @@ bool	consume(t_minishell *minish, char *op)
 	return (true);
 }
 
-bool	expect_word(t_minishell *minish)
+static bool	expect_word(t_minishell *minish)
 {
 	if (minish->cur_token->kind == TK_WORD)
 	{
@@ -150,7 +163,7 @@ bool	expect_word(t_minishell *minish)
 	minish->error_kind = ERR_SYNTAX;
 	return (false);
 }
-bool	occurred_syntax_error(t_minishell *minish)
+static bool	occurred_syntax_error(t_minishell *minish)
 {
 	if (minish->error_kind == ERR_SYNTAX)
 	{
@@ -164,7 +177,7 @@ bool	occurred_syntax_error(t_minishell *minish)
 	return (false);
 }
 
-void	put_argv(t_node *node, t_minishell *minish)
+static void	put_argv(t_node *node, t_minishell *minish)
 {
 	node->argv[node->argc] = expand(minish, minish->cur_token);
 	// TODO エラー処理
@@ -172,18 +185,18 @@ void	put_argv(t_node *node, t_minishell *minish)
 	minish->cur_token = minish->cur_token->next;
 }
 
-bool	at_eof(t_minishell *minish)
+static bool	at_eof(t_minishell *minish)
 {
 	return (minish->cur_token->kind == TK_EOF);
 }
 
-bool	at_pipe(t_minishell *minish)
+static bool	at_pipe(t_minishell *minish)
 {
 	return (minish->cur_token->kind == TK_RESERVED
 		&& minish->cur_token->len == 1 && minish->cur_token->str[0] == '|');
 }
 
-void	redirection(t_minishell *minish, t_node **redirect_cur)
+static void	redirection(t_minishell *minish, t_node **redirect_cur)
 {
 	t_node	*node;
 
@@ -211,7 +224,7 @@ void	redirection(t_minishell *minish, t_node **redirect_cur)
 	}
 }
 
-void	declaration(t_minishell *minish, t_node **declare_cur)
+static void	declaration(t_minishell *minish, t_node **declare_cur)
 {
 	t_node	*node;
 
@@ -223,7 +236,7 @@ void	declaration(t_minishell *minish, t_node **declare_cur)
 	}
 }
 
-t_node	*command(t_minishell *minish)
+static t_node	*command(t_minishell *minish)
 {
 	t_node	*node;
 	t_node	redirect_head;
