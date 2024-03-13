@@ -6,7 +6,7 @@
 /*   By: ootsuboyoshiyuki <ootsuboyoshiyuki@stud    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/23 19:23:01 by susumuyagi        #+#    #+#             */
-/*   Updated: 2024/03/11 16:04:17 by ootsuboyosh      ###   ########.fr       */
+/*   Updated: 2024/03/13 13:43:00 by ootsuboyosh      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ static bool	is_option_n(const char *str)
 			return (false);
 		i++;
 	}
-	if (i == 1)
+	if (i <= 1)
 		return (false);
 	return (true);
 }
