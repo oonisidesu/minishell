@@ -11,3 +11,4 @@ echo -
 echo n -n
 echo --n
 echo n -n a
+echo "" b
