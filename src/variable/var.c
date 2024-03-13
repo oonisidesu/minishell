@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   var.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ootsuboyoshiyuki <ootsuboyoshiyuki@stud    +#+  +:+       +#+        */
+/*   By: susumuyagi <susumuyagi@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/20 16:23:06 by susumuyagi        #+#    #+#             */
-/*   Updated: 2024/03/11 16:33:44 by ootsuboyosh      ###   ########.fr       */
+/*   Updated: 2024/03/13 13:51:38 by susumuyagi       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,4 +117,27 @@ void	free_var(t_minishell *minish)
 		current = next;
 	}
 	minish->var = NULL;
+}
+
+bool	is_var_declaration(const char *str, size_t n)
+{
+	size_t	i;
+
+	if (n == 0)
+		return (false);
+	i = 0;
+	if (!ft_isalpha(str[i]) && str[i] != '_')
+		return (false);
+	i++;
+	while (str[i] && str[i] != '=' && i < n)
+	{
+		if (!ft_isalnum(str[i]) && str[i] != '_')
+			return (false);
+		i++;
+	}
+	if (i < n && str[i] == '=')
+	{
+		return (true);
+	}
+	return (false);
 }
