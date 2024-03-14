@@ -6,7 +6,7 @@
 /*   By: ootsuboyoshiyuki <ootsuboyoshiyuki@stud    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/23 19:23:01 by susumuyagi        #+#    #+#             */
-/*   Updated: 2024/03/07 16:36:13 by ootsuboyosh      ###   ########.fr       */
+/*   Updated: 2024/03/14 17:01:22 by ootsuboyosh      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@
 // TODO 後で消す
 #include <stdio.h>
 
-int	check_node_argv(t_minishell *minish, t_node *node)
+static bool	check_node_argv(t_minishell *minish, t_node *node)
 {
 	// cdのみ
 	if (node->argv[1] == NULL)
@@ -31,17 +31,23 @@ int	check_node_argv(t_minishell *minish, t_node *node)
 		{
 			ft_printf_fd(STDERR_FILENO, HOME_NOT_SET);
 			node->wait_status = 1;
-			return (node->wait_status);
+			return (true);
 		}
 	}
-	return (0);
+	// cd ""の場合
+	if (ft_strcmp(node->argv[1], "") == 0)
+	{
+		node->wait_status = 0;
+		return (true);
+	}
+	return (false);
 }
 
 int	builtin_cd(t_minishell *minish, t_node *node)
 {
 	(void)minish;
 	node->wait_status = 0;
-	if (check_node_argv(minish, node) != 0)
+	if (check_node_argv(minish, node))
 		return (node->wait_status);
 	if (chdir(node->argv[1]) < 0)
 	{
