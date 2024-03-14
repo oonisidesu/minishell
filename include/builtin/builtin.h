@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: susumuyagi <susumuyagi@student.42.fr>      +#+  +:+       +#+        */
+/*   By: ootsuboyoshiyuki <ootsuboyoshiyuki@stud    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/27 15:11:25 by susumuyagi        #+#    #+#             */
-/*   Updated: 2024/03/13 15:33:08 by susumuyagi       ###   ########.fr       */
+/*   Updated: 2024/03/14 14:31:48 by ootsuboyosh      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,8 @@
 # define HOME_NOT_SET "minishell: cd: HOME not set\n"
 # define B_TOO_MANY_ARGS "too many arguments"
 # define NUM_ARG_REQUIRED "numeric argument required"
+# define DECLARE "declare -x %s\n"
+# define EXPORT_ERROR "minishell: export: `%s': not a valid identifier\n"
 
 typedef int		(*t_builtin_func)(t_minishell *minish, t_node *node);
 

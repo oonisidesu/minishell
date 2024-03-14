@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   var.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: susumuyagi <susumuyagi@student.42.fr>      +#+  +:+       +#+        */
+/*   By: ootsuboyoshiyuki <ootsuboyoshiyuki@stud    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/20 16:23:06 by susumuyagi        #+#    #+#             */
-/*   Updated: 2024/03/13 17:30:13 by susumuyagi       ###   ########.fr       */
+/*   Updated: 2024/03/14 15:53:24 by ootsuboyosh      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 #include "variable/env.h"
 #include "variable/var.h"
 
-t_var	*create_var(e_var_type type, const char *key, const char *val)
+static t_var	*create_var(e_var_type type, const char *key, const char *val)
 {
 	t_var	*new_var;
 
@@ -142,6 +142,59 @@ bool	is_var_declaration(const char *str, size_t n)
 		return (true);
 	}
 	return (false);
+}
+
+bool	has_key(t_minishell *minish, const char *key)
+{
+	t_var	*current;
+
+	if (key == NULL)
+		return (false);
+	current = minish->var;
+	while (current)
+	{
+		if (ft_strcmp(current->key, key) == 0)
+			return (true);
+		current = current->next;
+	}
+	return (false);
+}
+
+void	set_type(t_minishell *minish, const char *key, e_var_type type)
+{
+	t_var	*current;
+
+	if (key == NULL)
+		return ;
+	current = minish->var;
+	while (current)
+	{
+		if (ft_strcmp(current->key, key) == 0)
+		{
+			current->type = type;
+			return ;
+		}
+		current = current->next;
+	}
+}
+
+bool	is_var_dec_exclude_equal(const char *str, size_t n)
+{
+	size_t	i;
+
+	if (n == 0)
+		return (false);
+	i = 0;
+	if (!ft_isalpha(str[i]) && str[i] != '_')
+		return (false);
+	i++;
+	while (str[i] && i < n)
+	{
+		if (!ft_isalnum(str[i]) && str[i] != '_')
+			return (false);
+		i++;
+	}
+	return (true);
 }
 
 char	**divide_key_val(const char *key_val)
