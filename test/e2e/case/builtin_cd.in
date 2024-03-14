@@ -21,5 +21,8 @@ mv tmp tmpaaa
 pwd
 cd ../../../.././
 pwd
+cd ""
+HOME=
+cd 
 #権限をなくした状態でbashやminishellを起動する
 #長い文字列
