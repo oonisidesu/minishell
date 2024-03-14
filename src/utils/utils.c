@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ootsuboyoshiyuki <ootsuboyoshiyuki@stud    +#+  +:+       +#+        */
+/*   By: susumuyagi <susumuyagi@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/12 23:49:45 by ootsuboyosh       #+#    #+#             */
-/*   Updated: 2024/03/13 00:08:32 by ootsuboyosh      ###   ########.fr       */
+/*   Updated: 2024/03/13 19:18:50 by susumuyagi       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,8 @@ void	free_array(void **array)
 {
 	size_t	i;
 
+	if (array == NULL)
+		return ;
 	i = 0;
 	while (array[i])
 	{

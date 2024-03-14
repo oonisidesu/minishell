@@ -6,7 +6,7 @@
 /*   By: susumuyagi <susumuyagi@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/15 17:37:32 by susumuyagi        #+#    #+#             */
-/*   Updated: 2024/03/12 17:01:06 by susumuyagi       ###   ########.fr       */
+/*   Updated: 2024/03/13 19:35:24 by susumuyagi       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@
 // }
 ////////////////////////////////////////////////////////////////
 
-t_node	*malloc_and_init_node(e_node_kind kind)
+static t_node	*malloc_and_init_node(e_node_kind kind)
 {
 	t_node	*node;
 
@@ -71,11 +71,12 @@ t_node	*malloc_and_init_node(e_node_kind kind)
 	node->has_x = false;
 	node->exist_cmd = false;
 	node->redirect = NULL;
+	node->declare = NULL;
 	node->next = NULL;
 	return (node);
 }
 
-t_node	*new_redirect_node(e_node_kind kind, t_minishell *minish)
+static t_node	*new_redirect_node(e_node_kind kind, t_minishell *minish)
 {
 	t_node	*node;
 	t_token	*tok;
@@ -94,7 +95,43 @@ t_node	*new_redirect_node(e_node_kind kind, t_minishell *minish)
 	return (node);
 }
 
-t_node	*new_command_node(t_minishell *minish)
+static t_node	*new_declare_node(e_node_kind kind, t_minishell *minish)
+{
+	t_node	*node;
+	t_token	*tok;
+	char	*key_val;
+
+	tok = minish->cur_token;
+	node = malloc_and_init_node(kind);
+	// TODO エラー処理ちゃんと書く
+	if (!node)
+	{
+		minish->error_kind = ERR_MALLOC;
+		return (NULL);
+	}
+	key_val = expand(minish, tok);
+	if (!key_val)
+	{
+		free(node);
+		minish->error_kind = ERR_MALLOC;
+		return (NULL);
+	}
+	free(node->argv);
+	node->argv = divide_key_val(key_val);
+	if (!node->argv)
+	{
+		free(node);
+		free(key_val);
+		minish->error_kind = ERR_MALLOC;
+		return (NULL);
+	}
+	free(key_val);
+	// TODO エラー処理 ft_substrの中でmalloc
+	minish->cur_token = tok->next;
+	return (node);
+}
+
+static t_node	*new_command_node(t_minishell *minish)
 {
 	t_node	*node;
 
@@ -108,7 +145,7 @@ t_node	*new_command_node(t_minishell *minish)
 	return (node);
 }
 
-bool	consume(t_minishell *minish, char *op)
+static bool	consume(t_minishell *minish, char *op)
 {
 	t_token	*token;
 
@@ -120,7 +157,7 @@ bool	consume(t_minishell *minish, char *op)
 	return (true);
 }
 
-bool	expect_word(t_minishell *minish)
+static bool	expect_word(t_minishell *minish)
 {
 	if (minish->cur_token->kind == TK_WORD)
 	{
@@ -130,7 +167,7 @@ bool	expect_word(t_minishell *minish)
 	minish->error_kind = ERR_SYNTAX;
 	return (false);
 }
-bool	occurred_syntax_error(t_minishell *minish)
+static bool	occurred_syntax_error(t_minishell *minish)
 {
 	if (minish->error_kind == ERR_SYNTAX)
 	{
@@ -144,7 +181,7 @@ bool	occurred_syntax_error(t_minishell *minish)
 	return (false);
 }
 
-void	put_argv(t_node *node, t_minishell *minish)
+static void	put_argv(t_node *node, t_minishell *minish)
 {
 	node->argv[node->argc] = expand(minish, minish->cur_token);
 	// TODO エラー処理
@@ -152,18 +189,18 @@ void	put_argv(t_node *node, t_minishell *minish)
 	minish->cur_token = minish->cur_token->next;
 }
 
-bool	at_eof(t_minishell *minish)
+static bool	at_eof(t_minishell *minish)
 {
 	return (minish->cur_token->kind == TK_EOF);
 }
 
-bool	at_pipe(t_minishell *minish)
+static bool	at_pipe(t_minishell *minish)
 {
 	return (minish->cur_token->kind == TK_RESERVED
 		&& minish->cur_token->len == 1 && minish->cur_token->str[0] == '|');
 }
 
-void	redirection(t_minishell *minish, t_node **redirect_cur)
+static void	redirection(t_minishell *minish, t_node **redirect_cur)
 {
 	t_node	*node;
 
@@ -191,24 +228,47 @@ void	redirection(t_minishell *minish, t_node **redirect_cur)
 	}
 }
 
-t_node	*command(t_minishell *minish)
+static void	declaration(t_minishell *minish, t_node **declare_cur)
+{
+	t_node	*node;
+
+	node = new_declare_node(ND_DECLARE, minish);
+	if (node)
+	{
+		(*declare_cur)->next = node;
+		*declare_cur = node;
+	}
+}
+
+static t_node	*command(t_minishell *minish)
 {
 	t_node	*node;
 	t_node	redirect_head;
 	t_node	*redirect_cur;
+	t_node	declare_head;
+	t_node	*declare_cur;
 
 	node = new_command_node(minish);
 	redirect_head.next = NULL;
 	redirect_cur = &redirect_head;
+	declare_head.next = NULL;
+	declare_cur = &declare_head;
 	while (!at_eof(minish) && !at_pipe(minish))
 	{
 		redirection(minish, &redirect_cur);
+		if (node->argc == 0 && is_var_declaration(minish->cur_token->str,
+				minish->cur_token->len))
+		{
+			declaration(minish, &declare_cur);
+			continue ;
+		}
 		if (minish->cur_token->kind == TK_WORD)
 		{
 			put_argv(node, minish);
 		}
 	}
 	node->redirect = redirect_head.next;
+	node->declare = declare_head.next;
 	consume(minish, "|");
 	return (node);
 }

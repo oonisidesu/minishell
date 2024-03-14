@@ -1,33 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   var.h                                              :+:      :+:    :+:   */
+/*   builtin_var.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: susumuyagi <susumuyagi@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/02/14 16:21:32 by ootsuboyosh       #+#    #+#             */
-/*   Updated: 2024/03/13 16:53:17 by susumuyagi       ###   ########.fr       */
+/*   Created: 2024/03/12 20:17:12 by susumuyagi        #+#    #+#             */
+/*   Updated: 2024/03/13 17:35:24 by susumuyagi       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef VAR_H
-# define VAR_H
+#include "minishell.h"
+#include "parser/expansion.h"
+#include "variable/env.h"
 
-typedef enum
+int	builtin_var(t_minishell *minish, t_node *node)
 {
-	VAR_SHELL,
-	VAR_ENV,
-}					e_var_type;
+	t_node	*cur;
 
-typedef struct s_var
-{
-	e_var_type		type;
-	char			*key;
-	char			*val;
-	struct s_var	*next;
-}					t_var;
-
-bool				is_var_declaration(const char *str, size_t n);
-char				**divide_key_val(const char *key_val);
-
-#endif
+	cur = node->declare;
+	while (cur)
+	{
+		add_or_update_var(minish, cur->argv[0], cur->argv[1], VAR_SHELL);
+		cur = cur->next;
+	}
+	node->wait_status = 0;
+	return (node->wait_status);
+}

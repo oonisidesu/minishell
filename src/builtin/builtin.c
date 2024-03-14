@@ -6,15 +6,24 @@
 /*   By: susumuyagi <susumuyagi@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/27 15:11:18 by susumuyagi        #+#    #+#             */
-/*   Updated: 2024/02/27 17:14:17 by susumuyagi       ###   ########.fr       */
+/*   Updated: 2024/03/13 15:06:11 by susumuyagi       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "builtin/builtin.h"
 #include "libft.h"
 
-t_builtin_func	lookup_builtin_func(char *name)
+t_builtin_func	lookup_builtin_func(t_node *node)
 {
+	const char	*name;
+
+	if (node->argc == 0)
+	{
+		if (node->declare != NULL)
+			return (builtin_var);
+		return (NULL);
+	}
+	name = node->argv[0];
 	if (ft_strcmp("echo", name) == 0)
 		return (builtin_echo);
 	if (ft_strcmp("cd", name) == 0)

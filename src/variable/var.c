@@ -6,10 +6,11 @@
 /*   By: susumuyagi <susumuyagi@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/20 16:23:06 by susumuyagi        #+#    #+#             */
-/*   Updated: 2024/03/13 13:51:38 by susumuyagi       ###   ########.fr       */
+/*   Updated: 2024/03/13 17:30:13 by susumuyagi       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "utils/utils.h"
 #include "variable/env.h"
 #include "variable/var.h"
 
@@ -59,7 +60,8 @@ void	add_or_update_var(t_minishell *minish, const char *key, const char *val,
 		{
 			free(current->val);
 			current->val = ft_strdup(val);
-			current->type = type;
+			if (current->type == VAR_SHELL)
+				current->type = type;
 			return ;
 		}
 		current = current->next;
@@ -140,4 +142,33 @@ bool	is_var_declaration(const char *str, size_t n)
 		return (true);
 	}
 	return (false);
+}
+
+char	**divide_key_val(const char *key_val)
+{
+	char	**ret;
+	char	*p;
+
+	ret = (char **)ft_calloc(3, sizeof(char *));
+	if (ret == NULL)
+		return (NULL);
+	p = ft_strchr(key_val, '=');
+	if (p == NULL)
+	{
+		free(ret);
+		return (NULL);
+	}
+	ret[0] = ft_substr(key_val, 0, p - key_val);
+	if (!ret[0])
+	{
+		free_array((void **)ret);
+		return (NULL);
+	}
+	ret[1] = ft_strdup(p + 1);
+	if (!ret[1])
+	{
+		free_array((void **)ret);
+		return (NULL);
+	}
+	return (ret);
 }

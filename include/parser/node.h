@@ -6,7 +6,7 @@
 /*   By: susumuyagi <susumuyagi@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/14 16:25:22 by ootsuboyosh       #+#    #+#             */
-/*   Updated: 2024/03/02 17:21:14 by susumuyagi       ###   ########.fr       */
+/*   Updated: 2024/03/13 13:02:41 by susumuyagi       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,8 @@ typedef enum
 	ND_REDIRECT_APPEND, // >>
 	ND_REDIRECT_IN,     // <
 	ND_HEREDOC,         // <<
-	// ND_PIPE,            // |
-	ND_COMMAND, // command
+	ND_DECLARE,         // declare variable
+	ND_COMMAND,         // command
 }					e_node_kind;
 
 typedef struct s_node
@@ -40,6 +40,7 @@ typedef struct s_node
 	bool			in_pipe;
 
 	struct s_node	*redirect;
+	struct s_node	*declare;
 	struct s_node	*next;
 }					t_node;
 
