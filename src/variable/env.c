@@ -6,14 +6,15 @@
 /*   By: ootsuboyoshiyuki <ootsuboyoshiyuki@stud    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/20 16:23:06 by susumuyagi        #+#    #+#             */
-/*   Updated: 2024/03/05 16:28:30 by ootsuboyosh      ###   ########.fr       */
+/*   Updated: 2024/03/13 18:50:12 by ootsuboyosh      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "utils/utils.h"
 #include "variable/env.h"
 #include "variable/var.h"
 
-int	ft_strchr_int(const char *s, int c)
+static int	ft_strchr_int(const char *s, int c)
 {
 	int	i;
 
@@ -27,7 +28,7 @@ int	ft_strchr_int(const char *s, int c)
 	return (-1);
 }
 
-char	*get_key_from_env(const char *envp)
+static char	*get_key_from_env(const char *envp)
 {
 	char	*key;
 	int		equal_sign_index;
@@ -41,7 +42,7 @@ char	*get_key_from_env(const char *envp)
 	return (key);
 }
 
-char	*get_val_from_env(const char *envp)
+static char	*get_val_from_env(const char *envp)
 {
 	char	*val;
 	int		equal_sign_index;
@@ -53,6 +54,23 @@ char	*get_val_from_env(const char *envp)
 	if (val == NULL)
 		return (NULL);
 	return (val);
+}
+
+static char	*join_three_word(char *s1, char *s2, char *s3)
+{
+	char	*s1_s2;
+	char	*result;
+
+	s1_s2 = ft_strjoin(s1, s2);
+	if (s1_s2 == NULL)
+		return (NULL);
+	result = ft_strjoin(s1_s2, s3);
+	if (result == NULL)
+	{
+		free(s1_s2);
+		return (NULL);
+	}
+	return (result);
 }
 
 void	set_envp(t_minishell *minish, const char **envp)
@@ -83,23 +101,6 @@ void	set_envp(t_minishell *minish, const char **envp)
 	}
 }
 
-char	*join_key_val(char *key, char *separator, char *val)
-{
-	char	*key_separator;
-	char	*result;
-
-	key_separator = ft_strjoin(key, separator);
-	if (key_separator == NULL)
-		return (NULL);
-	result = ft_strjoin(key_separator, val);
-	if (result == NULL)
-	{
-		free(key_separator);
-		return (NULL);
-	}
-	return (result);
-}
-
 char	**get_envp(t_minishell *minish)
 {
 	size_t	env_elements;
@@ -128,7 +129,7 @@ char	**get_envp(t_minishell *minish)
 	{
 		if (current->type == VAR_ENV)
 		{
-			envp[i] = join_key_val(current->key, "=", current->val);
+			envp[i] = join_three_word(current->key, "=", current->val);
 			if (envp[i] == NULL)
 			{
 				minish->error_kind = ERR_MALLOC;
@@ -147,5 +148,63 @@ char	**get_envp(t_minishell *minish)
 		i++;
 	}
 	envp[env_elements] = NULL;
+	return (envp);
+}
+
+char	**get_envp_double_quote(t_minishell *minish)
+{
+	size_t env_elements;
+	t_var *current;
+	char **envp;
+	char **double_quote_val;
+	size_t i;
+
+	env_elements = 0;
+	current = minish->var;
+	while (current)
+	{
+		env_elements++;
+		current = current->next;
+	}
+	envp = (char **)malloc((env_elements + 1) * sizeof(char *));
+	if (envp == NULL)
+	{
+		minish->error_kind = ERR_MALLOC;
+		return (NULL);
+	}
+	double_quote_val = (char **)malloc((env_elements + 1) * sizeof(char *));
+	if (double_quote_val == NULL)
+	{
+		minish->error_kind = ERR_MALLOC;
+		return (NULL);
+	}
+	current = minish->var;
+	i = 0;
+	while (current)
+	{
+		if (current->type == VAR_ENV)
+		{
+			double_quote_val[i] = join_three_word("\"", current->val, "\"");
+			if (double_quote_val[i] == NULL)
+			{
+				minish->error_kind = ERR_MALLOC;
+				free_array((void **)double_quote_val);
+				return (NULL);
+			}
+			envp[i] = join_three_word(current->key, "=", double_quote_val[i]);
+			if (envp[i] == NULL)
+			{
+				minish->error_kind = ERR_MALLOC;
+				free_array((void **)envp);
+				return (NULL);
+			}
+		}
+		else
+			envp[i] = NULL;
+		current = current->next;
+		i++;
+	}
+	envp[env_elements] = NULL;
+	free_array((void **)double_quote_val);
 	return (envp);
 }

@@ -1,0 +1,18 @@
+export
+export +=
+export TEST=bb
+env | grep TEST
+export TEST=
+env | grep TEST
+export TEST="abc"
+env | grep TEST
+export TEST1= TEST2=hello
+env | grep TEST
+export _TEST1=123
+env | grep _TEST
+export 1_TEST1=123
+env | grep 1_TEST
+export ##aa
+# 保留
+export TEST+=ccc
+export +=
