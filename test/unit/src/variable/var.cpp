@@ -1,17 +1,19 @@
 #include <gtest/gtest.h>
 
-extern "C" {
+extern "C"
+{
 #include "minishell.h"
 #include "variable/env.h"
 #include "variable/var.h"
 }
 
 // 追加
-TEST(Variable, add) {
+TEST(Variable, add)
+{
   t_minishell minish;
-  const char* expect[] = {"HOME=/home", "USER=me",    "PATH=/usr/bin",
-                          "ENV1=",      "ENV2=a=b=c", NULL};
-  char** actual;
+  const char *expect[] = {"HOME=/home", "USER=me", "PATH=/usr/bin",
+                          "ENV1=", "ENV2=a=b=c", NULL};
+  char **actual;
 
   init_minishell(&minish);
   add_or_update_var(&minish, "HOME", "/home", VAR_ENV);
@@ -20,44 +22,48 @@ TEST(Variable, add) {
   add_or_update_var(&minish, "ENV1", "", VAR_ENV);
   add_or_update_var(&minish, "ENV2", "a=b=c", VAR_ENV);
   actual = get_envp(&minish);
-  for (size_t i = 0; expect[i]; ++i) {
+  for (size_t i = 0; expect[i]; ++i)
+  {
     EXPECT_STREQ(expect[i], actual[i]);
   }
 }
 
 // 更新
-TEST(Variable, update) {
+TEST(Variable, update)
+{
   t_minishell minish;
-  const char* envp[] = {"HOME=/home", "USER=me",    "PATH=/usr/bin",
-                        "ENV1=",      "ENV2=a=b=c", NULL};
-  const char* expect[] = {"HOME=/home",  "USER=me",    "PATH=/usr/bin",
+  const char *envp[] = {"HOME=/home", "USER=me", "PATH=/usr/bin",
+                        "ENV1=", "ENV2=a=b=c", NULL};
+  const char *expect[] = {"HOME=/home", "USER=me", "PATH=/usr/bin",
                           "ENV1=update", "ENV2=a=b=c", "ENV=add",
                           NULL};
-  char** actual;
+  char **actual;
 
   init_minishell(&minish);
   set_envp(&minish, envp);
   add_or_update_var(&minish, "ENV1", "update", VAR_ENV);
   add_or_update_var(&minish, "ENV", "add", VAR_ENV);
   actual = get_envp(&minish);
-  for (size_t i = 0; expect[i]; ++i) {
+  for (size_t i = 0; expect[i]; ++i)
+  {
     EXPECT_STREQ(expect[i], actual[i]);
   }
 }
 
 // 更新（）
-TEST(Variable, update_dont_demotion) {
+TEST(Variable, update_dont_demotion)
+{
   t_minishell minish;
-  const char* envp[] = {"HOME=/home", "USER=me",    "PATH=/usr/bin",
-                        "ENV1=",      "ENV2=a=b=c", NULL};
-  const char* expect[] = {"HOME=/home",
+  const char *envp[] = {"HOME=/home", "USER=me", "PATH=/usr/bin",
+                        "ENV1=", "ENV2=a=b=c", NULL};
+  const char *expect[] = {"HOME=/home",
                           "USER=me",
                           "PATH=/usr/bin",
                           "ENV1=update_dont_demotion1",
                           "ENV2=a=b=c",
                           "ENV=update_type",
                           NULL};
-  char** actual;
+  char **actual;
 
   init_minishell(&minish);
   set_envp(&minish, envp);
@@ -68,19 +74,21 @@ TEST(Variable, update_dont_demotion) {
   // 昇格させる
   add_or_update_var(&minish, "ENV", "update_type", VAR_ENV);
   actual = get_envp(&minish);
-  for (size_t i = 0; expect[i]; ++i) {
+  for (size_t i = 0; expect[i]; ++i)
+  {
     EXPECT_STREQ(expect[i], actual[i]);
   }
 }
 
 // 削除
-TEST(Variable, del) {
+TEST(Variable, del)
+{
   t_minishell minish;
-  const char* envp[] = {"HOME=/home", "USER=me",    "PATH=/usr/bin",
-                        "ENV1=",      "ENV2=a=b=c", NULL};
-  const char* expect[] = {"HOME=/home", "USER=me",  "PATH=/usr/bin",
-                          "ENV1=",      "ENV3=add", NULL};
-  char** actual;
+  const char *envp[] = {"HOME=/home", "USER=me", "PATH=/usr/bin",
+                        "ENV1=", "ENV2=a=b=c", NULL};
+  const char *expect[] = {"HOME=/home", "USER=me", "PATH=/usr/bin",
+                          "ENV1=", "ENV3=add", NULL};
+  char **actual;
 
   init_minishell(&minish);
   set_envp(&minish, envp);
@@ -89,28 +97,31 @@ TEST(Variable, del) {
   del_var(&minish, "ENV2");
   add_or_update_var(&minish, "ENV3", "add", VAR_ENV);
   actual = get_envp(&minish);
-  for (size_t i = 0; expect[i]; ++i) {
+  for (size_t i = 0; expect[i]; ++i)
+  {
     EXPECT_STREQ(expect[i], actual[i]);
   }
 }
 
 // 取得
-TEST(Variable, get) {
+TEST(Variable, get)
+{
   t_minishell minish;
 
-  const char* envp[] = {"HOME=/home", "USER=me",    "PATH=/usr/bin",
-                        "ENV1=",      "ENV2=a=b=c", NULL};
-  const char* expect[] = {"a=b=c", NULL};
+  const char *envp[] = {"HOME=/home", "USER=me", "PATH=/usr/bin",
+                        "ENV1=", "ENV2=a=b=c", NULL};
+  const char *expect[] = {"a=b=c", NULL};
 
   init_minishell(&minish);
   set_envp(&minish, envp);
-  char* actual = get_var(&minish, "ENV2");
-  char* actual1 = get_var(&minish, "ENV");
+  char *actual = get_var(&minish, "ENV2");
+  char *actual1 = get_var(&minish, "ENV");
   EXPECT_STREQ(expect[0], actual);
   EXPECT_STREQ(expect[1], actual1);
 }
 
-TEST(Variable, is_var_declaration) {
+TEST(Variable, is_var_declaration)
+{
   EXPECT_TRUE(is_var_declaration("AAA=123", 7));
   EXPECT_TRUE(is_var_declaration("A12=123", 7));
   EXPECT_TRUE(is_var_declaration("A12=132", 7));
@@ -129,32 +140,83 @@ TEST(Variable, is_var_declaration) {
   EXPECT_FALSE(is_var_declaration("=123", 4));
 }
 
-TEST(Variable, divide_key_val1) {
-  char** actual = divide_key_val("HOME=/home");
-  const char* expected[] = {"HOME", "/home", NULL};
-  for (size_t i = 0; expected[i]; ++i) {
+TEST(Variable, has_key)
+{
+  t_minishell minish;
+  const char *envp[] = {"HOME=/home", "USER=me", "PATH=/usr/bin",
+                        "ENV1=", "ENV2=a=b=c", NULL};
+  init_minishell(&minish);
+  set_envp(&minish, envp);
+
+  EXPECT_TRUE(has_key(&minish, "HOME"));
+  EXPECT_FALSE(has_key(&minish, "HOMEA"));
+  EXPECT_FALSE(has_key(&minish, ""));
+  EXPECT_FALSE(has_key(&minish, NULL));
+}
+
+TEST(Variable, set_type)
+{
+  t_minishell minish;
+  const e_var_type expected[] = {VAR_SHELL, VAR_ENV};
+  init_minishell(&minish);
+  add_or_update_var(&minish, "ENV1", "update", VAR_ENV);
+  add_or_update_var(&minish, "ENV", "add", VAR_SHELL);
+  set_type(&minish, "ENV3", VAR_SHELL);
+  set_type(&minish, "", VAR_ENV);
+  set_type(&minish, NULL, VAR_ENV);
+  set_type(&minish, "ENV1", VAR_SHELL);
+  set_type(&minish, "ENV", VAR_ENV);
+
+  for (size_t i = 0; expected[i]; ++i)
+  {
+    EXPECT_EQ(expected[i], minish.var[i].type);
+  }
+}
+
+TEST(Variable, is_var_dec_exclude_equal)
+{
+  EXPECT_TRUE(is_var_dec_exclude_equal("A123", 4));
+
+  EXPECT_FALSE(is_var_dec_exclude_equal("A@!$", 7));
+  EXPECT_FALSE(is_var_dec_exclude_equal("1AA=123", 7));
+  EXPECT_FALSE(is_var_declaration("1AA", 3));
+  EXPECT_FALSE(is_var_declaration("#AA", 3));
+  EXPECT_FALSE(is_var_declaration("AA$", 3));
+}
+
+TEST(Variable, divide_key_val1)
+{
+  char **actual = divide_key_val("HOME=/home");
+  const char *expected[] = {"HOME", "/home", NULL};
+  for (size_t i = 0; expected[i]; ++i)
+  {
     EXPECT_STREQ(expected[i], actual[i]);
   }
 }
 
-TEST(Variable, divide_key_val2) {
-  char** actual = divide_key_val("HOME=");
-  const char* expected[] = {"HOME", "", NULL};
-  for (size_t i = 0; expected[i]; ++i) {
+TEST(Variable, divide_key_val2)
+{
+  char **actual = divide_key_val("HOME=");
+  const char *expected[] = {"HOME", "", NULL};
+  for (size_t i = 0; expected[i]; ++i)
+  {
     EXPECT_STREQ(expected[i], actual[i]);
   }
 }
 
-TEST(Variable, divide_key_val3) {
-  char** actual = divide_key_val("AA=1=2=3");
-  const char* expected[] = {"AA", "1=2=3", NULL};
-  for (size_t i = 0; expected[i]; ++i) {
+TEST(Variable, divide_key_val3)
+{
+  char **actual = divide_key_val("AA=1=2=3");
+  const char *expected[] = {"AA", "1=2=3", NULL};
+  for (size_t i = 0; expected[i]; ++i)
+  {
     EXPECT_STREQ(expected[i], actual[i]);
   }
 }
 
-TEST(Variable, divide_key_val4) {
-  char** actual = divide_key_val("ABC");
+TEST(Variable, divide_key_val4)
+{
+  char **actual = divide_key_val("ABC");
 
   EXPECT_EQ(NULL, actual);
 }
