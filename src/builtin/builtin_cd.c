@@ -6,11 +6,12 @@
 /*   By: ootsuboyoshiyuki <ootsuboyoshiyuki@stud    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/23 19:23:01 by susumuyagi        #+#    #+#             */
-/*   Updated: 2024/03/14 17:01:22 by ootsuboyosh      ###   ########.fr       */
+/*   Updated: 2024/03/16 18:48:03 by ootsuboyosh      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "builtin/builtin.h"
+#include "libft.h"
 #include "minishell.h"
 #include "variable/env.h"
 #include "variable/var.h"
@@ -26,7 +27,7 @@ static bool	check_node_argv(t_minishell *minish, t_node *node)
 	// cdのみ
 	if (node->argv[1] == NULL)
 	{
-		node->argv[1] = get_var(minish, "HOME");
+		node->argv[1] = ft_strdup(get_var(minish, "HOME"));
 		if (node->argv[1] == NULL)
 		{
 			ft_printf_fd(STDERR_FILENO, HOME_NOT_SET);
