@@ -6,7 +6,7 @@
 /*   By: ootsuboyoshiyuki <ootsuboyoshiyuki@stud    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/23 19:23:01 by susumuyagi        #+#    #+#             */
-/*   Updated: 2024/03/15 01:14:40 by ootsuboyosh      ###   ########.fr       */
+/*   Updated: 2024/03/16 17:34:51 by ootsuboyosh      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,7 @@ static void	set_env(t_minishell *minish, t_node *node)
 
 int	builtin_export(t_minishell *minish, t_node *node)
 {
-	if (node->argc == 1 || ft_strncmp(node->argv[1], "#", 1) == 0)
+	if (node->argc == 1)
 	{
 		print_env(minish);
 		node->wait_status = 0;
