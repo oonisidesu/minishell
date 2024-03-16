@@ -13,6 +13,8 @@ export 1_TEST1=123
 env | grep 1_TEST
 export ##aa
 export AA=11 1 BB=22 2
+export AA=11 1 ##aa BB=22 2
+export：
 # shell変数でsegv
 AAA=99
 export AAA

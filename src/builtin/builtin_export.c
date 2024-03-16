@@ -6,7 +6,7 @@
 /*   By: ootsuboyoshiyuki <ootsuboyoshiyuki@stud    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/23 19:23:01 by susumuyagi        #+#    #+#             */
-/*   Updated: 2024/03/15 01:14:40 by ootsuboyosh      ###   ########.fr       */
+/*   Updated: 2024/03/16 16:43:36 by ootsuboyosh      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,7 @@ static void	set_env(t_minishell *minish, t_node *node)
 	char	**key_value;
 
 	i = 1;
+	node->wait_status = 0;
 	while (i < node->argc)
 	{
 		key_value = divide_key_val(node->argv[i]);
@@ -51,11 +52,14 @@ static void	set_env(t_minishell *minish, t_node *node)
 			if (key_value == NULL)
 			{
 				minish->error_kind = ERR_MALLOC;
+				node->wait_status = 1;
 				return;
 			}
 			key_value[0] = ft_substr(node->argv[i], 0, ft_strlen(node->argv[i]));
 		}
-		if (is_var_declaration(node->argv[i], ft_strlen(node->argv[i])))
+		if (ft_strncmp(node->argv[i], "#", 1) == 0)
+			break ;
+		else if (is_var_declaration(node->argv[i], ft_strlen(node->argv[i])))
 			add_or_update_var(minish, key_value[0], key_value[1], VAR_ENV);
 		else if (is_var_dec_exclude_equal(node->argv[i],
 				ft_strlen(node->argv[i])))
