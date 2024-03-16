@@ -6,7 +6,7 @@
 /*   By: ootsuboyoshiyuki <ootsuboyoshiyuki@stud    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/23 19:23:01 by susumuyagi        #+#    #+#             */
-/*   Updated: 2024/03/15 01:14:40 by ootsuboyosh      ###   ########.fr       */
+/*   Updated: 2024/03/16 14:24:15 by ootsuboyosh      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,7 @@ static void	set_env(t_minishell *minish, t_node *node)
 		}
 		else
 		{
-			ft_printf_fd(STDERR_FILENO, EXPORT_ERROR, node->argv[i]);
+			ft_printf_fd(STDERR_FILENO, IDENTIFIER_ERROR, "export", node->argv[i]);
 			node->wait_status = 1;
 		}
 		free_array((void **)key_value);
