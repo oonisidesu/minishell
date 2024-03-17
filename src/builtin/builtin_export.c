@@ -6,11 +6,7 @@
 /*   By: ootsuboyoshiyuki <ootsuboyoshiyuki@stud    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/23 19:23:01 by susumuyagi        #+#    #+#             */
-<<<<<<< HEAD
-/*   Updated: 2024/03/17 23:28:41 by ootsuboyosh      ###   ########.fr       */
-=======
-/*   Updated: 2024/03/16 14:24:15 by ootsuboyosh      ###   ########.fr       */
->>>>>>> d77dc7ad776b4f2ec0d251c5ba989f8bcf793c7c
+/*   Updated: 2024/03/17 23:37:31 by ootsuboyosh      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
