@@ -6,7 +6,7 @@
 /*   By: ootsuboyoshiyuki <ootsuboyoshiyuki@stud    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/20 16:23:06 by susumuyagi        #+#    #+#             */
-/*   Updated: 2024/03/13 18:50:12 by ootsuboyosh      ###   ########.fr       */
+/*   Updated: 2024/03/18 15:44:59 by ootsuboyosh      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,6 +70,7 @@ static char	*join_three_word(char *s1, char *s2, char *s3)
 		free(s1_s2);
 		return (NULL);
 	}
+	free(s1_s2);
 	return (result);
 }
 
