@@ -6,7 +6,7 @@
 /*   By: ootsuboyoshiyuki <ootsuboyoshiyuki@stud    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/27 15:11:25 by susumuyagi        #+#    #+#             */
-/*   Updated: 2024/03/14 14:31:48 by ootsuboyosh      ###   ########.fr       */
+/*   Updated: 2024/03/16 14:23:32 by ootsuboyosh      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@
 # define B_TOO_MANY_ARGS "too many arguments"
 # define NUM_ARG_REQUIRED "numeric argument required"
 # define DECLARE "declare -x %s\n"
-# define EXPORT_ERROR "minishell: export: `%s': not a valid identifier\n"
+# define IDENTIFIER_ERROR "minishell: %s: `%s': not a valid identifier\n"
 
 typedef int		(*t_builtin_func)(t_minishell *minish, t_node *node);
 
