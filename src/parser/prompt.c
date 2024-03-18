@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   prompt.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: susumuyagi <susumuyagi@student.42.fr>      +#+  +:+       +#+        */
+/*   By: ootsuboyoshiyuki <ootsuboyoshiyuki@stud    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/15 14:13:54 by susumuyagi        #+#    #+#             */
-/*   Updated: 2024/03/12 17:35:30 by susumuyagi       ###   ########.fr       */
+/*   Updated: 2024/03/18 17:10:20 by ootsuboyosh      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,12 +29,8 @@ void	prompt(t_minishell *minish)
 		minish->line = get_next_line(0);
 	if (minish->line == NULL)
 		ctrl_d_clean_handler(minish);
-	if (g_signal == CTRL_C_TWO)
+	if (g_signal == CTRL_C)
 		ctrl_c_clean_handler(minish);
-	// debug //////////////////////////////////////
-	// TODO 後で消す
-	// printf("minish->status_code: %d\n", minish->status_code);
-	///////////////////////////////////////////////
 	if (ft_strlen(minish->line) == 0)
 	{
 		return ;
