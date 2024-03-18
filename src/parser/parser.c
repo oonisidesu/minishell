@@ -6,7 +6,7 @@
 /*   By: susumuyagi <susumuyagi@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/15 17:37:32 by susumuyagi        #+#    #+#             */
-/*   Updated: 2024/03/18 10:33:49 by susumuyagi       ###   ########.fr       */
+/*   Updated: 2024/03/18 12:09:04 by susumuyagi       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,8 +101,8 @@ static t_node	*new_redirect_node(e_node_kind kind, t_minishell *minish)
 	else
 	{
 		node->path = expand(minish, tok);
+		// TODO エラー処理
 	}
-	// TODO エラー処理 ft_substrの中でmalloc
 	minish->cur_token = tok->next;
 	return (node);
 }
@@ -138,7 +138,6 @@ static t_node	*new_declare_node(e_node_kind kind, t_minishell *minish)
 		return (NULL);
 	}
 	free(key_val);
-	// TODO エラー処理 ft_substrの中でmalloc
 	minish->cur_token = tok->next;
 	return (node);
 }
@@ -302,6 +301,7 @@ int	parse(t_minishell *minish)
 		cur = node;
 	}
 	minish->node = head.next;
+	input_heredoc(minish);
 	///////////////////////////////////////
 	// TODO 後で消す
 	// print_nodes(minish->node);

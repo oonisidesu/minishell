@@ -6,7 +6,7 @@
 /*   By: susumuyagi <susumuyagi@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/15 15:44:04 by susumuyagi        #+#    #+#             */
-/*   Updated: 2024/03/18 10:19:15 by susumuyagi       ###   ########.fr       */
+/*   Updated: 2024/03/18 12:47:18 by susumuyagi       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,13 +17,16 @@
 # include <stddef.h>
 
 // bashも全体で16個までしかヒアドキュメントを扱えない
+# define MAX_HEREDOC 16
+# define ERROR_MAX_HEREDOC "minishell: maximum here-document count exceeded"
+# define HEREDOC_PROMPT "> "
 typedef struct s_heredoc
 {
 	size_t	num;
 
-	char	*delimiters[16];
-	bool	need_expansion[16];
-	char	*docs[16];
+	char	*delimiters[MAX_HEREDOC];
+	bool	need_expansion[MAX_HEREDOC];
+	char	*docs[MAX_HEREDOC];
 }			t_heredoc;
 
 #endif

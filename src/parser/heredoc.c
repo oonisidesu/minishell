@@ -6,13 +6,14 @@
 /*   By: susumuyagi <susumuyagi@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/15 15:43:15 by susumuyagi        #+#    #+#             */
-/*   Updated: 2024/03/18 10:47:54 by susumuyagi       ###   ########.fr       */
+/*   Updated: 2024/03/18 12:52:16 by susumuyagi       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 #include "parser/expansion.h"
 #include "parser/heredoc.h"
+#include "readline.h"
 #include <stdio.h>
 #include <stdlib.h>
 
@@ -70,6 +71,11 @@ int	set_heredoc(t_minishell *minish, t_token *tok)
 {
 	int	idx;
 
+	if (minish->heredoc.num >= MAX_HEREDOC)
+	{
+		ft_printf_fd(STDERR_FILENO, ERROR_MAX_HEREDOC);
+		exit(2);
+	}
 	idx = minish->heredoc.num;
 	minish->heredoc.num++;
 	// TODO heredocの場合、"、'は展開するが変数展開しないのでexpandのロジックを変える
@@ -77,7 +83,123 @@ int	set_heredoc(t_minishell *minish, t_token *tok)
 	minish->heredoc.need_expansion[idx] = (ft_memchr(tok->str, '\'',
 				tok->len) == NULL) && (ft_memchr(tok->str, '\"',
 				tok->len) == NULL);
+	if (minish->heredoc.delimiters[idx] == NULL)
+	{
+		return (-1);
+	}
 	return (idx);
+}
+
+void	read_heredoc(t_minishell *minish, int idx)
+{
+	char	*line;
+	char	*tmp;
+	char	*doc;
+
+	doc = (char *)ft_calloc(1, sizeof(char));
+	if (!doc)
+	{
+		minish->error_kind = ERR_MALLOC;
+		return ;
+	}
+	while (1)
+	{
+		line = readline(HEREDOC_PROMPT);
+		if (line == NULL)
+		{
+			break ;
+		}
+		// 終端文字列の場合
+		if (ft_strcmp(line, minish->heredoc.delimiters[idx]) == 0)
+		{
+			tmp = doc;
+			doc = ft_strjoin(doc, "\n");
+			if (!doc)
+			{
+				free(line);
+				free(tmp);
+				minish->error_kind = ERR_MALLOC;
+				return ;
+			}
+			free(line);
+			break ;
+		}
+		// 変数展開
+		if (minish->heredoc.need_expansion[idx])
+		{
+			tmp = line;
+			// TODO 変数展開にする。一旦strdupでコピーしているだけ
+			line = ft_strdup(line);
+			if (!line)
+			{
+				free(tmp);
+				free(doc);
+				minish->error_kind = ERR_MALLOC;
+				return ;
+			}
+			free(tmp);
+		}
+		// lineを結合
+		tmp = doc;
+		doc = ft_strjoin(doc, line);
+		if (!doc)
+		{
+			free(line);
+			free(tmp);
+			minish->error_kind = ERR_MALLOC;
+			return ;
+		}
+		free(tmp);
+		free(line);
+	}
+	minish->heredoc.docs[idx] = doc;
+}
+
+void	input_heredoc(t_minishell *minish)
+{
+	size_t	i;
+
+	i = 0;
+	while (i < minish->heredoc.num)
+	{
+		read_heredoc(minish, i);
+		i++;
+	}
+}
+
+void	write_heredoc(t_minishell *minish, int idx)
+{
+	int		fds[2];
+	pid_t	pid;
+	char	*buf;
+
+	buf = minish->heredoc.docs[idx];
+	if (pipe(fds) < 0)
+	{
+		perror("pipe");
+		// TODO exitしちゃだめ
+		exit(EXIT_FAILURE);
+	}
+	pid = fork();
+	if (pid < 0)
+	{
+		perror("fork");
+		// TODO exitしちゃだめ
+		exit(EXIT_FAILURE);
+	}
+	if (pid == 0)
+	{
+		// 子プロセス
+		close(fds[0]);
+		write(fds[1], buf, ft_strlen(buf));
+		close(fds[1]);
+		exit(EXIT_SUCCESS);
+	}
+	// 親プロセス
+	close(fds[1]);
+	dup2(fds[0], STDIN_FILENO);
+	close(fds[0]);
+	// waitpid(pid, &status, 0);
 }
 
 void	heredoc2(void)
