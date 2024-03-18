@@ -6,13 +6,14 @@
 /*   By: susumuyagi <susumuyagi@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/15 17:37:32 by susumuyagi        #+#    #+#             */
-/*   Updated: 2024/03/13 19:35:24 by susumuyagi       ###   ########.fr       */
+/*   Updated: 2024/03/18 10:33:49 by susumuyagi       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 #include "minishell.h"
 #include "parser/expansion.h"
+#include "parser/heredoc.h"
 #include "parser/parser.h"
 #include <stdlib.h>
 #include <unistd.h>
@@ -89,7 +90,18 @@ static t_node	*new_redirect_node(e_node_kind kind, t_minishell *minish)
 		minish->error_kind = ERR_MALLOC;
 		return (NULL);
 	}
-	node->path = expand(minish, tok);
+	if (kind == ND_HEREDOC)
+	{
+		node->heredoc_idx = set_heredoc(minish, tok);
+		if (node->heredoc_idx < 0)
+		{
+			// TODO エラー処理
+		}
+	}
+	else
+	{
+		node->path = expand(minish, tok);
+	}
 	// TODO エラー処理 ft_substrの中でmalloc
 	minish->cur_token = tok->next;
 	return (node);

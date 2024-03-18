@@ -6,7 +6,7 @@
 /*   By: susumuyagi <susumuyagi@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/14 16:21:32 by ootsuboyosh       #+#    #+#             */
-/*   Updated: 2024/03/11 10:58:38 by susumuyagi       ###   ########.fr       */
+/*   Updated: 2024/03/18 10:18:27 by susumuyagi       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 # define MINISHELL_H
 
 # include "parser/node.h"
+# include "parser/struct_heredoc.h"
 # include "parser/token.h"
 # include "variable/var.h"
 # include <signal.h>
@@ -56,6 +57,9 @@ typedef struct s_minishell
 	// 起動時の引数
 	int							argc;
 	const char					**argv;
+
+	// heredoc
+	t_heredoc					heredoc;
 
 	e_error_kind				error_kind;
 }								t_minishell;

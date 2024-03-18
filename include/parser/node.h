@@ -6,7 +6,7 @@
 /*   By: susumuyagi <susumuyagi@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/14 16:25:22 by ootsuboyosh       #+#    #+#             */
-/*   Updated: 2024/03/13 13:02:41 by susumuyagi       ###   ########.fr       */
+/*   Updated: 2024/03/16 17:21:06 by susumuyagi       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,8 @@ typedef struct s_node
 	bool			has_x;
 	bool			exist_cmd;
 	bool			in_pipe;
+
+	int				heredoc_idx;
 
 	struct s_node	*redirect;
 	struct s_node	*declare;

@@ -6,10 +6,11 @@
 /*   By: susumuyagi <susumuyagi@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/12 12:06:41 by susumuyagi        #+#    #+#             */
-/*   Updated: 2024/02/21 22:11:51 by susumuyagi       ###   ########.fr       */
+/*   Updated: 2024/03/18 10:32:28 by susumuyagi       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "parser/heredoc.h"
 #include "parser/node.h"
 #include <fcntl.h>
 #include <stdio.h>
@@ -63,6 +64,9 @@ void	redirect(t_node *node)
 			redirect_stdin(redirect_node->path);
 		else if (redirect_node->kind == ND_REDIRECT_OUT)
 			redirect_stdout(redirect_node->path);
+		else if (redirect_node->kind == ND_HEREDOC)
+			// TODO
+			heredoc_test();
 		redirect_node = redirect_node->next;
 	}
 }
