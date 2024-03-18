@@ -39,7 +39,12 @@ link_directories(
   "${CMAKE_CURRENT_SOURCE_DIR}/../../libft"
   "${CMAKE_CURRENT_SOURCE_DIR}/../../readline-8.2"
 )
-target_link_libraries(libminishell ft readline)
+
+if(APPLE)
+  target_link_libraries(libminishell ft readline termcap)
+elseif(UNIX)
+  target_link_libraries(libminishell ft readline tinfo)
+endif()
 
 # テストファイルのビルド ############################################################################################
 file(GLOB_RECURSE TEST_SRCS RELATIVE ${CMAKE_CURRENT_SOURCE_DIR} ./src/*.cpp)
