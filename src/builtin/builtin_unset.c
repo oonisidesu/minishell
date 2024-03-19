@@ -6,19 +6,18 @@
 /*   By: ootsuboyoshiyuki <ootsuboyoshiyuki@stud    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/23 19:23:01 by susumuyagi        #+#    #+#             */
-/*   Updated: 2024/03/16 17:25:09 by ootsuboyosh      ###   ########.fr       */
+/*   Updated: 2024/03/19 17:13:18 by ootsuboyosh      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "builtin/builtin.h"
 #include "libft.h"
+#include "message/message.h"
 #include "minishell.h"
 #include "variable/env.h"
 #include "variable/var.h"
 #include <stdlib.h>
 #include <unistd.h>
-// TODO 後で消す
-#include <stdio.h>
 
 static void	unset_env(t_minishell *minish, t_node *node)
 {

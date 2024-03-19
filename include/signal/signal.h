@@ -6,7 +6,7 @@
 /*   By: ootsuboyoshiyuki <ootsuboyoshiyuki@stud    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/22 12:16:18 by ootsuboyosh       #+#    #+#             */
-/*   Updated: 2024/03/18 16:31:52 by ootsuboyosh      ###   ########.fr       */
+/*   Updated: 2024/03/19 17:21:42 by ootsuboyosh      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,6 @@
 
 void	ctrl_c_handler(int sig);
 void	ctrl_c_clean_handler(t_minishell *minish);
-void    ctrl_d_clean_handler(t_minishell *minish);
+void	ctrl_d_clean_handler(t_minishell *minish);
 
 #endif

@@ -6,12 +6,13 @@
 /*   By: ootsuboyoshiyuki <ootsuboyoshiyuki@stud    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/23 19:23:01 by susumuyagi        #+#    #+#             */
-/*   Updated: 2024/03/18 14:18:19 by ootsuboyosh      ###   ########.fr       */
+/*   Updated: 2024/03/19 17:09:26 by ootsuboyosh      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "builtin/builtin.h"
 #include "libft.h"
+#include "message/message.h"
 #include "minishell.h"
 #include "variable/env.h"
 #include "variable/var.h"
@@ -19,8 +20,6 @@
 #include <stdlib.h>
 #include <string.h>
 #include <sys/param.h>
-// TODO 後で消す
-#include <stdio.h>
 
 static bool	check_node_argv(t_minishell *minish, t_node *node)
 {

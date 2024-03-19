@@ -6,12 +6,13 @@
 /*   By: ootsuboyoshiyuki <ootsuboyoshiyuki@stud    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/23 19:23:01 by susumuyagi        #+#    #+#             */
-/*   Updated: 2024/03/08 20:33:06 by ootsuboyosh      ###   ########.fr       */
+/*   Updated: 2024/03/19 17:09:51 by ootsuboyosh      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "builtin/builtin.h"
 #include "libft.h"
+#include "message/message.h"
 #include "minishell.h"
 #include <errno.h>
 #include <limits.h>

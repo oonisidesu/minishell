@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   token.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: susumuyagi <susumuyagi@student.42.fr>      +#+  +:+       +#+        */
+/*   By: ootsuboyoshiyuki <ootsuboyoshiyuki@stud    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/15 14:19:35 by susumuyagi        #+#    #+#             */
-/*   Updated: 2024/03/18 17:22:43 by susumuyagi       ###   ########.fr       */
+/*   Updated: 2024/03/19 16:57:12 by ootsuboyosh      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,6 @@
 # define TOKEN_H
 
 # include <stddef.h>
-
-# define CANNOT_TOKENIZE "Error: Cannot tokenize\n"
 
 typedef enum
 {

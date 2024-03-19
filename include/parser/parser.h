@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: susumuyagi <susumuyagi@student.42.fr>      +#+  +:+       +#+        */
+/*   By: ootsuboyoshiyuki <ootsuboyoshiyuki@stud    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/15 14:19:35 by susumuyagi        #+#    #+#             */
-/*   Updated: 2024/02/19 10:25:36 by susumuyagi       ###   ########.fr       */
+/*   Updated: 2024/03/19 16:55:14 by ootsuboyosh      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,6 @@
 # define PARSER_H
 
 # include "minishell.h"
-
-# define SYNTAX_ERROR "minishell: syntax error near unexpected token "
 
 int	parse(t_minishell *minish);
 

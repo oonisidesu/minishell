@@ -6,17 +6,16 @@
 /*   By: ootsuboyoshiyuki <ootsuboyoshiyuki@stud    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/23 19:23:01 by susumuyagi        #+#    #+#             */
-/*   Updated: 2024/03/07 16:49:13 by ootsuboyosh      ###   ########.fr       */
+/*   Updated: 2024/03/19 17:18:50 by ootsuboyosh      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "builtin/builtin.h"
 #include "libft.h"
+#include "message/message.h"
 #include "minishell.h"
 #include <stdlib.h>
 #include <sys/param.h>
-// TODO 後で消す
-#include <stdio.h>
 
 int	builtin_pwd(t_minishell *minish, t_node *node)
 {
