@@ -6,13 +6,14 @@
 /*   By: ootsuboyoshiyuki <ootsuboyoshiyuki@stud    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/15 14:13:54 by susumuyagi        #+#    #+#             */
-/*   Updated: 2024/03/18 17:10:20 by ootsuboyosh      ###   ########.fr       */
+/*   Updated: 2024/03/19 17:15:19 by ootsuboyosh      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "exec/exec.h"
 #include "history.h"
 #include "libft.h"
+#include "message/message.h"
 #include "minishell.h"
 #include "parser/lexer.h"
 #include "parser/parser.h"

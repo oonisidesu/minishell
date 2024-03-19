@@ -3,17 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   pipe.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: susumuyagi <susumuyagi@student.42.fr>      +#+  +:+       +#+        */
+/*   By: ootsuboyoshiyuki <ootsuboyoshiyuki@stud    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/12 12:06:41 by susumuyagi        #+#    #+#             */
-/*   Updated: 2024/03/18 12:40:28 by susumuyagi       ###   ########.fr       */
+/*   Updated: 2024/03/19 17:02:38 by ootsuboyosh      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-// #include "cmd.h"
 #include "builtin/builtin.h"
 #include "exec/process.h"
 #include "exec/redirect.h"
+#include "message/message.h"
 #include "minishell.h"
 #include "variable/env.h"
 #include <stdio.h>

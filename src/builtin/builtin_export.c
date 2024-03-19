@@ -6,20 +6,19 @@
 /*   By: ootsuboyoshiyuki <ootsuboyoshiyuki@stud    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/23 19:23:01 by susumuyagi        #+#    #+#             */
-/*   Updated: 2024/03/17 23:37:31 by ootsuboyosh      ###   ########.fr       */
+/*   Updated: 2024/03/19 17:12:44 by ootsuboyosh      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "builtin/builtin.h"
 #include "libft.h"
+#include "message/message.h"
 #include "minishell.h"
 #include "utils/utils.h"
 #include "variable/env.h"
 #include "variable/var.h"
 #include <stdlib.h>
 #include <unistd.h>
-// TODO 後で消す
-#include <stdio.h>
 
 static void	print_env(t_minishell *minish)
 {
@@ -51,9 +50,10 @@ static void	set_env(t_minishell *minish, t_node *node)
 			if (key_value == NULL)
 			{
 				minish->error_kind = ERR_MALLOC;
-				return;
+				return ;
 			}
-			key_value[0] = ft_substr(node->argv[i], 0, ft_strlen(node->argv[i]));
+			key_value[0] = ft_substr(node->argv[i], 0,
+					ft_strlen(node->argv[i]));
 		}
 		if (is_var_declaration(node->argv[i], ft_strlen(node->argv[i])))
 			add_or_update_var(minish, key_value[0], key_value[1], VAR_ENV);
@@ -65,7 +65,8 @@ static void	set_env(t_minishell *minish, t_node *node)
 		}
 		else
 		{
-			ft_printf_fd(STDERR_FILENO, IDENTIFIER_ERROR, "export", node->argv[i]);
+			ft_printf_fd(STDERR_FILENO, IDENTIFIER_ERROR, "export",
+				node->argv[i]);
 			node->wait_status = 1;
 		}
 		free_array((void **)key_value);

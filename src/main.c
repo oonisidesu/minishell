@@ -6,11 +6,12 @@
 /*   By: ootsuboyoshiyuki <ootsuboyoshiyuki@stud    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/15 13:22:07 by susumuyagi        #+#    #+#             */
-/*   Updated: 2024/03/18 16:30:37 by ootsuboyosh      ###   ########.fr       */
+/*   Updated: 2024/03/19 17:18:14 by ootsuboyosh      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
+#include "message/message.h"
 #include "minishell.h"
 #include "parser/prompt.h"
 #include "signal/signal.h"

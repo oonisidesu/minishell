@@ -3,13 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: susumuyagi <susumuyagi@student.42.fr>      +#+  +:+       +#+        */
+/*   By: ootsuboyoshiyuki <ootsuboyoshiyuki@stud    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/15 13:22:07 by susumuyagi        #+#    #+#             */
-/*   Updated: 2024/03/16 17:59:11 by susumuyagi       ###   ########.fr       */
+/*   Updated: 2024/03/19 17:22:04 by ootsuboyosh      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "message/message.h"
 #include "minishell.h"
 #include "parser/heredoc.h"
 #include "parser/lexer.h"

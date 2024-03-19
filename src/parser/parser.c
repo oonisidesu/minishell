@@ -3,14 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: susumuyagi <susumuyagi@student.42.fr>      +#+  +:+       +#+        */
+/*   By: ootsuboyoshiyuki <ootsuboyoshiyuki@stud    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/15 17:37:32 by susumuyagi        #+#    #+#             */
-/*   Updated: 2024/03/19 12:26:05 by susumuyagi       ###   ########.fr       */
+/*   Updated: 2024/03/19 17:14:28 by ootsuboyosh      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
+#include "message/message.h"
 #include "minishell.h"
 #include "parser/expansion.h"
 #include "parser/heredoc.h"

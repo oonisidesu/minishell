@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: susumuyagi <susumuyagi@student.42.fr>      +#+  +:+       +#+        */
+/*   By: ootsuboyoshiyuki <ootsuboyoshiyuki@stud    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/14 16:21:32 by ootsuboyosh       #+#    #+#             */
-/*   Updated: 2024/03/18 10:18:27 by susumuyagi       ###   ########.fr       */
+/*   Updated: 2024/03/19 16:58:38 by ootsuboyosh      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,9 +20,6 @@
 # include <signal.h>
 # include <stdbool.h>
 # include <stdio.h>
-
-# define TOO_MANY_ARGS "Error: too many arguments\n"
-# define GETCWD_ERROR "error retrieving current directory: getcwd: cannot access parent directories: Permission denied\n"
 
 // シグナル用グローバル変数
 static volatile sig_atomic_t	g_signal;
