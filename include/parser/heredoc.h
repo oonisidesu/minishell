@@ -1,36 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   expansion.h                                        :+:      :+:    :+:   */
+/*   heredoc.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: susumuyagi <susumuyagi@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/03/07 16:58:41 by susumuyagi        #+#    #+#             */
-/*   Updated: 2024/03/18 17:22:57 by susumuyagi       ###   ########.fr       */
+/*   Created: 2024/03/15 15:44:04 by susumuyagi        #+#    #+#             */
+/*   Updated: 2024/03/19 12:47:40 by susumuyagi       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef EXPANSION_H
-# define EXPANSION_H
+#ifndef HEREDOC_H
+# define HEREDOC_H
 
 # include "minishell.h"
-# include <stddef.h>
+# include "parser/struct_heredoc.h"
+# include "parser/token.h"
 
-typedef struct s_expansion
-{
-	char			*ret;
+void	init_heredoc(t_heredoc *heredoc);
+void	free_heredoc(t_heredoc *heredoc);
+int		set_heredoc_delimiter(t_minishell *minish, t_token *tok);
 
-	const char		*str;
-	size_t			len;
-
-	size_t			i;
-	size_t			n;
-
-	e_inside_status	in_status;
-}					t_expansion;
-
-char				*expand(t_minishell *minish, t_token *tok);
-char				*expand_delimiter(t_minishell *minish, t_token *tok);
-char				*expand_heredoc(t_minishell *minish, const char *str);
+void	input_heredoc(t_minishell *minish);
+void	read_heredoc(t_minishell *minish, int idx);
+void	write_heredoc(t_minishell *minish, int idx);
 
 #endif

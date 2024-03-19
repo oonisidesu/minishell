@@ -6,7 +6,7 @@
 /*   By: susumuyagi <susumuyagi@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/12 12:06:41 by susumuyagi        #+#    #+#             */
-/*   Updated: 2024/03/13 15:14:54 by susumuyagi       ###   ########.fr       */
+/*   Updated: 2024/03/18 12:40:28 by susumuyagi       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,7 +114,7 @@ void	exec_pipe(t_minishell *minish)
 			}
 		}
 		connect_io(minish, node, prev_fds, fds);
-		redirect(node);
+		redirect(minish, node);
 		if (IS_BUILTIN(node))
 		{
 			lookup_builtin_func(node)(minish, node);

@@ -22,7 +22,7 @@ endif
 
 
 SRCS := src/main.c src/minishell.c \
-	src/parser/prompt.c src/parser/lexer.c src/parser/parser.c src/parser/node.c src/parser/expansion.c \
+	src/parser/prompt.c src/parser/lexer.c src/parser/parser.c src/parser/node.c src/parser/expansion.c src/parser/heredoc.c \
 	src/variable/env.c src/variable/var.c \
 	src/exec/exec.c src/exec/find_path.c src/exec/pipe.c src/exec/process.c src/exec/redirect.c src/exec/ft_strsignal.c \
 	src/builtin/builtin.c src/builtin/builtin_echo.c src/builtin/builtin_cd.c src/builtin/builtin_pwd.c src/builtin/builtin_export.c \

@@ -6,13 +6,14 @@
 /*   By: susumuyagi <susumuyagi@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/15 17:37:32 by susumuyagi        #+#    #+#             */
-/*   Updated: 2024/03/13 19:35:24 by susumuyagi       ###   ########.fr       */
+/*   Updated: 2024/03/19 12:26:05 by susumuyagi       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 #include "minishell.h"
 #include "parser/expansion.h"
+#include "parser/heredoc.h"
 #include "parser/parser.h"
 #include <stdlib.h>
 #include <unistd.h>
@@ -89,8 +90,19 @@ static t_node	*new_redirect_node(e_node_kind kind, t_minishell *minish)
 		minish->error_kind = ERR_MALLOC;
 		return (NULL);
 	}
-	node->path = expand(minish, tok);
-	// TODO エラー処理 ft_substrの中でmalloc
+	if (kind == ND_HEREDOC)
+	{
+		node->heredoc_idx = set_heredoc_delimiter(minish, tok);
+		if (node->heredoc_idx < 0)
+		{
+			// TODO エラー処理
+		}
+	}
+	else
+	{
+		node->path = expand(minish, tok);
+		// TODO エラー処理
+	}
 	minish->cur_token = tok->next;
 	return (node);
 }
@@ -126,7 +138,6 @@ static t_node	*new_declare_node(e_node_kind kind, t_minishell *minish)
 		return (NULL);
 	}
 	free(key_val);
-	// TODO エラー処理 ft_substrの中でmalloc
 	minish->cur_token = tok->next;
 	return (node);
 }
@@ -290,6 +301,7 @@ int	parse(t_minishell *minish)
 		cur = node;
 	}
 	minish->node = head.next;
+	input_heredoc(minish);
 	///////////////////////////////////////
 	// TODO 後で消す
 	// print_nodes(minish->node);

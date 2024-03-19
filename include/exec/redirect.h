@@ -6,7 +6,7 @@
 /*   By: susumuyagi <susumuyagi@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/15 14:19:35 by susumuyagi        #+#    #+#             */
-/*   Updated: 2024/02/21 22:09:39 by susumuyagi       ###   ########.fr       */
+/*   Updated: 2024/03/18 12:40:00 by susumuyagi       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,6 @@
 
 # include "parser/node.h"
 
-void	redirect(t_node *node);
+void	redirect(t_minishell *minish, t_node *node);
 
 #endif

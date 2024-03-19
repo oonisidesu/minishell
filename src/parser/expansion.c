@@ -6,7 +6,7 @@
 /*   By: susumuyagi <susumuyagi@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/06 19:45:27 by susumuyagi        #+#    #+#             */
-/*   Updated: 2024/03/12 12:18:52 by susumuyagi       ###   ########.fr       */
+/*   Updated: 2024/03/18 17:18:02 by susumuyagi       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -194,6 +194,15 @@ static int	expand_special_param(t_minishell *minish, t_expansion *exp)
 	return (0);
 }
 
+static int	consume_and_join_dollar(t_minishell *minish, t_expansion *exp)
+{
+	if (exp->str[exp->i] == '$')
+	{
+		return (join_var(minish, exp, "$", 1));
+	}
+	return (0);
+}
+
 static int	expand_variable(t_minishell *minish, t_expansion *exp)
 {
 	int		ret;
@@ -214,11 +223,7 @@ static int	expand_variable(t_minishell *minish, t_expansion *exp)
 	}
 	if (!key)
 	{
-		if (exp->str[exp->i] == '$')
-		{
-			return (join_var(minish, exp, "$", 1));
-		}
-		return (0);
+		return (consume_and_join_dollar(minish, exp));
 	}
 	ret = join_var(minish, exp, get_var(minish, key), 0);
 	free(key);
@@ -233,6 +238,18 @@ static void	count_str_none(t_expansion *exp)
 	{
 		if (exp->str[exp->i] == '\'' || exp->str[exp->i] == '\"'
 			|| exp->str[exp->i] == '$')
+		{
+			break ;
+		}
+		exp->i++;
+	}
+}
+
+static void	count_str_until_dollar(t_expansion *exp)
+{
+	while (!done(exp))
+	{
+		if (exp->str[exp->i] == '$')
 		{
 			break ;
 		}
@@ -273,6 +290,12 @@ static void	count_str_d_quote(t_expansion *exp)
 static int	join_str_none(t_minishell *minish, t_expansion *exp)
 {
 	count_str_none(exp);
+	return (join_str(minish, exp));
+}
+
+static int	join_str_until_dollar(t_minishell *minish, t_expansion *exp)
+{
+	count_str_until_dollar(exp);
 	return (join_str(minish, exp));
 }
 
@@ -331,6 +354,54 @@ char	*expand(t_minishell *minish, t_token *tok)
 		if (join_str_quote(minish, &exp))
 			return (NULL);
 		if (join_str_d_quote(minish, &exp))
+			return (NULL);
+	}
+	return (exp.ret);
+}
+
+char	*expand_delimiter(t_minishell *minish, t_token *tok)
+{
+	t_expansion	exp;
+
+	if (init_expansion(&exp, tok))
+	{
+		minish->error_kind = ERR_MALLOC;
+		return (NULL);
+	}
+	while (!done(&exp))
+	{
+		update_inside_status(&exp);
+		if (join_str_none(minish, &exp))
+			return (NULL);
+		if (consume_and_join_dollar(minish, &exp))
+			return (NULL);
+		if (join_str_quote(minish, &exp))
+			return (NULL);
+		if (join_str_d_quote(minish, &exp))
+			return (NULL);
+	}
+	return (exp.ret);
+}
+
+char	*expand_heredoc(t_minishell *minish, const char *str)
+{
+	t_expansion	exp;
+	t_token		tok;
+
+	tok.str = str;
+	tok.len = ft_strlen(str);
+	if (init_expansion(&exp, &tok))
+	{
+		minish->error_kind = ERR_MALLOC;
+		return (NULL);
+	}
+	while (!done(&exp))
+	{
+		if (expand_special_param(minish, &exp))
+			return (NULL);
+		if (expand_variable(minish, &exp))
+			return (NULL);
+		if (join_str_until_dollar(minish, &exp))
 			return (NULL);
 	}
 	return (exp.ret);

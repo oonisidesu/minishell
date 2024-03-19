@@ -6,7 +6,7 @@
 /*   By: susumuyagi <susumuyagi@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/15 14:19:35 by susumuyagi        #+#    #+#             */
-/*   Updated: 2024/03/12 15:17:20 by susumuyagi       ###   ########.fr       */
+/*   Updated: 2024/03/18 17:22:43 by susumuyagi       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ typedef enum
 typedef struct s_token
 {
 	e_token_kind kind;    // トークンの種類
-	char *str;            // トークン文字列
+	const char *str;      // トークン文字列
 	size_t len;           // トークンの長さ
 	struct s_token *next; // 次のトークン
 }	t_token;

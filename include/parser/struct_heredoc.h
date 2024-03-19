@@ -1,36 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   expansion.h                                        :+:      :+:    :+:   */
+/*   struct_heredoc.h                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: susumuyagi <susumuyagi@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/03/07 16:58:41 by susumuyagi        #+#    #+#             */
-/*   Updated: 2024/03/18 17:22:57 by susumuyagi       ###   ########.fr       */
+/*   Created: 2024/03/15 15:44:04 by susumuyagi        #+#    #+#             */
+/*   Updated: 2024/03/18 12:47:18 by susumuyagi       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef EXPANSION_H
-# define EXPANSION_H
+#ifndef STRUCT_HEREDOC_H
+# define STRUCT_HEREDOC_H
 
-# include "minishell.h"
+# include <stdbool.h>
 # include <stddef.h>
 
-typedef struct s_expansion
+// bashも全体で16個までしかヒアドキュメントを扱えない
+# define MAX_HEREDOC 16
+# define ERROR_MAX_HEREDOC "minishell: maximum here-document count exceeded"
+# define HEREDOC_PROMPT "> "
+typedef struct s_heredoc
 {
-	char			*ret;
+	size_t	num;
 
-	const char		*str;
-	size_t			len;
-
-	size_t			i;
-	size_t			n;
-
-	e_inside_status	in_status;
-}					t_expansion;
-
-char				*expand(t_minishell *minish, t_token *tok);
-char				*expand_delimiter(t_minishell *minish, t_token *tok);
-char				*expand_heredoc(t_minishell *minish, const char *str);
+	char	*delimiters[MAX_HEREDOC];
+	bool	need_expansion[MAX_HEREDOC];
+	char	*docs[MAX_HEREDOC];
+}			t_heredoc;
 
 #endif
