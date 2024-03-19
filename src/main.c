@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: susumuyagi <susumuyagi@student.42.fr>      +#+  +:+       +#+        */
+/*   By: ootsuboyoshiyuki <ootsuboyoshiyuki@stud    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/15 13:22:07 by susumuyagi        #+#    #+#             */
-/*   Updated: 2024/03/13 19:36:23 by susumuyagi       ###   ########.fr       */
+/*   Updated: 2024/03/18 16:30:37 by ootsuboyosh      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,8 +29,6 @@ int	main(int argc, const char **argv, const char **envp)
 	minish.argc = argc;
 	minish.argv = argv;
 	signal(SIGINT, ctrl_c_handler);
-	rl_initialize();
-	rl_event_hook = signal_monitor;
 	if (argc > 1)
 	{
 		ft_printf_fd(STDERR_FILENO, TOO_MANY_ARGS);

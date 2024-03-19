@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   signal.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: susumuyagi <susumuyagi@student.42.fr>      +#+  +:+       +#+        */
+/*   By: ootsuboyoshiyuki <ootsuboyoshiyuki@stud    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/22 12:15:51 by ootsuboyosh       #+#    #+#             */
-/*   Updated: 2024/03/05 14:45:45 by susumuyagi       ###   ########.fr       */
+/*   Updated: 2024/03/18 17:09:44 by ootsuboyosh      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,11 @@ void	node_kill(t_node *node)
 void	ctrl_c_handler(int sig)
 {
 	(void)sig;
-	g_signal = CTRL_C_ONE;
+	rl_on_new_line();
+	ft_printf_fd(STDOUT_FILENO, "\n");
+	rl_replace_line("", 0);
+	rl_redisplay();
+	g_signal = CTRL_C;
 }
 
 void	ctrl_c_clean_handler(t_minishell *minish)
@@ -55,15 +59,4 @@ void	ctrl_d_clean_handler(t_minishell *minish)
 	node_kill(node);
 	die_minishell(minish);
 	exit(minish->status_code);
-}
-
-int	signal_monitor(void)
-{
-	if (g_signal == CTRL_C_ONE)
-	{
-		rl_delete_text(0, rl_end);
-		rl_done = 1;
-		g_signal = CTRL_C_TWO;
-	}
-	return (0);
 }
