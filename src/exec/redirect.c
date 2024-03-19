@@ -6,10 +6,11 @@
 /*   By: susumuyagi <susumuyagi@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/12 12:06:41 by susumuyagi        #+#    #+#             */
-/*   Updated: 2024/03/18 12:42:58 by susumuyagi       ###   ########.fr       */
+/*   Updated: 2024/03/19 11:20:54 by susumuyagi       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "builtin/builtin.h"
 #include "minishell.h"
 #include "parser/heredoc.h"
 #include <fcntl.h>
@@ -67,7 +68,10 @@ void	redirect(t_minishell *minish, t_node *node)
 		else if (redirect_node->kind == ND_REDIRECT_OUT)
 			redirect_stdout(redirect_node->path);
 		else if (redirect_node->kind == ND_HEREDOC)
-			write_heredoc(minish, node->heredoc_idx);
+		{
+			if (!IS_BUILTIN(node))
+				write_heredoc(minish, node->heredoc_idx);
+		}
 		redirect_node = redirect_node->next;
 	}
 }
