@@ -6,7 +6,7 @@
 /*   By: susumuyagi <susumuyagi@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/15 15:43:15 by susumuyagi        #+#    #+#             */
-/*   Updated: 2024/03/18 17:54:03 by susumuyagi       ###   ########.fr       */
+/*   Updated: 2024/03/19 12:53:19 by susumuyagi       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,27 +16,6 @@
 #include "readline.h"
 #include <stdio.h>
 #include <stdlib.h>
-
-// TODO ls | cat << EOF
-// pipeに入る前にheredocを全部読み込む
-
-// TODO heredocの時、終端文字列は変数展開しない
-// bash-3.2$ AAA=123
-// bash-3.2$ BBB=456
-// bash-3.2$ cat << $BBB
-// > $AAA # <-これは変数展開する
-// > $BBB # <-これは変数展開せず、終端文字列とする
-// 123
-
-// cat << '' # 空行を終端とする
-// cat << "'" # 'を終端とする
-// cat << '"' # "を終端とする
-// 終端文字に',"が含まれている場合は変数展開しない
-
-// 17個の場合、bash: maximum here-document count exceededでbashごと落ちる
-// cat << EOF << EOF << EOF << EOF << EOF << EOF << EOF << EOF << EOF << EOF << EOF << EOF << EOF << EOF << EOF << EOF << EOF
-// パイプがあっても、16個を超えると同様にエラーで落ちる
-// cat << EOF << EOF << EOF << EOF << EOF << EOF << EOF << EOF | cat << EOF << EOF << EOF << EOF << EOF << EOF << EOF << EOF << EOF
 
 void	init_heredoc(t_heredoc *heredoc)
 {
@@ -67,7 +46,7 @@ void	free_heredoc(t_heredoc *heredoc)
 	}
 }
 
-int	set_heredoc(t_minishell *minish, t_token *tok)
+int	set_heredoc_delimiter(t_minishell *minish, t_token *tok)
 {
 	int	idx;
 
@@ -79,13 +58,13 @@ int	set_heredoc(t_minishell *minish, t_token *tok)
 	idx = minish->heredoc.num;
 	minish->heredoc.num++;
 	minish->heredoc.delimiters[idx] = expand_delimiter(minish, tok);
-	minish->heredoc.need_expansion[idx] = (ft_memchr(tok->str, '\'',
-				tok->len) == NULL) && (ft_memchr(tok->str, '\"',
-				tok->len) == NULL);
 	if (minish->heredoc.delimiters[idx] == NULL)
 	{
 		return (-1);
 	}
+	minish->heredoc.need_expansion[idx] = (ft_memchr(tok->str, '\'',
+				tok->len) == NULL) && (ft_memchr(tok->str, '\"',
+				tok->len) == NULL);
 	return (idx);
 }
 

@@ -6,7 +6,7 @@
 /*   By: susumuyagi <susumuyagi@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/15 17:37:32 by susumuyagi        #+#    #+#             */
-/*   Updated: 2024/03/18 12:09:04 by susumuyagi       ###   ########.fr       */
+/*   Updated: 2024/03/19 12:26:05 by susumuyagi       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,7 +92,7 @@ static t_node	*new_redirect_node(e_node_kind kind, t_minishell *minish)
 	}
 	if (kind == ND_HEREDOC)
 	{
-		node->heredoc_idx = set_heredoc(minish, tok);
+		node->heredoc_idx = set_heredoc_delimiter(minish, tok);
 		if (node->heredoc_idx < 0)
 		{
 			// TODO エラー処理

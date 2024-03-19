@@ -6,7 +6,7 @@
 /*   By: susumuyagi <susumuyagi@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/12 12:06:41 by susumuyagi        #+#    #+#             */
-/*   Updated: 2024/03/19 11:20:54 by susumuyagi       ###   ########.fr       */
+/*   Updated: 2024/03/19 12:41:03 by susumuyagi       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,8 +69,8 @@ void	redirect(t_minishell *minish, t_node *node)
 			redirect_stdout(redirect_node->path);
 		else if (redirect_node->kind == ND_HEREDOC)
 		{
-			if (!IS_BUILTIN(node))
-				write_heredoc(minish, node->heredoc_idx);
+			if (!IS_BUILTIN(node) && redirect_node->next == NULL)
+				write_heredoc(minish, redirect_node->heredoc_idx);
 		}
 		redirect_node = redirect_node->next;
 	}
