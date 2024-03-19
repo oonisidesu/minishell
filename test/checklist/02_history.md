@@ -5,3 +5,4 @@
 - [ ] historyが上限数の場合は、古いものから削除
 - [ ] heredocがある場合のhistory
 
+yagi1
