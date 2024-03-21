@@ -6,7 +6,7 @@
 /*   By: ootsuboyoshiyuki <ootsuboyoshiyuki@stud    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/15 14:13:54 by susumuyagi        #+#    #+#             */
-/*   Updated: 2024/03/19 17:15:19 by ootsuboyosh      ###   ########.fr       */
+/*   Updated: 2024/03/21 19:11:57 by ootsuboyosh      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ void	prompt(t_minishell *minish)
 		minish->line = get_next_line(0);
 	if (minish->line == NULL)
 		ctrl_d_clean_handler(minish);
-	if (g_signal == CTRL_C)
+	else if (ft_strcmp(minish->line, "") == 0)
 		ctrl_c_clean_handler(minish);
 	if (ft_strlen(minish->line) == 0)
 	{

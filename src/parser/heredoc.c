@@ -6,7 +6,7 @@
 /*   By: ootsuboyoshiyuki <ootsuboyoshiyuki@stud    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/15 15:43:15 by susumuyagi        #+#    #+#             */
-/*   Updated: 2024/03/19 17:16:56 by ootsuboyosh      ###   ########.fr       */
+/*   Updated: 2024/03/21 19:10:54 by ootsuboyosh      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,8 +84,15 @@ void	read_heredoc(t_minishell *minish, int idx)
 	while (1)
 	{
 		line = readline(HEREDOC_PROMPT);
-		if (line == NULL)
+		// ctrl + Dの場合
+		if (line == NULL || ft_strcmp(line, "") == 0)
 		{
+			break ;
+		}
+		// ctrl + Cの場合
+		if (ft_strcmp(line, "") == 0)
+		{
+			doc = NULL;
 			break ;
 		}
 		// 終端文字列の場合
