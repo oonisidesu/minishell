@@ -6,7 +6,7 @@
 /*   By: ootsuboyoshiyuki <ootsuboyoshiyuki@stud    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/12 12:06:41 by susumuyagi        #+#    #+#             */
-/*   Updated: 2024/03/25 13:52:43 by ootsuboyosh      ###   ########.fr       */
+/*   Updated: 2024/03/26 14:26:41 by ootsuboyosh      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@
 #include "message/message.h"
 #include "minishell.h"
 #include "parser/node.h"
+#include "utils/exit_status.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <sys/wait.h>
@@ -28,21 +29,21 @@ void	exec_cmd(t_node *node, char **envp)
 	{
 		if (ft_strchr(node->argv[0], '/'))
 		{
-			ft_printf_fd(STDERR_FILENO, "pipex: %s: %s\n", node->argv[0],
+			ft_printf_fd(STDERR_FILENO, MINISHELL_ERROR, node->argv[0],
 				NO_SUCH_FILE_OR_DIR);
 		}
 		else
 		{
-			ft_printf_fd(STDERR_FILENO, "pipex: %s: %s\n", node->argv[0],
+			ft_printf_fd(STDERR_FILENO, MINISHELL_ERROR, node->argv[0],
 				COMMAND_NOT_FOUND);
 		}
-		exit(EXIT_FAILURE);
+		exit(EXIT_COMMAND_NOT_FOUND);
 	}
 	else if (!node->has_x)
 	{
-		ft_printf_fd(STDERR_FILENO, "pipex: %s: %s\n", node->argv[0],
+		ft_printf_fd(STDERR_FILENO, MINISHELL_ERROR, node->argv[0],
 			PERMISSION_DENIED);
-		exit(EXIT_FAILURE);
+		exit(EXIT_CANNOT_EXECUTE_COMMAND);
 	}
 	execve(node->path, node->argv, envp);
 	perror(node->path);

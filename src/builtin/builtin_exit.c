@@ -6,7 +6,7 @@
 /*   By: ootsuboyoshiyuki <ootsuboyoshiyuki@stud    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/23 19:23:01 by susumuyagi        #+#    #+#             */
-/*   Updated: 2024/03/19 17:09:51 by ootsuboyosh      ###   ########.fr       */
+/*   Updated: 2024/03/23 19:53:51 by ootsuboyosh      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,7 +97,7 @@ int	builtin_exit(t_minishell *minish, t_node *node)
 			// TODO: pipeの時メッセージがうまく表示されない
 			if (!node->in_pipe)
 				ft_printf_fd(STDERR_FILENO, "exit\n");
-			ft_printf_fd(STDERR_FILENO, BUILTIN_ERROR_NOT_ARGS, "exit",
+			ft_printf_fd(STDERR_FILENO, MINISHELL_ERROR, "exit",
 				B_TOO_MANY_ARGS);
 			minish->status_code = 1;
 			return (minish->status_code);
