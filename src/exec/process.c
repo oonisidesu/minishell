@@ -6,7 +6,7 @@
 /*   By: ootsuboyoshiyuki <ootsuboyoshiyuki@stud    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/12 12:06:41 by susumuyagi        #+#    #+#             */
-/*   Updated: 2024/03/19 17:02:27 by ootsuboyosh      ###   ########.fr       */
+/*   Updated: 2024/03/23 17:24:03 by ootsuboyosh      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,11 +76,10 @@ void	wait_prosesses(t_minishell *minish)
 		}
 		else if (WIFSIGNALED(node->wait_status))
 		{
-			ft_printf_fd(STDERR_FILENO, "%s: %d\n",
-				ft_strsignal(WTERMSIG(node->wait_status)),
-				WTERMSIG(node->wait_status));
+			if (node->next == NULL)
+				ft_printf_fd(STDERR_FILENO, "\n");
+			// ctrl_cだと2と128論理和の計算で130にしている
 			node->wait_status |= 128;
-			// exit(node->wait_status);
 		}
 		else if (WIFSTOPPED(node->wait_status))
 		{
