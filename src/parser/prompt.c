@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   prompt.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ootsuboyoshiyuki <ootsuboyoshiyuki@stud    +#+  +:+       +#+        */
+/*   By: susumuyagi <susumuyagi@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/15 14:13:54 by susumuyagi        #+#    #+#             */
-/*   Updated: 2024/03/21 19:11:57 by ootsuboyosh      ###   ########.fr       */
+/*   Updated: 2024/03/26 21:28:56 by susumuyagi       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,13 +33,12 @@ void	prompt(t_minishell *minish)
 	else if (ft_strcmp(minish->line, "") == 0)
 		ctrl_c_clean_handler(minish);
 	if (ft_strlen(minish->line) == 0)
-	{
-		return ;
-	}
+		return (free_minishell(minish));
 	add_history(minish->line);
 	if (tokenize(minish))
-		return ;
-	parse(minish);
+		return (free_minishell(minish));
+	if (parse(minish))
+		return (free_minishell(minish));
 	exec(minish);
 	free_minishell(minish);
 }

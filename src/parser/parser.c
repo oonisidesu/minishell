@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ootsuboyoshiyuki <ootsuboyoshiyuki@stud    +#+  +:+       +#+        */
+/*   By: susumuyagi <susumuyagi@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/15 17:37:32 by susumuyagi        #+#    #+#             */
-/*   Updated: 2024/03/19 17:14:28 by ootsuboyosh      ###   ########.fr       */
+/*   Updated: 2024/03/26 21:31:41 by susumuyagi       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,15 @@
 // 	}
 // }
 ////////////////////////////////////////////////////////////////
+
+static void	occurred_syntax_error(t_minishell *minish)
+{
+	minish->error_kind = ERR_SYNTAX;
+	ft_printf_fd(STDERR_FILENO, SYNTAX_ERROR);
+	write(STDERR_FILENO, "`", 1);
+	write(STDERR_FILENO, minish->cur_token->str, minish->cur_token->len);
+	write(STDERR_FILENO, "'\n", 2);
+}
 
 static t_node	*malloc_and_init_node(e_node_kind kind)
 {
@@ -175,21 +184,7 @@ static bool	expect_word(t_minishell *minish)
 	{
 		return (true);
 	}
-	// TODO syntax error
-	minish->error_kind = ERR_SYNTAX;
-	return (false);
-}
-static bool	occurred_syntax_error(t_minishell *minish)
-{
-	if (minish->error_kind == ERR_SYNTAX)
-	{
-		// TODO 後でちゃんと書く
-		ft_printf_fd(STDERR_FILENO, SYNTAX_ERROR);
-		write(STDERR_FILENO, "`", 1);
-		write(STDERR_FILENO, minish->cur_token->str, minish->cur_token->len);
-		write(STDERR_FILENO, "'\n", 2);
-		return (true);
-	}
+	occurred_syntax_error(minish);
 	return (false);
 }
 
@@ -201,15 +196,14 @@ static void	put_argv(t_node *node, t_minishell *minish)
 	minish->cur_token = minish->cur_token->next;
 }
 
-static bool	at_eof(t_minishell *minish)
+static bool	at_eof(t_token *tok)
 {
-	return (minish->cur_token->kind == TK_EOF);
+	return (tok->kind == TK_EOF);
 }
 
-static bool	at_pipe(t_minishell *minish)
+static bool	at_pipe(t_token *tok)
 {
-	return (minish->cur_token->kind == TK_RESERVED
-		&& minish->cur_token->len == 1 && minish->cur_token->str[0] == '|');
+	return (tok->kind == TK_RESERVED && tok->len == 1 && tok->str[0] == '|');
 }
 
 static void	redirection(t_minishell *minish, t_node **redirect_cur)
@@ -217,19 +211,19 @@ static void	redirection(t_minishell *minish, t_node **redirect_cur)
 	t_node	*node;
 
 	node = NULL;
-	if (consume(minish, ">") && expect_word(minish))
+	if (consume(minish, ">") && expect_word(minish) && NO_ERROR(minish))
 	{
 		node = new_redirect_node(ND_REDIRECT_OUT, minish);
 	}
-	else if (consume(minish, ">>") && expect_word(minish))
+	else if (consume(minish, ">>") && expect_word(minish) && NO_ERROR(minish))
 	{
 		node = new_redirect_node(ND_REDIRECT_APPEND, minish);
 	}
-	else if (consume(minish, "<") && expect_word(minish))
+	else if (consume(minish, "<") && expect_word(minish) && NO_ERROR(minish))
 	{
 		node = new_redirect_node(ND_REDIRECT_IN, minish);
 	}
-	else if (consume(minish, "<<") && expect_word(minish))
+	else if (consume(minish, "<<") && expect_word(minish) && NO_ERROR(minish))
 	{
 		node = new_redirect_node(ND_HEREDOC, minish);
 	}
@@ -265,7 +259,8 @@ static t_node	*command(t_minishell *minish)
 	redirect_cur = &redirect_head;
 	declare_head.next = NULL;
 	declare_cur = &declare_head;
-	while (!at_eof(minish) && !at_pipe(minish))
+	while (!at_eof(minish->cur_token) && !at_pipe(minish->cur_token)
+		&& NO_ERROR(minish))
 	{
 		redirection(minish, &redirect_cur);
 		if (node->argc == 0 && is_var_declaration(minish->cur_token->str,
@@ -281,7 +276,6 @@ static t_node	*command(t_minishell *minish)
 	}
 	node->redirect = redirect_head.next;
 	node->declare = declare_head.next;
-	consume(minish, "|");
 	return (node);
 }
 
@@ -295,9 +289,20 @@ int	parse(t_minishell *minish)
 	minish->cur_token = minish->token;
 	head.next = NULL;
 	cur = &head;
-	while (!at_eof(minish) && !occurred_syntax_error(minish))
+	if (at_pipe(minish->cur_token))
+	{
+		occurred_syntax_error(minish);
+	}
+	while (!at_eof(minish->cur_token) && NO_ERROR(minish))
 	{
 		node = command(minish);
+		if (at_pipe(minish->cur_token) && (at_pipe(minish->cur_token->next)
+				|| at_eof(minish->cur_token->next)))
+		{
+			occurred_syntax_error(minish);
+			break ;
+		}
+		consume(minish, "|");
 		cur->next = node;
 		cur = node;
 	}
@@ -307,5 +312,5 @@ int	parse(t_minishell *minish)
 	// TODO 後で消す
 	// print_nodes(minish->node);
 	///////////////////////////////////////
-	return (0);
+	return (!NO_ERROR(minish));
 }
