@@ -6,7 +6,7 @@
 /*   By: ootsuboyoshiyuki <ootsuboyoshiyuki@stud    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 16:45:14 by ootsuboyosh       #+#    #+#             */
-/*   Updated: 2024/03/23 19:53:28 by ootsuboyosh      ###   ########.fr       */
+/*   Updated: 2024/03/26 15:01:55 by ootsuboyosh      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,8 @@
 
 // --- minishell ---
 # define TOO_MANY_ARGS "Error: too many arguments\n"
-# define GETCWD_ERROR "error retrieving current directory: getcwd: cannot access parent directories: Permission denied\n"
+# define GETCWD_ERROR \
+	"error retrieving current directory: \
+getcwd: cannot access parent directories: Permission denied\n"
 
 #endif
