@@ -6,16 +6,17 @@
 /*   By: ootsuboyoshiyuki <ootsuboyoshiyuki@stud    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 16:45:14 by ootsuboyosh       #+#    #+#             */
-/*   Updated: 2024/03/19 17:11:59 by ootsuboyosh      ###   ########.fr       */
+/*   Updated: 2024/03/26 15:01:55 by ootsuboyosh      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MESSAGE_H
 # define MESSAGE_H
 
+# define MINISHELL_ERROR "minishell: %s: %s\n"
+
 // --- builtin ---
 # define BUILTIN_ERROR "minishell: %s: %s: %s\n"
-# define BUILTIN_ERROR_NOT_ARGS "minishell: %s: %s\n"
 # define HOME_NOT_SET "minishell: cd: HOME not set\n"
 # define B_TOO_MANY_ARGS "too many arguments"
 # define NUM_ARG_REQUIRED "numeric argument required"
@@ -37,6 +38,8 @@
 
 // --- minishell ---
 # define TOO_MANY_ARGS "Error: too many arguments\n"
-# define GETCWD_ERROR "error retrieving current directory: getcwd: cannot access parent directories: Permission denied\n"
+# define GETCWD_ERROR \
+	"error retrieving current directory: \
+getcwd: cannot access parent directories: Permission denied\n"
 
 #endif

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirect.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: susumuyagi <susumuyagi@student.42.fr>      +#+  +:+       +#+        */
+/*   By: ootsuboyoshiyuki <ootsuboyoshiyuki@stud    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/12 12:06:41 by susumuyagi        #+#    #+#             */
-/*   Updated: 2024/03/19 17:51:38 by susumuyagi       ###   ########.fr       */
+/*   Updated: 2024/03/23 19:53:40 by ootsuboyosh      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ static int	redirect_stdin(char *path)
 	fd = open(path, O_RDONLY);
 	if (fd < 0)
 	{
-		ft_printf_fd(STDERR_FILENO, BUILTIN_ERROR_NOT_ARGS, path,
+		ft_printf_fd(STDERR_FILENO, MINISHELL_ERROR, path,
 			strerror(errno));
 		return (1);
 	}
@@ -50,7 +50,7 @@ static int	redirect_stdout(char *path)
 	fd = open(path, O_WRONLY | O_CREAT | O_TRUNC, 0666);
 	if (fd < 0)
 	{
-		ft_printf_fd(STDERR_FILENO, BUILTIN_ERROR_NOT_ARGS, path,
+		ft_printf_fd(STDERR_FILENO, MINISHELL_ERROR, path,
 			strerror(errno));
 		return (1);
 	}
@@ -70,7 +70,7 @@ static int	redirect_append(char *path)
 	fd = open(path, O_WRONLY | O_CREAT | O_APPEND, 0666);
 	if (fd < 0)
 	{
-		ft_printf_fd(STDERR_FILENO, BUILTIN_ERROR_NOT_ARGS, path,
+		ft_printf_fd(STDERR_FILENO, MINISHELL_ERROR, path,
 			strerror(errno));
 		return (1);
 	}
