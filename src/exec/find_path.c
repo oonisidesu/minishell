@@ -6,14 +6,14 @@
 /*   By: ootsuboyoshiyuki <ootsuboyoshiyuki@stud    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/21 12:26:12 by susumuyagi        #+#    #+#             */
-/*   Updated: 2024/03/13 00:00:40 by ootsuboyosh      ###   ########.fr       */
+/*   Updated: 2024/03/27 02:22:27 by ootsuboyosh      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 #include "minishell.h"
-#include "variable/env.h"
 #include "utils/utils.h"
+#include "variable/env.h"
 #include <stdio.h>
 #include <stdlib.h>
 
@@ -95,6 +95,8 @@ void	set_cmd_path(t_minishell *minish)
 	char	*var_path;
 
 	var_path = get_var(minish, "PATH");
+	if (var_path == NULL)
+		return ;
 	path_array = split_path(var_path);
 	// TODO エラー処理
 	cur = minish->node;
