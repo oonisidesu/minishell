@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ootsuboyoshiyuki <ootsuboyoshiyuki@stud    +#+  +:+       +#+        */
+/*   By: susumuyagi <susumuyagi@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/14 16:21:32 by ootsuboyosh       #+#    #+#             */
-/*   Updated: 2024/03/19 16:58:38 by ootsuboyosh      ###   ########.fr       */
+/*   Updated: 2024/03/26 21:02:37 by susumuyagi       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,8 @@
 # include <signal.h>
 # include <stdbool.h>
 # include <stdio.h>
+
+# define NO_ERROR(minish) ((minish)->error_kind == ERR_NONE)
 
 // シグナル用グローバル変数
 static volatile sig_atomic_t	g_signal;
