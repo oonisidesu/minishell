@@ -6,7 +6,7 @@
 /*   By: susumuyagi <susumuyagi@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/15 17:37:32 by susumuyagi        #+#    #+#             */
-/*   Updated: 2024/03/26 21:31:41 by susumuyagi       ###   ########.fr       */
+/*   Updated: 2024/03/27 10:20:43 by susumuyagi       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,7 @@
 
 static void	occurred_syntax_error(t_minishell *minish)
 {
+	minish->status_code = 258;
 	minish->error_kind = ERR_SYNTAX;
 	ft_printf_fd(STDERR_FILENO, SYNTAX_ERROR);
 	write(STDERR_FILENO, "`", 1);
