@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ootsuboyoshiyuki <ootsuboyoshiyuki@stud    +#+  +:+       +#+        */
+/*   By: susumuyagi <susumuyagi@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/15 15:43:15 by susumuyagi        #+#    #+#             */
-/*   Updated: 2024/03/25 13:12:25 by ootsuboyosh      ###   ########.fr       */
+/*   Updated: 2024/03/27 11:06:18 by susumuyagi       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,6 +92,8 @@ void	read_heredoc(t_minishell *minish, int idx)
 		// ctrl + Cの場合
 		if (ft_strlen(line) == 0)
 		{
+			free(doc);
+			free(line);
 			doc = NULL;
 			break ;
 		}
@@ -140,6 +142,12 @@ void	input_heredoc(t_minishell *minish)
 	while (i < minish->heredoc.num)
 	{
 		read_heredoc(minish, i);
+		if (minish->heredoc.docs[i] == NULL)
+		{
+			minish->error_kind = INTERRUPT;
+			minish->status_code = 1;
+			return ;
+		}
 		i++;
 	}
 }
