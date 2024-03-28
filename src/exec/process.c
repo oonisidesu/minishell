@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   process.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ootsuboyoshiyuki <ootsuboyoshiyuki@stud    +#+  +:+       +#+        */
+/*   By: susumuyagi <susumuyagi@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/12 12:06:41 by susumuyagi        #+#    #+#             */
-/*   Updated: 2024/03/26 14:26:41 by ootsuboyosh      ###   ########.fr       */
+/*   Updated: 2024/03/27 16:23:44 by susumuyagi       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,8 @@
 
 void	exec_cmd(t_node *node, char **envp)
 {
+	if (node->argv[0] == NULL)
+		exit(EXIT_SUCCESS);
 	if (!node->exist_cmd)
 	{
 		if (ft_strchr(node->argv[0], '/'))
