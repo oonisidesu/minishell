@@ -6,7 +6,7 @@
 /*   By: susumuyagi <susumuyagi@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/15 17:37:32 by susumuyagi        #+#    #+#             */
-/*   Updated: 2024/03/27 10:20:43 by susumuyagi       ###   ########.fr       */
+/*   Updated: 2024/03/28 12:32:02 by susumuyagi       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,8 +111,7 @@ static t_node	*new_redirect_node(e_node_kind kind, t_minishell *minish)
 	}
 	else
 	{
-		node->path = expand(minish, tok);
-		// TODO エラー処理
+		node->path = expand_redirect(minish, tok);
 	}
 	minish->cur_token = tok->next;
 	return (node);

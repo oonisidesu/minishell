@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   message.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ootsuboyoshiyuki <ootsuboyoshiyuki@stud    +#+  +:+       +#+        */
+/*   By: susumuyagi <susumuyagi@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 16:45:14 by ootsuboyosh       #+#    #+#             */
-/*   Updated: 2024/03/26 15:01:55 by ootsuboyosh      ###   ########.fr       */
+/*   Updated: 2024/03/28 12:36:08 by susumuyagi       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 # define MESSAGE_H
 
 # define MINISHELL_ERROR "minishell: %s: %s\n"
+# define MINISHELL_NAME "minishell: "
 
 // --- builtin ---
 # define BUILTIN_ERROR "minishell: %s: %s: %s\n"
@@ -31,10 +32,10 @@
 // --- parser ---
 # define SYNTAX_ERROR "minishell: syntax error near unexpected token "
 # define PROMPT "minishell $ "
-# define READ_ERR "Error: Can not read line\n"
 # define ERROR_MAX_HEREDOC "minishell: maximum here-document count exceeded"
 # define HEREDOC_PROMPT "> "
 # define CANNOT_TOKENIZE "Error: Cannot tokenize\n"
+# define AMBIGUOUS_REDIRECT ": ambiguous redirect\n"
 
 // --- minishell ---
 # define TOO_MANY_ARGS "Error: too many arguments\n"

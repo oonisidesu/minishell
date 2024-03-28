@@ -6,13 +6,14 @@
 /*   By: susumuyagi <susumuyagi@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/06 19:45:27 by susumuyagi        #+#    #+#             */
-/*   Updated: 2024/03/18 17:18:02 by susumuyagi       ###   ########.fr       */
+/*   Updated: 2024/03/28 17:02:56 by susumuyagi       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 #include "minishell.h"
 #include "parser/expansion.h"
+#include "utils/minishell_error.h"
 #include "variable/env.h"
 #include <parser/token.h>
 #include <stddef.h>
@@ -357,6 +358,43 @@ char	*expand(t_minishell *minish, t_token *tok)
 			return (NULL);
 	}
 	return (exp.ret);
+}
+
+static bool	has_quotes(t_token *tok)
+{
+	bool	has_s_quote;
+	bool	has_d_quote;
+
+	has_s_quote = ft_memchr(tok->str, '\'', tok->len) != NULL;
+	has_d_quote = ft_memchr(tok->str, '\"', tok->len) != NULL;
+	return (has_s_quote || has_d_quote);
+}
+
+char	*expand_redirect(t_minishell *minish, t_token *tok)
+{
+	char	*ret;
+	char	*tmp;
+
+	ret = expand(minish, tok);
+	if (!ret)
+		return (NULL);
+	if (has_quotes(tok))
+		return (ret);
+	tmp = ret;
+	ret = ft_strtrim(ret, " \t");
+	free(tmp);
+	if (!ret)
+	{
+		minish->error_kind = ERR_MALLOC;
+		return (NULL);
+	}
+	if (ft_strchr(ret, ' ') != NULL || ft_strchr(ret, '\t') != NULL)
+	{
+		occurred_redirect_error(minish, tok);
+		free(ret);
+		return (NULL);
+	}
+	return (ret);
 }
 
 char	*expand_delimiter(t_minishell *minish, t_token *tok)
