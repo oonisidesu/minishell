@@ -6,7 +6,7 @@
 /*   By: susumuyagi <susumuyagi@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/18 15:49:00 by susumuyagi        #+#    #+#             */
-/*   Updated: 2024/03/18 17:46:49 by susumuyagi       ###   ########.fr       */
+/*   Updated: 2024/03/28 17:54:35 by susumuyagi       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,6 +100,7 @@ int					ft_printf_fd(int fd, const char *fmt, ...);
 int					ft_isspace(int c);
 int					ft_ispunct(int c);
 char				*ft_join_words(int n, ...);
+char				**ft_split2(char const *s, const char *c);
 
 // get_next_line
 # ifndef BUFFER_SIZE
