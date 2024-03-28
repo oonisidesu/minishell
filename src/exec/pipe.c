@@ -6,7 +6,7 @@
 /*   By: susumuyagi <susumuyagi@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/12 12:06:41 by susumuyagi        #+#    #+#             */
-/*   Updated: 2024/03/19 17:59:57 by susumuyagi       ###   ########.fr       */
+/*   Updated: 2024/03/28 14:32:59 by susumuyagi       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -132,7 +132,7 @@ void	exec_pipe(t_minishell *minish)
 		else
 		{
 			envp = get_envp(minish);
-			exec_cmd(node, envp);
+			exec_cmd(node, envp, get_var(minish, "PATH"));
 		}
 	}
 }

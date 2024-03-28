@@ -6,7 +6,7 @@
 /*   By: susumuyagi <susumuyagi@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/12 12:06:41 by susumuyagi        #+#    #+#             */
-/*   Updated: 2024/03/27 16:23:44 by susumuyagi       ###   ########.fr       */
+/*   Updated: 2024/03/28 14:37:59 by susumuyagi       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,18 +18,20 @@
 #include "minishell.h"
 #include "parser/node.h"
 #include "utils/exit_status.h"
+#include "variable/env.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <sys/wait.h>
 #include <unistd.h>
 
-void	exec_cmd(t_node *node, char **envp)
+void	exec_cmd(t_node *node, char **envp, char *path)
 {
 	if (node->argv[0] == NULL)
 		exit(EXIT_SUCCESS);
 	if (!node->exist_cmd)
 	{
-		if (ft_strchr(node->argv[0], '/'))
+		if (ft_strchr(node->argv[0], '/') || path == NULL
+			|| ft_strlen(path) == 0)
 		{
 			ft_printf_fd(STDERR_FILENO, MINISHELL_ERROR, node->argv[0],
 				NO_SUCH_FILE_OR_DIR);
