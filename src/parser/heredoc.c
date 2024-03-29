@@ -6,7 +6,7 @@
 /*   By: susumuyagi <susumuyagi@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/15 15:43:15 by susumuyagi        #+#    #+#             */
-/*   Updated: 2024/03/27 11:06:18 by susumuyagi       ###   ########.fr       */
+/*   Updated: 2024/03/29 14:55:22 by susumuyagi       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 #include "parser/expansion.h"
 #include "parser/heredoc.h"
 #include "readline.h"
+#include "utils/exit_status.h"
 #include <stdio.h>
 #include <stdlib.h>
 
@@ -54,7 +55,7 @@ int	set_heredoc_delimiter(t_minishell *minish, t_token *tok)
 	if (minish->heredoc.num >= MAX_HEREDOC)
 	{
 		ft_printf_fd(STDERR_FILENO, ERROR_MAX_HEREDOC);
-		exit(2);
+		exit(EXIT_MAX_HEREDOC);
 	}
 	idx = minish->heredoc.num;
 	minish->heredoc.num++;

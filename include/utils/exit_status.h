@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exit_status.h                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ootsuboyoshiyuki <ootsuboyoshiyuki@stud    +#+  +:+       +#+        */
+/*   By: susumuyagi <susumuyagi@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/23 20:04:22 by ootsuboyosh       #+#    #+#             */
-/*   Updated: 2024/03/26 15:03:17 by ootsuboyosh      ###   ########.fr       */
+/*   Updated: 2024/03/29 14:54:58 by susumuyagi       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,5 +21,7 @@
 # define EXIT_COMMAND_NOT_FOUND 127
 # define EXIT_SIGNAL_BASE 128
 # define EXIT_OUT_OF_RANGE_STATUS 255
+
+# define EXIT_MAX_HEREDOC 2
 
 #endif
