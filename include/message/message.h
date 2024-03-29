@@ -6,7 +6,7 @@
 /*   By: susumuyagi <susumuyagi@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 16:45:14 by ootsuboyosh       #+#    #+#             */
-/*   Updated: 2024/03/28 12:36:08 by susumuyagi       ###   ########.fr       */
+/*   Updated: 2024/03/29 14:50:51 by susumuyagi       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,5 +42,6 @@
 # define GETCWD_ERROR \
 	"error retrieving current directory: \
 getcwd: cannot access parent directories: Permission denied\n"
+# define MALLOC_ERROR "cannot allocate"
 
 #endif

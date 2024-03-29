@@ -6,7 +6,7 @@
 /*   By: susumuyagi <susumuyagi@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/15 15:43:15 by susumuyagi        #+#    #+#             */
-/*   Updated: 2024/03/29 14:55:22 by susumuyagi       ###   ########.fr       */
+/*   Updated: 2024/03/29 22:39:48 by susumuyagi       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 #include "parser/heredoc.h"
 #include "readline.h"
 #include "utils/exit_status.h"
+#include "utils/minishell_error.h"
 #include <stdio.h>
 #include <stdlib.h>
 
@@ -55,6 +56,7 @@ int	set_heredoc_delimiter(t_minishell *minish, t_token *tok)
 	if (minish->heredoc.num >= MAX_HEREDOC)
 	{
 		ft_printf_fd(STDERR_FILENO, ERROR_MAX_HEREDOC);
+		die_minishell(minish);
 		exit(EXIT_MAX_HEREDOC);
 	}
 	idx = minish->heredoc.num;
@@ -70,7 +72,7 @@ int	set_heredoc_delimiter(t_minishell *minish, t_token *tok)
 	return (idx);
 }
 
-void	read_heredoc(t_minishell *minish, int idx)
+static int	read_heredoc(t_minishell *minish, int idx)
 {
 	char	*line;
 	char	*tmp;
@@ -79,8 +81,8 @@ void	read_heredoc(t_minishell *minish, int idx)
 	doc = (char *)ft_calloc(1, sizeof(char));
 	if (!doc)
 	{
-		minish->error_kind = ERR_MALLOC;
-		return ;
+		occurred_malloc_error_return_null(minish);
+		return (1);
 	}
 	while (1)
 	{
@@ -108,14 +110,12 @@ void	read_heredoc(t_minishell *minish, int idx)
 		if (minish->heredoc.need_expansion[idx])
 		{
 			tmp = line;
-			// TODO 変数展開にする。一旦strdupでコピーしているだけ
 			line = expand_heredoc(minish, line);
 			if (!line)
 			{
 				free(tmp);
 				free(doc);
-				minish->error_kind = ERR_MALLOC;
-				return ;
+				return (1);
 			}
 			free(tmp);
 		}
@@ -126,13 +126,14 @@ void	read_heredoc(t_minishell *minish, int idx)
 		{
 			free(line);
 			free(tmp);
-			minish->error_kind = ERR_MALLOC;
-			return ;
+			occurred_malloc_error_return_null(minish);
+			return (1);
 		}
 		free(tmp);
 		free(line);
 	}
 	minish->heredoc.docs[idx] = doc;
+	return (0);
 }
 
 void	input_heredoc(t_minishell *minish)
@@ -142,7 +143,8 @@ void	input_heredoc(t_minishell *minish)
 	i = 0;
 	while (i < minish->heredoc.num)
 	{
-		read_heredoc(minish, i);
+		if (read_heredoc(minish, i))
+			return ;
 		if (minish->heredoc.docs[i] == NULL)
 		{
 			minish->error_kind = INTERRUPT;
