@@ -6,7 +6,7 @@
 /*   By: susumuyagi <susumuyagi@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/22 17:21:42 by susumuyagi        #+#    #+#             */
-/*   Updated: 2024/03/28 17:54:27 by susumuyagi       ###   ########.fr       */
+/*   Updated: 2024/03/29 14:14:10 by susumuyagi       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 #include <stdbool.h>
 #include <stdlib.h>
 
-static bool	is_delimiter(char c, char *delimiters)
+static bool	is_delimiter(char c, const char *delimiters)
 {
 	while (*delimiters)
 	{
@@ -25,7 +25,7 @@ static bool	is_delimiter(char c, char *delimiters)
 	return (false);
 }
 
-static char	**malloc_ret(char const *s, char *c)
+static char	**malloc_ret(char const *s, const char *c)
 {
 	size_t	count;
 	size_t	i;
@@ -48,7 +48,7 @@ static char	**malloc_ret(char const *s, char *c)
 	return (ret);
 }
 
-static size_t	word_len(char const *s, char *c, size_t i)
+static size_t	word_len(char const *s, const char *c, size_t i)
 {
 	size_t	count;
 
@@ -74,7 +74,7 @@ static void	free_ret(char **ret, size_t k)
 	free(ret);
 }
 
-static int	split(char const *s, char *c, char **ret)
+static int	split(char const *s, const char *c, char **ret)
 {
 	size_t	i;
 	size_t	k;
