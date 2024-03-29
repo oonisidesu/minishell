@@ -6,7 +6,7 @@
 /*   By: susumuyagi <susumuyagi@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/15 17:37:32 by susumuyagi        #+#    #+#             */
-/*   Updated: 2024/03/29 12:00:59 by susumuyagi       ###   ########.fr       */
+/*   Updated: 2024/03/29 14:24:47 by susumuyagi       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 #include "parser/expansion.h"
 #include "parser/heredoc.h"
 #include "parser/parser.h"
+#include "utils/minishell_error.h"
 #include <stdlib.h>
 #include <unistd.h>
 
@@ -48,16 +49,6 @@
 // 	}
 // }
 ////////////////////////////////////////////////////////////////
-
-static void	occurred_syntax_error(t_minishell *minish)
-{
-	minish->status_code = 258;
-	minish->error_kind = ERR_SYNTAX;
-	ft_printf_fd(STDERR_FILENO, SYNTAX_ERROR);
-	write(STDERR_FILENO, "`", 1);
-	write(STDERR_FILENO, minish->cur_token->str, minish->cur_token->len);
-	write(STDERR_FILENO, "'\n", 2);
-}
 
 static t_node	*malloc_and_init_node(e_node_kind kind)
 {
