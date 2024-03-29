@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   process.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ootsuboyoshiyuki <ootsuboyoshiyuki@stud    +#+  +:+       +#+        */
+/*   By: susumuyagi <susumuyagi@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/15 14:19:35 by susumuyagi        #+#    #+#             */
-/*   Updated: 2024/03/19 16:54:27 by ootsuboyosh      ###   ########.fr       */
+/*   Updated: 2024/03/28 14:39:02 by susumuyagi       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 # include "minishell.h"
 # include "parser/node.h"
 
-void	exec_cmd(t_node *node, char **envp);
+void	exec_cmd(t_node *node, char **envp, char *path);
 t_node	*parent_process(t_node *node, int prev_fds[]);
 void	wait_prosesses(t_minishell *minish);
 void	set_status_code(t_minishell *minish);
