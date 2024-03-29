@@ -6,7 +6,7 @@
 /*   By: susumuyagi <susumuyagi@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/15 17:37:32 by susumuyagi        #+#    #+#             */
-/*   Updated: 2024/03/27 10:20:43 by susumuyagi       ###   ########.fr       */
+/*   Updated: 2024/03/29 12:00:59 by susumuyagi       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,8 +111,7 @@ static t_node	*new_redirect_node(e_node_kind kind, t_minishell *minish)
 	}
 	else
 	{
-		node->path = expand(minish, tok);
-		// TODO エラー処理
+		node->path = expand_redirect(minish, tok);
 	}
 	minish->cur_token = tok->next;
 	return (node);
@@ -191,9 +190,20 @@ static bool	expect_word(t_minishell *minish)
 
 static void	put_argv(t_node *node, t_minishell *minish)
 {
-	node->argv[node->argc] = expand(minish, minish->cur_token);
-	// TODO エラー処理
-	node->argc++;
+	char	**argv;
+	int		i;
+
+	argv = expand_argv(minish, minish->cur_token);
+	if (!argv)
+		return ;
+	i = 0;
+	while (argv[i])
+	{
+		node->argv[node->argc] = argv[i];
+		node->argc++;
+		i++;
+	}
+	free(argv);
 	minish->cur_token = minish->cur_token->next;
 }
 
