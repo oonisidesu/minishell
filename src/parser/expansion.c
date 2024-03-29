@@ -6,7 +6,7 @@
 /*   By: susumuyagi <susumuyagi@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/06 19:45:27 by susumuyagi        #+#    #+#             */
-/*   Updated: 2024/03/28 17:02:56 by susumuyagi       ###   ########.fr       */
+/*   Updated: 2024/03/29 11:57:29 by susumuyagi       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -368,6 +368,36 @@ static bool	has_quotes(t_token *tok)
 	has_s_quote = ft_memchr(tok->str, '\'', tok->len) != NULL;
 	has_d_quote = ft_memchr(tok->str, '\"', tok->len) != NULL;
 	return (has_s_quote || has_d_quote);
+}
+
+char	**expand_argv(t_minishell *minish, t_token *tok)
+{
+	char	**ret;
+	char	*expanded;
+
+	expanded = expand(minish, tok);
+	if (!expanded)
+		return (NULL);
+	if (has_quotes(tok))
+	{
+		ret = (char **)ft_calloc(2, sizeof(char *));
+		if (!ret)
+		{
+			minish->error_kind = ERR_MALLOC;
+			free(expanded);
+			return (NULL);
+		}
+		ret[0] = expanded;
+		return (ret);
+	}
+	ret = ft_split2(expanded, " \t");
+	free(expanded);
+	if (!ret)
+	{
+		minish->error_kind = ERR_MALLOC;
+		return (NULL);
+	}
+	return (ret);
 }
 
 char	*expand_redirect(t_minishell *minish, t_token *tok)

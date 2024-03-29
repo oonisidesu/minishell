@@ -6,7 +6,7 @@
 /*   By: susumuyagi <susumuyagi@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/07 16:58:41 by susumuyagi        #+#    #+#             */
-/*   Updated: 2024/03/27 17:12:08 by susumuyagi       ###   ########.fr       */
+/*   Updated: 2024/03/29 12:01:49 by susumuyagi       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,7 @@ typedef struct s_expansion
 
 char				*expand(t_minishell *minish, t_token *tok);
 char				*expand_redirect(t_minishell *minish, t_token *tok);
+char				**expand_argv(t_minishell *minish, t_token *tok);
 char				*expand_delimiter(t_minishell *minish, t_token *tok);
 char				*expand_heredoc(t_minishell *minish, const char *str);
 

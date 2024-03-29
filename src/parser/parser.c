@@ -6,7 +6,7 @@
 /*   By: susumuyagi <susumuyagi@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/15 17:37:32 by susumuyagi        #+#    #+#             */
-/*   Updated: 2024/03/28 12:32:02 by susumuyagi       ###   ########.fr       */
+/*   Updated: 2024/03/29 12:00:59 by susumuyagi       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -190,9 +190,20 @@ static bool	expect_word(t_minishell *minish)
 
 static void	put_argv(t_node *node, t_minishell *minish)
 {
-	node->argv[node->argc] = expand(minish, minish->cur_token);
-	// TODO エラー処理
-	node->argc++;
+	char	**argv;
+	int		i;
+
+	argv = expand_argv(minish, minish->cur_token);
+	if (!argv)
+		return ;
+	i = 0;
+	while (argv[i])
+	{
+		node->argv[node->argc] = argv[i];
+		node->argc++;
+		i++;
+	}
+	free(argv);
 	minish->cur_token = minish->cur_token->next;
 }
 
