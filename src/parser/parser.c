@@ -6,7 +6,7 @@
 /*   By: susumuyagi <susumuyagi@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/15 17:37:32 by susumuyagi        #+#    #+#             */
-/*   Updated: 2024/03/29 12:00:59 by susumuyagi       ###   ########.fr       */
+/*   Updated: 2024/03/29 22:30:30 by susumuyagi       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 #include "parser/expansion.h"
 #include "parser/heredoc.h"
 #include "parser/parser.h"
+#include "utils/minishell_error.h"
 #include <stdlib.h>
 #include <unistd.h>
 
@@ -48,16 +49,6 @@
 // 	}
 // }
 ////////////////////////////////////////////////////////////////
-
-static void	occurred_syntax_error(t_minishell *minish)
-{
-	minish->status_code = 258;
-	minish->error_kind = ERR_SYNTAX;
-	ft_printf_fd(STDERR_FILENO, SYNTAX_ERROR);
-	write(STDERR_FILENO, "`", 1);
-	write(STDERR_FILENO, minish->cur_token->str, minish->cur_token->len);
-	write(STDERR_FILENO, "'\n", 2);
-}
 
 static t_node	*malloc_and_init_node(e_node_kind kind)
 {
@@ -95,23 +86,26 @@ static t_node	*new_redirect_node(e_node_kind kind, t_minishell *minish)
 
 	tok = minish->cur_token;
 	node = malloc_and_init_node(kind);
-	// TODO エラー処理ちゃんと書く
 	if (!node)
 	{
-		minish->error_kind = ERR_MALLOC;
-		return (NULL);
+		return (occurred_malloc_error_return_null(minish));
 	}
 	if (kind == ND_HEREDOC)
 	{
 		node->heredoc_idx = set_heredoc_delimiter(minish, tok);
 		if (node->heredoc_idx < 0)
 		{
-			// TODO エラー処理
+			return (NULL);
 		}
 	}
 	else
 	{
 		node->path = expand_redirect(minish, tok);
+		if (!node->path)
+		{
+			free_nodes(node);
+			return (NULL);
+		}
 	}
 	minish->cur_token = tok->next;
 	return (node);
@@ -125,18 +119,15 @@ static t_node	*new_declare_node(e_node_kind kind, t_minishell *minish)
 
 	tok = minish->cur_token;
 	node = malloc_and_init_node(kind);
-	// TODO エラー処理ちゃんと書く
 	if (!node)
 	{
-		minish->error_kind = ERR_MALLOC;
-		return (NULL);
+		return (occurred_malloc_error_return_null(minish));
 	}
 	key_val = expand(minish, tok);
 	if (!key_val)
 	{
 		free(node);
-		minish->error_kind = ERR_MALLOC;
-		return (NULL);
+		return (occurred_malloc_error_return_null(minish));
 	}
 	free(node->argv);
 	node->argv = divide_key_val(key_val);
@@ -144,8 +135,7 @@ static t_node	*new_declare_node(e_node_kind kind, t_minishell *minish)
 	{
 		free(node);
 		free(key_val);
-		minish->error_kind = ERR_MALLOC;
-		return (NULL);
+		return (occurred_malloc_error_return_null(minish));
 	}
 	free(key_val);
 	minish->cur_token = tok->next;
@@ -157,11 +147,9 @@ static t_node	*new_command_node(t_minishell *minish)
 	t_node	*node;
 
 	node = malloc_and_init_node(ND_COMMAND);
-	// TODO エラー処理ちゃんと書く
 	if (!node)
 	{
-		minish->error_kind = ERR_MALLOC;
-		return (NULL);
+		return (occurred_malloc_error_return_null(minish));
 	}
 	return (node);
 }
@@ -266,6 +254,8 @@ static t_node	*command(t_minishell *minish)
 	t_node	*declare_cur;
 
 	node = new_command_node(minish);
+	if (!node)
+		return (NULL);
 	redirect_head.next = NULL;
 	redirect_cur = &redirect_head;
 	declare_head.next = NULL;
@@ -307,6 +297,8 @@ int	parse(t_minishell *minish)
 	while (!at_eof(minish->cur_token) && NO_ERROR(minish))
 	{
 		node = command(minish);
+		if (!node)
+			return (1);
 		if (at_pipe(minish->cur_token) && (at_pipe(minish->cur_token->next)
 				|| at_eof(minish->cur_token->next)))
 		{

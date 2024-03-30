@@ -6,7 +6,7 @@
 /*   By: susumuyagi <susumuyagi@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/06 19:45:27 by susumuyagi        #+#    #+#             */
-/*   Updated: 2024/03/29 11:57:29 by susumuyagi       ###   ########.fr       */
+/*   Updated: 2024/03/29 22:24:34 by susumuyagi       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,15 +62,13 @@ static char	*extract_key(t_minishell *minish, t_expansion *exp)
 	key = ft_substr(exp->str, exp->n + 1, len);
 	if (!key)
 	{
-		minish->error_kind = ERR_MALLOC;
-		return (NULL);
+		return (occurred_malloc_error_return_null(minish));
 	}
 	exp->n = exp->i;
 	return (key);
 }
 
-static int	join_var(t_minishell *minish, t_expansion *exp, const char *var,
-		size_t var_len)
+static int	join_var(t_expansion *exp, const char *var, size_t var_len)
 {
 	char	*tmp;
 
@@ -80,7 +78,6 @@ static int	join_var(t_minishell *minish, t_expansion *exp, const char *var,
 		exp->ret = ft_strjoin(exp->ret, var);
 		if (!exp->ret)
 		{
-			minish->error_kind = ERR_MALLOC;
 			return (1);
 		}
 		free(tmp);
@@ -90,7 +87,7 @@ static int	join_var(t_minishell *minish, t_expansion *exp, const char *var,
 	return (0);
 }
 
-static int	join_str(t_minishell *minish, t_expansion *exp)
+static int	join_str(t_expansion *exp)
 {
 	char	*word;
 	char	*tmp;
@@ -104,14 +101,12 @@ static int	join_str(t_minishell *minish, t_expansion *exp)
 	word = ft_substr(exp->str, exp->n, num);
 	if (!word)
 	{
-		minish->error_kind = ERR_MALLOC;
 		return (1);
 	}
 	tmp = exp->ret;
 	exp->ret = ft_strjoin(exp->ret, word);
 	if (!exp->ret)
 	{
-		minish->error_kind = ERR_MALLOC;
 		free(word);
 		return (1);
 	}
@@ -146,60 +141,60 @@ static int	expand_special_param(t_minishell *minish, t_expansion *exp)
 	if (exp->str[exp->i + 1] == '0')
 	{
 		// $0
-		return (join_var(minish, exp, minish->argv[0], 2));
+		return (join_var(exp, minish->argv[0], 2));
 	}
 	else if (ft_isdigit(exp->str[exp->i + 1]))
 	{
 		// $1 ~ $9
-		return (join_var(minish, exp, "", 2));
+		return (join_var(exp, "", 2));
 	}
 	else if (exp->str[exp->i + 1] == '#')
 	{
 		// $#
 		// 引数の数 minishellは引数を受け付けないため、0固定
-		return (join_var(minish, exp, "0", 2));
+		return (join_var(exp, "0", 2));
 	}
 	else if (exp->str[exp->i + 1] == '$')
 	{
 		// $$ : getpid()が使えないため、$出力
-		return (join_var(minish, exp, "$", 1));
+		return (join_var(exp, "$", 1));
 	}
 	else if (exp->str[exp->i + 1] == '*')
 	{
 		// $* : 0以外のコマンドライン引数
-		return (join_var(minish, exp, "", 2));
+		return (join_var(exp, "", 2));
 	}
 	else if (exp->str[exp->i + 1] == '@')
 	{
 		// $@ : $*と同じ
-		return (join_var(minish, exp, "", 2));
+		return (join_var(exp, "", 2));
 	}
 	else if (exp->str[exp->i + 1] == '?')
 	{
 		// $? : ステータスを返す
 		str = ft_itoa(minish->status_code);
-		ret = join_var(minish, exp, str, 2);
+		ret = join_var(exp, str, 2);
 		free(str);
 		return (ret);
 	}
 	else if (exp->str[exp->i + 1] == '-')
 	{
 		// $- : // シェルにセットされているオプションを保持している
-		return (join_var(minish, exp, "", 2));
+		return (join_var(exp, "", 2));
 	}
 	else if (exp->str[exp->i + 1] == '!')
 	{
 		// $! : バックグラウンドで実行された直前のプロセスのプロセス番号を保持しています
-		return (join_var(minish, exp, "0", 2));
+		return (join_var(exp, "0", 2));
 	}
 	return (0);
 }
 
-static int	consume_and_join_dollar(t_minishell *minish, t_expansion *exp)
+static int	consume_and_join_dollar(t_expansion *exp)
 {
 	if (exp->str[exp->i] == '$')
 	{
-		return (join_var(minish, exp, "$", 1));
+		return (join_var(exp, "$", 1));
 	}
 	return (0);
 }
@@ -218,15 +213,15 @@ static int	expand_variable(t_minishell *minish, t_expansion *exp)
 		return (0);
 	}
 	key = extract_key(minish, exp);
-	if (minish->error_kind == ERR_MALLOC)
+	if (!NO_ERROR(minish))
 	{
 		return (1);
 	}
 	if (!key)
 	{
-		return (consume_and_join_dollar(minish, exp));
+		return (consume_and_join_dollar(exp));
 	}
-	ret = join_var(minish, exp, get_var(minish, key), 0);
+	ret = join_var(exp, get_var(minish, key), 0);
 	free(key);
 	return (ret);
 }
@@ -288,28 +283,28 @@ static void	count_str_d_quote(t_expansion *exp)
 	return ;
 }
 
-static int	join_str_none(t_minishell *minish, t_expansion *exp)
+static int	join_str_none(t_expansion *exp)
 {
 	count_str_none(exp);
-	return (join_str(minish, exp));
+	return (join_str(exp));
 }
 
-static int	join_str_until_dollar(t_minishell *minish, t_expansion *exp)
+static int	join_str_until_dollar(t_expansion *exp)
 {
 	count_str_until_dollar(exp);
-	return (join_str(minish, exp));
+	return (join_str(exp));
 }
 
-static int	join_str_quote(t_minishell *minish, t_expansion *exp)
+static int	join_str_quote(t_expansion *exp)
 {
 	count_str_quote(exp);
-	return (join_str(minish, exp));
+	return (join_str(exp));
 }
 
-static int	join_str_d_quote(t_minishell *minish, t_expansion *exp)
+static int	join_str_d_quote(t_expansion *exp)
 {
 	count_str_d_quote(exp);
-	return (join_str(minish, exp));
+	return (join_str(exp));
 }
 
 static void	update_inside_status(t_expansion *exp)
@@ -340,7 +335,6 @@ char	*expand(t_minishell *minish, t_token *tok)
 
 	if (init_expansion(&exp, tok))
 	{
-		minish->error_kind = ERR_MALLOC;
 		return (NULL);
 	}
 	while (!done(&exp))
@@ -350,11 +344,11 @@ char	*expand(t_minishell *minish, t_token *tok)
 			return (NULL);
 		if (expand_variable(minish, &exp))
 			return (NULL);
-		if (join_str_none(minish, &exp))
+		if (join_str_none(&exp))
 			return (NULL);
-		if (join_str_quote(minish, &exp))
+		if (join_str_quote(&exp))
 			return (NULL);
-		if (join_str_d_quote(minish, &exp))
+		if (join_str_d_quote(&exp))
 			return (NULL);
 	}
 	return (exp.ret);
@@ -377,15 +371,14 @@ char	**expand_argv(t_minishell *minish, t_token *tok)
 
 	expanded = expand(minish, tok);
 	if (!expanded)
-		return (NULL);
+		return (occurred_malloc_error_return_null(minish));
 	if (has_quotes(tok))
 	{
 		ret = (char **)ft_calloc(2, sizeof(char *));
 		if (!ret)
 		{
-			minish->error_kind = ERR_MALLOC;
 			free(expanded);
-			return (NULL);
+			return (occurred_malloc_error_return_null(minish));
 		}
 		ret[0] = expanded;
 		return (ret);
@@ -394,8 +387,7 @@ char	**expand_argv(t_minishell *minish, t_token *tok)
 	free(expanded);
 	if (!ret)
 	{
-		minish->error_kind = ERR_MALLOC;
-		return (NULL);
+		return (occurred_malloc_error_return_null(minish));
 	}
 	return (ret);
 }
@@ -407,7 +399,7 @@ char	*expand_redirect(t_minishell *minish, t_token *tok)
 
 	ret = expand(minish, tok);
 	if (!ret)
-		return (NULL);
+		return (occurred_malloc_error_return_null(minish));
 	if (has_quotes(tok))
 		return (ret);
 	tmp = ret;
@@ -415,8 +407,7 @@ char	*expand_redirect(t_minishell *minish, t_token *tok)
 	free(tmp);
 	if (!ret)
 	{
-		minish->error_kind = ERR_MALLOC;
-		return (NULL);
+		return (occurred_malloc_error_return_null(minish));
 	}
 	if (ft_strchr(ret, ' ') != NULL || ft_strchr(ret, '\t') != NULL)
 	{
@@ -433,20 +424,19 @@ char	*expand_delimiter(t_minishell *minish, t_token *tok)
 
 	if (init_expansion(&exp, tok))
 	{
-		minish->error_kind = ERR_MALLOC;
-		return (NULL);
+		return (occurred_malloc_error_return_null(minish));
 	}
 	while (!done(&exp))
 	{
 		update_inside_status(&exp);
-		if (join_str_none(minish, &exp))
-			return (NULL);
-		if (consume_and_join_dollar(minish, &exp))
-			return (NULL);
-		if (join_str_quote(minish, &exp))
-			return (NULL);
-		if (join_str_d_quote(minish, &exp))
-			return (NULL);
+		if (join_str_none(&exp))
+			return (occurred_malloc_error_return_null(minish));
+		if (consume_and_join_dollar(&exp))
+			return (occurred_malloc_error_return_null(minish));
+		if (join_str_quote(&exp))
+			return (occurred_malloc_error_return_null(minish));
+		if (join_str_d_quote(&exp))
+			return (occurred_malloc_error_return_null(minish));
 	}
 	return (exp.ret);
 }
@@ -460,17 +450,16 @@ char	*expand_heredoc(t_minishell *minish, const char *str)
 	tok.len = ft_strlen(str);
 	if (init_expansion(&exp, &tok))
 	{
-		minish->error_kind = ERR_MALLOC;
-		return (NULL);
+		return (occurred_malloc_error_return_null(minish));
 	}
 	while (!done(&exp))
 	{
 		if (expand_special_param(minish, &exp))
-			return (NULL);
+			return (occurred_malloc_error_return_null(minish));
 		if (expand_variable(minish, &exp))
-			return (NULL);
-		if (join_str_until_dollar(minish, &exp))
-			return (NULL);
+			return (occurred_malloc_error_return_null(minish));
+		if (join_str_until_dollar(&exp))
+			return (occurred_malloc_error_return_null(minish));
 	}
 	return (exp.ret);
 }
