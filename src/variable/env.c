@@ -6,7 +6,7 @@
 /*   By: ootsuboyoshiyuki <ootsuboyoshiyuki@stud    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/20 16:23:06 by susumuyagi        #+#    #+#             */
-/*   Updated: 2024/03/18 15:44:59 by ootsuboyosh      ###   ########.fr       */
+/*   Updated: 2024/03/30 11:23:39 by ootsuboyosh      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,7 +88,7 @@ void	set_envp(t_minishell *minish, const char **envp)
 		{
 			minish->error_kind = ERR_MALLOC;
 			return ;
-		};
+		}
 		val = get_val_from_env(envp[i]);
 		if (val == NULL)
 		{
@@ -152,13 +152,46 @@ char	**get_envp(t_minishell *minish)
 	return (envp);
 }
 
-char	**get_envp_double_quote(t_minishell *minish)
+// keyの一覧をsortする関数
+void	sort_key_list(char **key_list)
 {
-	size_t env_elements;
-	t_var *current;
-	char **envp;
-	char **double_quote_val;
-	size_t i;
+	size_t	i;
+	size_t	com_len;
+	bool	sort_flag;
+
+	if (key_list == NULL | key_list[0] == NULL)
+		return ;
+	i = 0;
+	sort_flag = true;
+	while (sort_flag)
+	{
+		i = 0;
+		sort_flag = false;
+		com_len = 1;
+		while (key_list[i + 1] != NULL)
+		{
+			if (ft_strncmp(key_list[i], key_list[i + 1], com_len) > 0)
+			{
+				ft_swap(&key_list[i], &key_list[i + 1]);
+				sort_flag = true;
+			}
+			else if (ft_strncmp(key_list[i], key_list[i + 1], com_len) == 0)
+			{
+				com_len++;
+				continue ;
+			}
+			i++;
+		}
+	}
+}
+
+// keyの一覧を返す関数
+char	**get_key_list(t_minishell *minish)
+{
+	size_t	env_elements;
+	t_var	*current;
+	char	**key_list;
+	size_t	i;
 
 	env_elements = 0;
 	current = minish->var;
@@ -167,14 +200,8 @@ char	**get_envp_double_quote(t_minishell *minish)
 		env_elements++;
 		current = current->next;
 	}
-	envp = (char **)malloc((env_elements + 1) * sizeof(char *));
-	if (envp == NULL)
-	{
-		minish->error_kind = ERR_MALLOC;
-		return (NULL);
-	}
-	double_quote_val = (char **)malloc((env_elements + 1) * sizeof(char *));
-	if (double_quote_val == NULL)
+	key_list = (char **)malloc((env_elements + 1) * sizeof(char *));
+	if (key_list == NULL)
 	{
 		minish->error_kind = ERR_MALLOC;
 		return (NULL);
@@ -185,27 +212,19 @@ char	**get_envp_double_quote(t_minishell *minish)
 	{
 		if (current->type == VAR_ENV)
 		{
-			double_quote_val[i] = join_three_word("\"", current->val, "\"");
-			if (double_quote_val[i] == NULL)
+			key_list[i] = ft_strdup(current->key);
+			if (key_list[i] == NULL)
 			{
 				minish->error_kind = ERR_MALLOC;
-				free_array((void **)double_quote_val);
-				return (NULL);
-			}
-			envp[i] = join_three_word(current->key, "=", double_quote_val[i]);
-			if (envp[i] == NULL)
-			{
-				minish->error_kind = ERR_MALLOC;
-				free_array((void **)envp);
+				free_array((void **)key_list);
 				return (NULL);
 			}
 		}
 		else
-			envp[i] = NULL;
+			key_list[i] = NULL;
 		current = current->next;
 		i++;
 	}
-	envp[env_elements] = NULL;
-	free_array((void **)double_quote_val);
-	return (envp);
+	key_list[env_elements] = NULL;
+	return (key_list);
 }

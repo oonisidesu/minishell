@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   message.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: susumuyagi <susumuyagi@student.42.fr>      +#+  +:+       +#+        */
+/*   By: ootsuboyoshiyuki <ootsuboyoshiyuki@stud    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 16:45:14 by ootsuboyosh       #+#    #+#             */
-/*   Updated: 2024/03/29 14:50:51 by susumuyagi       ###   ########.fr       */
+/*   Updated: 2024/03/30 11:16:01 by ootsuboyosh      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@
 # define HOME_NOT_SET "minishell: cd: HOME not set\n"
 # define B_TOO_MANY_ARGS "too many arguments"
 # define NUM_ARG_REQUIRED "numeric argument required"
-# define DECLARE "declare -x %s\n"
+# define DECLARE "declare -x %s=\"%s\"\n"
 # define IDENTIFIER_ERROR "minishell: %s: `%s': not a valid identifier\n"
 
 // --- exec ---

@@ -6,7 +6,7 @@
 /*   By: ootsuboyoshiyuki <ootsuboyoshiyuki@stud    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/23 19:23:01 by susumuyagi        #+#    #+#             */
-/*   Updated: 2024/03/19 17:12:44 by ootsuboyosh      ###   ########.fr       */
+/*   Updated: 2024/03/28 17:17:26 by ootsuboyosh      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,17 +22,19 @@
 
 static void	print_env(t_minishell *minish)
 {
-	char	**envp;
+	char	**key_list;
 	int		i;
 
-	envp = get_envp_double_quote(minish);
+	key_list = get_key_list(minish);
+	sort_key_list(key_list);
 	i = 0;
-	while (envp[i] != NULL)
+	while (key_list[i] != NULL)
 	{
-		ft_printf_fd(STDOUT_FILENO, DECLARE, envp[i]);
+		ft_printf_fd(STDOUT_FILENO, DECLARE, key_list[i], get_var(minish,
+				key_list[i]));
 		i++;
 	}
-	free_array((void **)envp);
+	free_array((void **)key_list);
 }
 
 static void	set_env(t_minishell *minish, t_node *node)
