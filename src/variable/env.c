@@ -6,7 +6,7 @@
 /*   By: ootsuboyoshiyuki <ootsuboyoshiyuki@stud    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/20 16:23:06 by susumuyagi        #+#    #+#             */
-/*   Updated: 2024/03/30 11:23:39 by ootsuboyosh      ###   ########.fr       */
+/*   Updated: 2024/03/30 14:04:54 by ootsuboyosh      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -159,7 +159,7 @@ void	sort_key_list(char **key_list)
 	size_t	com_len;
 	bool	sort_flag;
 
-	if (key_list == NULL | key_list[0] == NULL)
+	if (key_list == NULL || key_list[0] == NULL)
 		return ;
 	i = 0;
 	sort_flag = true;
