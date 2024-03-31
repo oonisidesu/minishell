@@ -6,7 +6,7 @@
 /*   By: susumuyagi <susumuyagi@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/12 12:06:41 by susumuyagi        #+#    #+#             */
-/*   Updated: 2024/03/28 14:32:59 by susumuyagi       ###   ########.fr       */
+/*   Updated: 2024/03/31 12:11:44 by susumuyagi       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 #include "exec/redirect.h"
 #include "message/message.h"
 #include "minishell.h"
+#include "utils/minishell_error.h"
 #include "variable/env.h"
 #include <stdio.h>
 #include <stdlib.h>
@@ -88,9 +89,7 @@ void	exec_pipe(t_minishell *minish)
 		{
 			if (pipe(fds) < 0)
 			{
-				perror("pipe");
-				// TODO エラー処理
-				exit(EXIT_FAILURE);
+				return (occurred_resource_error(minish, "pipe"));
 			}
 		}
 		node->in_pipe = IS_IN_PIPE(minish);
@@ -103,9 +102,7 @@ void	exec_pipe(t_minishell *minish)
 			node->pid = fork();
 			if (node->pid < 0)
 			{
-				perror("fork");
-				// TODO エラー処理
-				exit(EXIT_FAILURE);
+				return (occurred_resource_error(minish, "fork"));
 			}
 			if (node->pid > 0)
 			{
