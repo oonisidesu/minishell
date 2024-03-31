@@ -6,7 +6,7 @@
 /*   By: susumuyagi <susumuyagi@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/06 19:45:27 by susumuyagi        #+#    #+#             */
-/*   Updated: 2024/03/29 22:24:34 by susumuyagi       ###   ########.fr       */
+/*   Updated: 2024/03/31 16:31:53 by susumuyagi       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -213,7 +213,7 @@ static int	expand_variable(t_minishell *minish, t_expansion *exp)
 		return (0);
 	}
 	key = extract_key(minish, exp);
-	if (!NO_ERROR(minish))
+	if (!no_error(minish))
 	{
 		return (1);
 	}

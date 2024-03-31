@@ -6,7 +6,7 @@
 /*   By: susumuyagi <susumuyagi@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/27 15:11:18 by susumuyagi        #+#    #+#             */
-/*   Updated: 2024/03/13 15:06:11 by susumuyagi       ###   ########.fr       */
+/*   Updated: 2024/03/31 16:23:04 by susumuyagi       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,4 +39,14 @@ t_builtin_func	lookup_builtin_func(t_node *node)
 	if (ft_strcmp("exit", name) == 0)
 		return (builtin_exit);
 	return (NULL);
+}
+
+bool	is_builtin(t_node *node)
+{
+	return (lookup_builtin_func(node) != NULL);
+}
+
+bool	is_in_pipe(t_minishell *minish)
+{
+	return (minish->node->next != NULL);
 }

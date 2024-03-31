@@ -6,7 +6,7 @@
 /*   By: susumuyagi <susumuyagi@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/15 17:37:32 by susumuyagi        #+#    #+#             */
-/*   Updated: 2024/03/31 11:26:30 by susumuyagi       ###   ########.fr       */
+/*   Updated: 2024/03/31 16:32:15 by susumuyagi       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -211,19 +211,19 @@ static void	redirection(t_minishell *minish, t_node **redirect_cur)
 	t_node	*node;
 
 	node = NULL;
-	if (consume(minish, ">") && expect_word(minish) && NO_ERROR(minish))
+	if (consume(minish, ">") && expect_word(minish) && no_error(minish))
 	{
 		node = new_redirect_node(ND_REDIRECT_OUT, minish);
 	}
-	else if (consume(minish, ">>") && expect_word(minish) && NO_ERROR(minish))
+	else if (consume(minish, ">>") && expect_word(minish) && no_error(minish))
 	{
 		node = new_redirect_node(ND_REDIRECT_APPEND, minish);
 	}
-	else if (consume(minish, "<") && expect_word(minish) && NO_ERROR(minish))
+	else if (consume(minish, "<") && expect_word(minish) && no_error(minish))
 	{
 		node = new_redirect_node(ND_REDIRECT_IN, minish);
 	}
-	else if (consume(minish, "<<") && expect_word(minish) && NO_ERROR(minish))
+	else if (consume(minish, "<<") && expect_word(minish) && no_error(minish))
 	{
 		node = new_redirect_node(ND_HEREDOC, minish);
 	}
@@ -262,7 +262,7 @@ static t_node	*command(t_minishell *minish)
 	declare_head.next = NULL;
 	declare_cur = &declare_head;
 	while (!at_eof(minish->cur_token) && !at_pipe(minish->cur_token)
-		&& NO_ERROR(minish))
+		&& no_error(minish))
 	{
 		redirection(minish, &redirect_cur);
 		if (node->argc == 0 && is_var_declaration(minish->cur_token->str,
@@ -296,7 +296,7 @@ int	parse(t_minishell *minish)
 		occurred_syntax_error(minish, minish->cur_token->str,
 			minish->cur_token->len);
 	}
-	while (!at_eof(minish->cur_token) && NO_ERROR(minish))
+	while (!at_eof(minish->cur_token) && no_error(minish))
 	{
 		node = command(minish);
 		if (!node)
@@ -318,5 +318,5 @@ int	parse(t_minishell *minish)
 	// TODO 後で消す
 	// print_nodes(minish->node);
 	///////////////////////////////////////
-	return (!NO_ERROR(minish));
+	return (!no_error(minish));
 }
