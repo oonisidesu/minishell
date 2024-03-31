@@ -6,7 +6,7 @@
 /*   By: susumuyagi <susumuyagi@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/15 17:20:20 by susumuyagi        #+#    #+#             */
-/*   Updated: 2024/03/31 11:26:59 by susumuyagi       ###   ########.fr       */
+/*   Updated: 2024/03/31 16:01:09 by susumuyagi       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -134,7 +134,18 @@ void	free_tokens(t_token *cur)
 
 static int	error_at(t_minishell *minish, t_token *head, char *p)
 {
-	occurred_syntax_error(minish, p, 1);
+	char	*space;
+	char	*tab;
+	size_t	len;
+
+	tab = ft_strchr(p, '\t');
+	space = ft_strchr(p, ' ');
+	len = ft_strlen(p);
+	if (tab - p > 0 && (space == 0 || tab < space))
+		len = tab - p;
+	if (space - p > 0 && (tab == 0 || space < tab))
+		len = space - p;
+	occurred_syntax_error(minish, p, len);
 	free_tokens(head->next);
 	return (EXIT_FAILURE);
 }
