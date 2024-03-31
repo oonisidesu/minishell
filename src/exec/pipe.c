@@ -6,7 +6,7 @@
 /*   By: susumuyagi <susumuyagi@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/12 12:06:41 by susumuyagi        #+#    #+#             */
-/*   Updated: 2024/03/31 12:11:44 by susumuyagi       ###   ########.fr       */
+/*   Updated: 2024/03/31 16:26:54 by susumuyagi       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,8 +92,8 @@ void	exec_pipe(t_minishell *minish)
 				return (occurred_resource_error(minish, "pipe"));
 			}
 		}
-		node->in_pipe = IS_IN_PIPE(minish);
-		if (IS_BUILTIN(node) && !node->in_pipe)
+		node->in_pipe = is_in_pipe(minish);
+		if (is_builtin(node) && !node->in_pipe)
 		{
 			node->pid = RUN_PARENT;
 		}
@@ -113,11 +113,11 @@ void	exec_pipe(t_minishell *minish)
 		connect_io(minish, node, prev_fds, fds);
 		if (redirect(minish, node))
 		{
-			if (IS_BUILTIN(node) && !node->in_pipe)
+			if (is_builtin(node) && !node->in_pipe)
 				return ;
 			exit(EXIT_FAILURE);
 		}
-		if (IS_BUILTIN(node))
+		if (is_builtin(node))
 		{
 			lookup_builtin_func(node)(minish, node);
 			if (node->in_pipe)
