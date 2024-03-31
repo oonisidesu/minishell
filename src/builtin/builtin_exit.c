@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_exit.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ootsuboyoshiyuki <ootsuboyoshiyuki@stud    +#+  +:+       +#+        */
+/*   By: susumuyagi <susumuyagi@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/23 19:23:01 by susumuyagi        #+#    #+#             */
-/*   Updated: 2024/03/23 19:53:51 by ootsuboyosh      ###   ########.fr       */
+/*   Updated: 2024/03/31 18:06:08 by susumuyagi       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,9 +114,9 @@ int	builtin_exit(t_minishell *minish, t_node *node)
 		die_minishell(minish);
 		exit(minish->status_code);
 	}
-	die_minishell(minish);
 	if (!node->in_pipe)
 		ft_printf_fd(STDOUT_FILENO, "exit\n");
+	die_minishell(minish);
 	exit(minish->status_code);
 	return (0);
 }
