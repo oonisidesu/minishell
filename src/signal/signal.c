@@ -6,7 +6,7 @@
 /*   By: ootsuboyoshiyuki <ootsuboyoshiyuki@stud    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/22 12:15:51 by ootsuboyosh       #+#    #+#             */
-/*   Updated: 2024/03/31 18:34:07 by ootsuboyosh      ###   ########.fr       */
+/*   Updated: 2024/03/31 18:48:18 by ootsuboyosh      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,9 +34,9 @@ void	ctrl_c_handler(int sig)
 	rl_done = 1;
 }
 
-void	ctrl_c_blank_line_handler(t_minishell *minish, int sig)
+void	ctrl_c_blank_line_handler(t_minishell *minish)
 {
-	if (sig == CTRL_C)
+	if (g_signal == CTRL_C)
 		minish->status_code = EXIT_FAILURE;
 	g_signal = 0;
 }
