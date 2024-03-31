@@ -6,7 +6,7 @@
 /*   By: susumuyagi <susumuyagi@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/14 16:21:32 by ootsuboyosh       #+#    #+#             */
-/*   Updated: 2024/03/31 12:03:45 by susumuyagi       ###   ########.fr       */
+/*   Updated: 2024/03/31 16:31:44 by susumuyagi       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,8 +20,6 @@
 # include <signal.h>
 # include <stdbool.h>
 # include <stdio.h>
-
-# define NO_ERROR(minish) ((minish)->error_kind == ERR_NONE)
 
 // シグナル用グローバル変数
 static volatile sig_atomic_t	g_signal;
@@ -69,5 +67,6 @@ typedef struct s_minishell
 void							init_minishell(t_minishell *minish);
 void							free_minishell(t_minishell *minish);
 void							die_minishell(t_minishell *minish);
+bool							no_error(t_minishell *minish);
 
 #endif

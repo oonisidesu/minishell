@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ootsuboyoshiyuki <ootsuboyoshiyuki@stud    +#+  +:+       +#+        */
+/*   By: susumuyagi <susumuyagi@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/15 13:22:07 by susumuyagi        #+#    #+#             */
-/*   Updated: 2024/03/19 17:22:04 by ootsuboyosh      ###   ########.fr       */
+/*   Updated: 2024/03/31 16:31:29 by susumuyagi       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,4 +51,9 @@ void	die_minishell(t_minishell *minish)
 {
 	free_minishell(minish);
 	free_var(minish);
+}
+
+bool	no_error(t_minishell *minish)
+{
+	return (minish->error_kind == ERR_NONE);
 }
