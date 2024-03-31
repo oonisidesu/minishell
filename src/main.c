@@ -6,7 +6,7 @@
 /*   By: ootsuboyoshiyuki <ootsuboyoshiyuki@stud    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/15 13:22:07 by susumuyagi        #+#    #+#             */
-/*   Updated: 2024/03/31 18:38:45 by ootsuboyosh      ###   ########.fr       */
+/*   Updated: 2024/03/31 19:09:05 by ootsuboyosh      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,8 @@
 // 	system("leaks -q minishell");
 // }
 
+volatile sig_atomic_t	g_signal = 0;
+
 int	event(void)
 {
 	return (0);
@@ -34,7 +36,6 @@ int	main(int argc, const char **argv, const char **envp)
 	init_minishell(&minish);
 	minish.argc = argc;
 	minish.argv = argv;
-	g_signal = 0;
 	signal(SIGINT, ctrl_c_handler);
 	rl_event_hook = event;
 	if (argc > 1)
