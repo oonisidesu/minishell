@@ -6,7 +6,7 @@
 /*   By: susumuyagi <susumuyagi@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/28 16:53:52 by susumuyagi        #+#    #+#             */
-/*   Updated: 2024/03/31 12:11:23 by susumuyagi       ###   ########.fr       */
+/*   Updated: 2024/03/31 15:51:41 by susumuyagi       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 # include "minishell.h"
 
 void	occurred_redirect_error(t_minishell *minish, t_token *tok);
-void	occurred_syntax_error(t_minishell *minish);
+void	occurred_syntax_error(t_minishell *minish, const char *str, size_t len);
 void	*occurred_malloc_error_return_null(t_minishell *minish);
 void	occurred_resource_error(t_minishell *minish, char *resource);
 

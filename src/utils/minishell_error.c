@@ -6,7 +6,7 @@
 /*   By: susumuyagi <susumuyagi@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/28 16:52:23 by susumuyagi        #+#    #+#             */
-/*   Updated: 2024/03/31 12:11:29 by susumuyagi       ###   ########.fr       */
+/*   Updated: 2024/03/31 15:52:25 by susumuyagi       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,13 +27,13 @@ void	occurred_redirect_error(t_minishell *minish, t_token *tok)
 	ft_printf_fd(STDERR_FILENO, AMBIGUOUS_REDIRECT);
 }
 
-void	occurred_syntax_error(t_minishell *minish)
+void	occurred_syntax_error(t_minishell *minish, const char *str, size_t len)
 {
 	minish->status_code = 258;
 	minish->error_kind = ERR_SYNTAX;
 	ft_printf_fd(STDERR_FILENO, SYNTAX_ERROR);
 	write(STDERR_FILENO, "`", 1);
-	write(STDERR_FILENO, minish->cur_token->str, minish->cur_token->len);
+	write(STDERR_FILENO, str, len);
 	write(STDERR_FILENO, "'\n", 2);
 }
 

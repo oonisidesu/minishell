@@ -6,7 +6,7 @@
 /*   By: susumuyagi <susumuyagi@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/15 17:37:32 by susumuyagi        #+#    #+#             */
-/*   Updated: 2024/03/29 22:30:30 by susumuyagi       ###   ########.fr       */
+/*   Updated: 2024/03/31 11:26:30 by susumuyagi       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -172,7 +172,8 @@ static bool	expect_word(t_minishell *minish)
 	{
 		return (true);
 	}
-	occurred_syntax_error(minish);
+	occurred_syntax_error(minish, minish->cur_token->str,
+		minish->cur_token->len);
 	return (false);
 }
 
@@ -292,7 +293,8 @@ int	parse(t_minishell *minish)
 	cur = &head;
 	if (at_pipe(minish->cur_token))
 	{
-		occurred_syntax_error(minish);
+		occurred_syntax_error(minish, minish->cur_token->str,
+			minish->cur_token->len);
 	}
 	while (!at_eof(minish->cur_token) && NO_ERROR(minish))
 	{
@@ -302,7 +304,8 @@ int	parse(t_minishell *minish)
 		if (at_pipe(minish->cur_token) && (at_pipe(minish->cur_token->next)
 				|| at_eof(minish->cur_token->next)))
 		{
-			occurred_syntax_error(minish);
+			occurred_syntax_error(minish, minish->cur_token->str,
+				minish->cur_token->len);
 			break ;
 		}
 		consume(minish, "|");
