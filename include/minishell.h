@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: susumuyagi <susumuyagi@student.42.fr>      +#+  +:+       +#+        */
+/*   By: ootsuboyoshiyuki <ootsuboyoshiyuki@stud    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/14 16:21:32 by ootsuboyosh       #+#    #+#             */
-/*   Updated: 2024/03/31 16:31:44 by susumuyagi       ###   ########.fr       */
+/*   Updated: 2024/03/31 18:30:26 by ootsuboyosh      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@
 # include <stdio.h>
 
 // シグナル用グローバル変数
-static volatile sig_atomic_t	g_signal;
+volatile sig_atomic_t	g_signal;
 
 typedef enum
 {
@@ -32,41 +32,41 @@ typedef enum
 	ERR_REDIRECT,
 	ERR_RESOURCE,
 	INTERRUPT,
-}								e_error_kind;
+}						e_error_kind;
 
 typedef struct s_minishell
 {
 	// 入力文字列
-	char						*line;
+	char				*line;
 
 	// token構造体
-	t_token						*token;
-	t_token						*cur_token;
+	t_token				*token;
+	t_token				*cur_token;
 
 	// node構造体
-	t_node						*node;
+	t_node				*node;
 
 	// 環境変数構造体
-	t_var						*var;
+	t_var				*var;
 
 	// 返り値
-	int							status_code;
+	int					status_code;
 
-	char						*pwd;
+	char				*pwd;
 
 	// 起動時の引数
-	int							argc;
-	const char					**argv;
+	int					argc;
+	const char			**argv;
 
 	// heredoc
-	t_heredoc					heredoc;
+	t_heredoc			heredoc;
 
-	e_error_kind				error_kind;
-}								t_minishell;
+	e_error_kind		error_kind;
+}						t_minishell;
 
-void							init_minishell(t_minishell *minish);
-void							free_minishell(t_minishell *minish);
-void							die_minishell(t_minishell *minish);
-bool							no_error(t_minishell *minish);
+void					init_minishell(t_minishell *minish);
+void					free_minishell(t_minishell *minish);
+void					die_minishell(t_minishell *minish);
+bool					no_error(t_minishell *minish);
 
 #endif
