@@ -6,7 +6,7 @@
 /*   By: susumuyagi <susumuyagi@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/12 12:06:41 by susumuyagi        #+#    #+#             */
-/*   Updated: 2024/03/28 14:37:59 by susumuyagi       ###   ########.fr       */
+/*   Updated: 2024/03/31 13:40:36 by susumuyagi       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,6 +108,11 @@ void	set_status_code(t_minishell *minish)
 	while (node->next != NULL)
 	{
 		node = node->next;
+	}
+	if (minish->error_kind == ERR_RESOURCE)
+	{
+		minish->status_code = EXIT_FAILURE;
+		return ;
 	}
 	minish->status_code = node->wait_status;
 }

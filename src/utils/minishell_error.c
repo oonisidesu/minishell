@@ -6,7 +6,7 @@
 /*   By: susumuyagi <susumuyagi@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/28 16:52:23 by susumuyagi        #+#    #+#             */
-/*   Updated: 2024/03/29 16:25:17 by susumuyagi       ###   ########.fr       */
+/*   Updated: 2024/03/31 12:11:29 by susumuyagi       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 #include "minishell.h"
 #include "utils/exit_status.h"
 #include <errno.h>
+#include <string.h>
 #include <unistd.h>
 
 void	occurred_redirect_error(t_minishell *minish, t_token *tok)
@@ -42,4 +43,11 @@ void	*occurred_malloc_error_return_null(t_minishell *minish)
 	minish->error_kind = ERR_MALLOC;
 	ft_printf_fd(STDERR_FILENO, MINISHELL_ERROR, "malloc", MALLOC_ERROR);
 	return (NULL);
+}
+
+void	occurred_resource_error(t_minishell *minish, char *resource)
+{
+	minish->status_code = EXIT_FAILURE;
+	minish->error_kind = ERR_RESOURCE;
+	ft_printf_fd(STDERR_FILENO, MINISHELL_ERROR, resource, strerror(errno));
 }

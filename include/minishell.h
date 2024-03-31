@@ -6,7 +6,7 @@
 /*   By: susumuyagi <susumuyagi@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/14 16:21:32 by ootsuboyosh       #+#    #+#             */
-/*   Updated: 2024/03/28 16:53:47 by susumuyagi       ###   ########.fr       */
+/*   Updated: 2024/03/31 12:03:45 by susumuyagi       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,7 @@ typedef enum
 	ERR_SYNTAX,
 	ERR_MALLOC,
 	ERR_REDIRECT,
+	ERR_RESOURCE,
 	INTERRUPT,
 }								e_error_kind;
 
