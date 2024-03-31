@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   process.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: susumuyagi <susumuyagi@student.42.fr>      +#+  +:+       +#+        */
+/*   By: ootsuboyoshiyuki <ootsuboyoshiyuki@stud    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/12 12:06:41 by susumuyagi        #+#    #+#             */
-/*   Updated: 2024/03/31 13:40:36 by susumuyagi       ###   ########.fr       */
+/*   Updated: 2024/03/31 18:32:05 by ootsuboyosh      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,6 +88,7 @@ void	wait_prosesses(t_minishell *minish)
 					WTERMSIG(node->wait_status));
 			}
 			node->wait_status |= 128;
+			g_signal = 0;
 		}
 		else if (WIFSTOPPED(node->wait_status))
 		{
