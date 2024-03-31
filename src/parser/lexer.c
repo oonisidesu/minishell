@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ootsuboyoshiyuki <ootsuboyoshiyuki@stud    +#+  +:+       +#+        */
+/*   By: susumuyagi <susumuyagi@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/15 17:20:20 by susumuyagi        #+#    #+#             */
-/*   Updated: 2024/03/19 17:17:43 by ootsuboyosh      ###   ########.fr       */
+/*   Updated: 2024/03/31 11:26:59 by susumuyagi       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 #include "message/message.h"
 #include "minishell.h"
 #include "parser/token.h"
+#include "utils/minishell_error.h"
 #include <stdbool.h>
 #include <stdlib.h>
 
@@ -131,9 +132,9 @@ void	free_tokens(t_token *cur)
 	}
 }
 
-static int	error_at(t_token *head)
+static int	error_at(t_minishell *minish, t_token *head, char *p)
 {
-	ft_printf_fd(STDERR_FILENO, CANNOT_TOKENIZE);
+	occurred_syntax_error(minish, p, 1);
 	free_tokens(head->next);
 	return (EXIT_FAILURE);
 }
@@ -174,7 +175,7 @@ int	tokenize(t_minishell *minish)
 			p += word_len;
 			continue ;
 		}
-		return (error_at(&head));
+		return (error_at(minish, &head, p));
 	}
 	new_token(TK_EOF, cur, p, 0);
 	minish->token = head.next;
