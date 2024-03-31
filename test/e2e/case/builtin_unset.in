@@ -1,0 +1,12 @@
+unset
+TEST=123
+unset TEST
+echo $TEST
+export TEST=123
+echo $TEST
+unset :
+unset aa=
+unset _PPID
+echo $?
+
+
