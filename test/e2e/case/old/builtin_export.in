@@ -1,4 +1,4 @@
-export | grep -v "declare -x SHLVL=" | grep -v "declare -x _=" | grep -v "declare -x OLDPWD"
+export
 export TEST=bb
 env | grep TEST
 export TEST=
@@ -6,13 +6,17 @@ env | grep TEST
 export TEST="abc"
 env | grep TEST
 export TEST1= TEST2=hello
-env | grep TEST1
-env | grep TEST2
+env | grep TEST
 export _TEST1=123
-env | grep _TEST1
+env | grep _TEST
 export 1_TEST1=123
-env | grep 1_TEST1
+env | grep 1_TEST
+export ##aa
 export AA=11 1 BB=22 2
+# shell変数でsegv
 AAA=99
 export AAA
 export XX
+# 保留
+export TEST+=ccc
+export +=

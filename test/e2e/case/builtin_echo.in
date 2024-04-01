@@ -7,8 +7,11 @@ echo a -n bbb
 echo a ba$PATH bbb
 echo | echo | echo
 echo -n a | echo -n b aaa a
-echo - 
+echo -
 echo n -n
 echo --n
 echo n -n a
 echo "" b
+echo $HOME
+echo $?
+

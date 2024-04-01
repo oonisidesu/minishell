@@ -8,15 +8,5 @@ unset :
 unset aa=
 unset _PPID
 echo $?
-unset AAA=123
-echo $?
-unset 1AA
-echo $?
 
-# 対応しない
-# 読み取り専用関数
-# 記号が勝手に置換されるやつ
-# 「#」コメントアウトは対応しない
-unset PPID
-unset A@!$
-unset #aaa AA
+

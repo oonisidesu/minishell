@@ -1,1 +1,2 @@
-env | sort > a.txt
+env | sort | grep -v "_=" | grep -v "SHLVL="
+

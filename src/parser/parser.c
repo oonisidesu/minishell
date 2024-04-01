@@ -6,7 +6,7 @@
 /*   By: susumuyagi <susumuyagi@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/15 17:37:32 by susumuyagi        #+#    #+#             */
-/*   Updated: 2024/03/31 16:32:15 by susumuyagi       ###   ########.fr       */
+/*   Updated: 2024/03/31 17:58:04 by susumuyagi       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ static t_node	*malloc_and_init_node(e_node_kind kind)
 		return (NULL);
 	}
 	// TODO 固定長になっているので、後で可変にする
-	node->argv = (char **)malloc(sizeof(char *) * 100);
+	node->argv = (char **)ft_calloc(100, sizeof(char *));
 	if (node->argv == NULL)
 	{
 		free(node);

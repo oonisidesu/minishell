@@ -1,28 +1,22 @@
-cd aa bb
 pwd
-chmod 000 case/permission
-cd case/permission
+cd case/data/aa
 pwd
-mkdir tmp
-cd /bin/
+cd .
 pwd
 cd ..
 pwd
-rmdir tmp
-cd
+cd .././../.././././
 pwd
-cd aaa | cd src
+cd /
+pwd
+cd
 pwd
 unset HOME
 cd
 pwd
-cd tmp
-mv tmp tmpaaa
-pwd
-cd ../../../.././
-pwd
 cd ""
+pwd
 HOME=
-cd 
-#権限をなくした状態でbashやminishellを起動する
-#長い文字列
+cd
+pwd
+

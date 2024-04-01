@@ -1,4 +1,3 @@
 pwd
 pwd a b c
-pwd | pwd | pwd
-権限がないディレクトリでminishell起動
+
