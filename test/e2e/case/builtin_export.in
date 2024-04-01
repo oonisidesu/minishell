@@ -1,0 +1,18 @@
+export | grep -v "declare -x SHLVL=" | grep -v "declare -x _="
+export TEST=bb
+env | grep TEST
+export TEST=
+env | grep TEST
+export TEST="abc"
+env | grep TEST
+export TEST1= TEST2=hello
+env | grep TEST1
+env | grep TEST2
+export _TEST1=123
+env | grep _TEST1
+export 1_TEST1=123
+env | grep 1_TEST1
+export AA=11 1 BB=22 2
+AAA=99
+export AAA
+export XX
