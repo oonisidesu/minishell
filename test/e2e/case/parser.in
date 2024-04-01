@@ -1,0 +1,12 @@
+DIR=out
+FILE1="        $DIR/file1.txt         "
+FILE2=$DIR/file2.txt
+echo $FILE1 '"$DIR"$DIR' "'$FILE1'"
+ls -al *.in > $FILE1 > $FILE2
+ls $FILE1 $FILE2
+cat<$FILE1|ls -al|cat|cat
+echo $?
+cat $FILE2
+echo $?
+rm $FILE1 $FILE2
+echo $?

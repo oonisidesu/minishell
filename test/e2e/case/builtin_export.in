@@ -1,4 +1,4 @@
-export | grep -v "declare -x SHLVL=" | grep -v "declare -x _="
+export | grep -v "declare -x SHLVL=" | grep -v "declare -x _=" | grep -v "declare -x OLDPWD"
 export TEST=bb
 env | grep TEST
 export TEST=
