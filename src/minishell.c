@@ -6,7 +6,7 @@
 /*   By: susumuyagi <susumuyagi@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/15 13:22:07 by susumuyagi        #+#    #+#             */
-/*   Updated: 2024/03/31 16:31:29 by susumuyagi       ###   ########.fr       */
+/*   Updated: 2024/04/01 17:23:24 by susumuyagi       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,7 @@ void	free_minishell(t_minishell *minish)
 	minish->node = NULL;
 	free_heredoc(&minish->heredoc);
 	init_heredoc(&minish->heredoc);
+	minish->error_kind = ERR_NONE;
 }
 
 void	die_minishell(t_minishell *minish)
