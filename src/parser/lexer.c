@@ -6,7 +6,7 @@
 /*   By: susumuyagi <susumuyagi@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/15 17:20:20 by susumuyagi        #+#    #+#             */
-/*   Updated: 2024/03/31 16:01:09 by susumuyagi       ###   ########.fr       */
+/*   Updated: 2024/04/01 16:12:12 by susumuyagi       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,13 +39,17 @@
 ////////////////////////////////////////////////////////////////
 
 // generate new token and connect to the current token
-static t_token	*new_token(e_token_kind kind, t_token *cur, char *str,
-		size_t len)
+static t_token	*new_token(t_minishell *minish, e_token_kind kind, t_token *cur,
+		char *str, size_t len)
 {
 	t_token	*tok;
 
 	tok = (t_token *)malloc(sizeof(t_token));
-	// TODO エラー処理
+	if (!tok)
+	{
+		occurred_malloc_error_return_null(minish);
+		return (NULL);
+	}
 	tok->kind = kind;
 	tok->str = str;
 	tok->len = len;
@@ -160,7 +164,7 @@ int	tokenize(t_minishell *minish)
 	head.next = NULL;
 	cur = &head;
 	p = minish->line;
-	while (*p)
+	while (*p && no_error(minish))
 	{
 		if (ft_isspace(*p))
 		{
@@ -169,30 +173,31 @@ int	tokenize(t_minishell *minish)
 		}
 		if (is_starts_with("<<", p, 2) || is_starts_with(">>", p, 2))
 		{
-			cur = new_token(TK_RESERVED, cur, p, 2);
+			cur = new_token(minish, TK_RESERVED, cur, p, 2);
 			p += 2;
 			continue ;
 		}
 		if (is_reserved(*p))
 		{
-			cur = new_token(TK_RESERVED, cur, p, 1);
+			cur = new_token(minish, TK_RESERVED, cur, p, 1);
 			p++;
 			continue ;
 		}
 		word_len = count_word_len(p);
 		if (word_len > 0)
 		{
-			cur = new_token(TK_WORD, cur, p, word_len);
+			cur = new_token(minish, TK_WORD, cur, p, word_len);
 			p += word_len;
 			continue ;
 		}
 		return (error_at(minish, &head, p));
 	}
-	new_token(TK_EOF, cur, p, 0);
+	if (no_error(minish))
+		new_token(minish, TK_EOF, cur, p, 0);
 	minish->token = head.next;
 	///////////////////////////////////////
 	// TODO 後で消す
 	// print_tokens(minish->token);
 	///////////////////////////////////////
-	return (EXIT_SUCCESS);
+	return (!no_error(minish));
 }
