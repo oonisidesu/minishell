@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   process.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ootsuboyoshiyuki <ootsuboyoshiyuki@stud    +#+  +:+       +#+        */
+/*   By: susumuyagi <susumuyagi@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/12 12:06:41 by susumuyagi        #+#    #+#             */
-/*   Updated: 2024/03/31 18:32:05 by ootsuboyosh      ###   ########.fr       */
+/*   Updated: 2024/04/02 17:05:55 by susumuyagi       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,18 +18,23 @@
 #include "minishell.h"
 #include "parser/node.h"
 #include "utils/exit_status.h"
+#include "utils/minishell_error.h"
 #include "variable/env.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <sys/wait.h>
 #include <unistd.h>
 
-void	exec_cmd(t_node *node, char **envp, char *path)
+void	exec_cmd(t_minishell *minish, t_node *node)
 {
+	char	**envp;
+	char	*path;
+
 	if (node->argv[0] == NULL)
-		exit(EXIT_SUCCESS);
+		die_minishell_and_exit(minish, EXIT_SUCCESS);
 	if (!node->exist_cmd)
 	{
+		path = get_var(minish, "PATH");
 		if (ft_strchr(node->argv[0], '/') || path == NULL
 			|| ft_strlen(path) == 0)
 		{
@@ -41,17 +46,23 @@ void	exec_cmd(t_node *node, char **envp, char *path)
 			ft_printf_fd(STDERR_FILENO, MINISHELL_ERROR, node->argv[0],
 				COMMAND_NOT_FOUND);
 		}
-		exit(EXIT_COMMAND_NOT_FOUND);
+		die_minishell_and_exit(minish, EXIT_COMMAND_NOT_FOUND);
 	}
 	else if (!node->has_x)
 	{
 		ft_printf_fd(STDERR_FILENO, MINISHELL_ERROR, node->argv[0],
 			PERMISSION_DENIED);
-		exit(EXIT_CANNOT_EXECUTE_COMMAND);
+		die_minishell_and_exit(minish, EXIT_CANNOT_EXECUTE_COMMAND);
+	}
+	envp = get_envp(minish);
+	if (!envp)
+	{
+		occurred_malloc_error_return_null(minish);
+		die_minishell_and_exit(minish, EXIT_FAILURE);
 	}
 	execve(node->path, node->argv, envp);
 	perror(node->path);
-	exit(EXIT_FAILURE);
+	die_minishell_and_exit(minish, EXIT_FAILURE);
 }
 
 t_node	*parent_process(t_node *node, int prev_fds[])
