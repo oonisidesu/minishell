@@ -3,92 +3,45 @@
 /*                                                        :::      ::::::::   */
 /*   find_path.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ootsuboyoshiyuki <ootsuboyoshiyuki@stud    +#+  +:+       +#+        */
+/*   By: susumuyagi <susumuyagi@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/21 12:26:12 by susumuyagi        #+#    #+#             */
-/*   Updated: 2024/03/27 02:22:27 by ootsuboyosh      ###   ########.fr       */
+/*   Updated: 2024/04/01 15:29:20 by susumuyagi       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 #include "minishell.h"
+#include "utils/minishell_error.h"
 #include "utils/utils.h"
 #include "variable/env.h"
 #include <stdio.h>
 #include <stdlib.h>
 
-static char	**split_path(char *var_path)
-{
-	char	**ret;
-
-	ret = ft_split(var_path, ':');
-	if (!ret)
-	{
-		perror("malloc");
-		exit(EXIT_FAILURE);
-		// TODO エラー処理
-	}
-	return (ret);
-}
-
-static char	*join_path(char *path, char *cmd)
-{
-	char	*tmp;
-	char	*ret;
-
-	tmp = ft_strjoin("/", cmd);
-	if (!tmp)
-	{
-		perror("malloc");
-		exit(EXIT_FAILURE);
-		// TODO エラー処理
-	}
-	ret = ft_strjoin(path, tmp);
-	if (!ret)
-	{
-		perror("malloc");
-		free(tmp);
-		exit(EXIT_FAILURE);
-		// エラー処理
-	}
-	free(tmp);
-	return (ret);
-}
-
-static void	find_path(t_node *node, char **path_array)
+static int	find_path(t_node *node, char **path_array)
 {
 	size_t	i;
 
 	if (!path_array)
-		return ;
+		return (0);
 	i = 0;
 	while (path_array[i])
 	{
-		node->path = join_path(path_array[i], node->argv[0]);
+		node->path = ft_join_words(3, path_array[i], "/", node->argv[0]);
+		if (!node->path)
+			return (1);
 		node->has_x = (access(node->path, X_OK) == 0);
 		node->exist_cmd |= (access(node->path, F_OK) == 0);
 		if (node->has_x)
-			return ;
+			return (0);
 		free(node->path);
 		node->path = NULL;
 		i++;
 	}
+	return (0);
 }
 
-// void	set_cmd_path(char *cmd_str, char *envp[], t_cmd *cmd)
-// {
-// 	if (ft_strchr(cmd_str, '/'))
-// 	{
-// 		cmd->path = ft_strdup(cmd_str);
-// 		cmd->has_x = (access(cmd->path, X_OK) == 0);
-// 		cmd->exist_cmd |= (access(cmd->path, F_OK) == 0);
-// 		return ;
-// 	}
-// 	else
-// 		find_path(cmd_str, envp, cmd);
-// }
-
-void	set_cmd_path(t_minishell *minish)
+int	set_cmd_path(t_minishell *minish)
 {
 	t_node	*cur;
 	char	**path_array;
@@ -96,9 +49,13 @@ void	set_cmd_path(t_minishell *minish)
 
 	var_path = get_var(minish, "PATH");
 	if (var_path == NULL)
-		return ;
-	path_array = split_path(var_path);
-	// TODO エラー処理
+		return (0);
+	path_array = ft_split(var_path, ':');
+	if (!path_array)
+	{
+		occurred_malloc_error_return_null(minish);
+		return (1);
+	}
 	cur = minish->node;
 	while (cur)
 	{
@@ -107,16 +64,25 @@ void	set_cmd_path(t_minishell *minish)
 			if (ft_strchr(cur->argv[0], '/'))
 			{
 				cur->path = ft_strdup(cur->argv[0]);
-				// TODO エラー処理
+				if (!cur->path)
+				{
+					occurred_malloc_error_return_null(minish);
+					break ;
+				}
 				cur->has_x = (access(cur->path, X_OK) == 0);
 				cur->exist_cmd |= (access(cur->path, F_OK) == 0);
 			}
 			else
 			{
-				find_path(cur, path_array);
+				if (find_path(cur, path_array))
+				{
+					occurred_malloc_error_return_null(minish);
+					break ;
+				}
 			}
 		}
 		cur = cur->next;
 	}
 	free_array((void **)path_array);
+	return (!no_error(minish));
 }

@@ -9,6 +9,7 @@ extern "C" {
 // Demonstrate some basic assertions.
 TEST(Lexer, words) {
   t_minishell minish;
+  init_minishell(&minish);
   minish.line = ft_strdup("ls -al file1.txt file2.txt");
 
   tokenize(&minish);
@@ -35,6 +36,7 @@ TEST(Lexer, words) {
 
 TEST(Lexer, pipe) {
   t_minishell minish;
+  init_minishell(&minish);
   minish.line = ft_strdup(
       "> in1 < out1 ls -al|cat file1 file2>out1>out2>>att1<in1<in2 file3|ps "
       "-aux");
@@ -66,6 +68,7 @@ TEST(Lexer, pipe) {
 
 TEST(Lexer, quote_and_d_quote) {
   t_minishell minish;
+  init_minishell(&minish);
   minish.line = ft_strdup("echo \"ls | cat\"'$PWD'\" > \"' << '");
 
   tokenize(&minish);
@@ -92,6 +95,7 @@ TEST(Lexer, quote_and_d_quote) {
 
 TEST(Lexer, nest_quote) {
   t_minishell minish;
+  init_minishell(&minish);
   minish.line = ft_strdup("\" ' ' \" '\"' \"'\"");
 
   tokenize(&minish);
@@ -118,6 +122,7 @@ TEST(Lexer, nest_quote) {
 
 TEST(Lexer, only_space) {
   t_minishell minish;
+  init_minishell(&minish);
   minish.line = ft_strdup("     \t   ");
 
   tokenize(&minish);
@@ -140,4 +145,24 @@ TEST(Lexer, only_space) {
     EXPECT_STREQ(expected[i], actual[i]);
     EXPECT_EQ(expected_kind[i], actual_kind[i]);
   }
+}
+
+TEST(Lexer, donot_close_quote) {
+  t_minishell minish;
+  init_minishell(&minish);
+  minish.line = ft_strdup("echo '");
+
+  tokenize(&minish);
+
+  ASSERT_EQ(ERR_SYNTAX, minish.error_kind);
+}
+
+TEST(Lexer, donot_close_d_quote) {
+  t_minishell minish;
+  init_minishell(&minish);
+  minish.line = ft_strdup("echo \"aaa 'bbb' ccc");
+
+  tokenize(&minish);
+
+  ASSERT_EQ(ERR_SYNTAX, minish.error_kind);
 }

@@ -6,6 +6,7 @@ UNAME := $(shell uname)
 LIBFT_DIR := ./libft
 LIBFT := $(LIBFT_DIR)/libft.a
 # readline
+READLINE_TAR_GZ := readline-8.2.tar.gz
 READLINE_DIR := ./readline-8.2
 READLINE := $(READLINE_DIR)/libreadline.a
 
@@ -31,6 +32,7 @@ SRCS := src/main.c src/minishell.c \
 	src/utils/utils.c src/utils/minishell_error.c
 OBJS := $(SRCS:.c=.o)
 
+.PHONY: all
 all: $(NAME)
 
 $(NAME): $(READLINE) $(OBJS) $(LIBFT)
@@ -42,36 +44,42 @@ $(NAME): $(READLINE) $(OBJS) $(LIBFT)
 $(LIBFT):
 	$(MAKE) -j4 -C $(LIBFT_DIR)
 
-$(READLINE):
+$(READLINE_TAR_GZ):
 	curl -O ftp://ftp.gnu.org/gnu/readline/readline-8.2.tar.gz
+
+$(READLINE): $(READLINE_TAR_GZ)
 	tar xvzf readline-8.2.tar.gz
 	cd $(READLINE_DIR) && ./configure && $(MAKE) -j4
 
 
-.PHONY: clean fclean re
-
+.PHONY: clean
 clean:
 	$(RM) $(OBJS)
 	$(MAKE) -C $(LIBFT_DIR) clean
 
+.PHONY: fclean
 fclean: clean
 	$(RM) $(NAME)
 	$(MAKE) -C $(LIBFT_DIR) fclean
 	$(RM) -r $(READLINE_DIR)
-	$(RM) readline-8.2.tar.gz
 
+.PHONY: re
 re: fclean all
 
 # test
-.PHONY: unit_test e2e_test e2e_clean
+.PHONY: test
+test: unit_test e2e_test
 
+.PHONY: unit_test
 unit_test: $(READLINE) $(LIBFT)
 	cd test/unit && \
 	cmake -S . -B build && cmake --build build &&  cd build && ctest
 
+.PHONY: e2e_test
 e2e_test: $(NAME) $(e2e_clean)
 	cd test/e2e && ./run_e2e.sh
 
+.PHONY: e2e_clean
 e2e_clean:
 	$(RM) test/e2e/out/*.out
 	$(RM) test/e2e/out/*.diff
