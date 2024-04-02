@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_exit.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: susumuyagi <susumuyagi@student.42.fr>      +#+  +:+       +#+        */
+/*   By: ootsuboyoshiyuki <ootsuboyoshiyuki@stud    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/23 19:23:01 by susumuyagi        #+#    #+#             */
-/*   Updated: 2024/03/31 18:06:08 by susumuyagi       ###   ########.fr       */
+/*   Updated: 2024/04/02 19:09:32 by ootsuboyosh      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 #include "libft.h"
 #include "message/message.h"
 #include "minishell.h"
+#include "utils/exit_status.h"
 #include <errno.h>
 #include <limits.h>
 #include <stdlib.h>
@@ -94,23 +95,23 @@ int	builtin_exit(t_minishell *minish, t_node *node)
 			minish->status_code = (unsigned char)ft_atoi(node->argv[1]);
 		else if (node->argc > 2)
 		{
-			// TODO: pipeの時メッセージがうまく表示されない
 			if (!node->in_pipe)
 				ft_printf_fd(STDERR_FILENO, "exit\n");
 			ft_printf_fd(STDERR_FILENO, MINISHELL_ERROR, "exit",
 				B_TOO_MANY_ARGS);
-			minish->status_code = 1;
+			node->wait_status = EXIT_FAILURE;
+			minish->status_code = EXIT_FAILURE;
 			return (minish->status_code);
 		}
 	}
 	else
 	{
-		// TODO: pipeの時メッセージがうまく表示されない
 		if (!node->in_pipe)
 			ft_printf_fd(STDERR_FILENO, "exit\n");
 		ft_printf_fd(STDERR_FILENO, BUILTIN_ERROR, "exit", node->argv[1],
 			NUM_ARG_REQUIRED);
-		minish->status_code = 255;
+		node->wait_status = EXIT_OUT_OF_RANGE_STATUS;
+		minish->status_code = EXIT_OUT_OF_RANGE_STATUS;
 		die_minishell(minish);
 		exit(minish->status_code);
 	}
