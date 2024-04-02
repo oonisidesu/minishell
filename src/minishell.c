@@ -6,7 +6,7 @@
 /*   By: susumuyagi <susumuyagi@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/15 13:22:07 by susumuyagi        #+#    #+#             */
-/*   Updated: 2024/04/01 17:23:24 by susumuyagi       ###   ########.fr       */
+/*   Updated: 2024/04/02 16:45:30 by susumuyagi       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,10 +48,11 @@ void	free_minishell(t_minishell *minish)
 	minish->error_kind = ERR_NONE;
 }
 
-void	die_minishell(t_minishell *minish)
+void	die_minishell_and_exit(t_minishell *minish, int exit_code)
 {
 	free_minishell(minish);
 	free_var(minish);
+	exit(exit_code);
 }
 
 bool	no_error(t_minishell *minish)

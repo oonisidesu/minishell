@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ootsuboyoshiyuki <ootsuboyoshiyuki@stud    +#+  +:+       +#+        */
+/*   By: susumuyagi <susumuyagi@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/14 16:21:32 by ootsuboyosh       #+#    #+#             */
-/*   Updated: 2024/03/31 19:04:45 by ootsuboyosh      ###   ########.fr       */
+/*   Updated: 2024/04/02 16:45:56 by susumuyagi       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,8 @@ typedef struct s_minishell
 
 void							init_minishell(t_minishell *minish);
 void							free_minishell(t_minishell *minish);
-void							die_minishell(t_minishell *minish);
+void							die_minishell_and_exit(t_minishell *minish,
+									int exit_code);
 bool							no_error(t_minishell *minish);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: susumuyagi <susumuyagi@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/15 15:43:15 by susumuyagi        #+#    #+#             */
-/*   Updated: 2024/03/29 22:39:48 by susumuyagi       ###   ########.fr       */
+/*   Updated: 2024/04/02 16:46:16 by susumuyagi       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,8 +56,7 @@ int	set_heredoc_delimiter(t_minishell *minish, t_token *tok)
 	if (minish->heredoc.num >= MAX_HEREDOC)
 	{
 		ft_printf_fd(STDERR_FILENO, ERROR_MAX_HEREDOC);
-		die_minishell(minish);
-		exit(EXIT_MAX_HEREDOC);
+		die_minishell_and_exit(minish, EXIT_MAX_HEREDOC);
 	}
 	idx = minish->heredoc.num;
 	minish->heredoc.num++;
