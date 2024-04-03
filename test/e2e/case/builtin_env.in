@@ -1,2 +1,2 @@
-env | sort | grep -v "_=" | grep -v "SHLVL="
+env | sort | grep -v "_=" | grep -v "SHLVL="　| grep -v "OLDPWD="
 
