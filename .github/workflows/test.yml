@@ -12,6 +12,22 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
+      
+      - name: Install Bash 3.2.57
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y make build-essential
+          wget https://ftp.gnu.org/gnu/bash/bash-3.2.57.tar.gz
+          tar xzf bash-3.2.57.tar.gz
+          cd bash-3.2.57
+          ./configure
+          make
+          sudo make install
+        shell: bash
+
+      - name: Check Bash version
+        run: /usr/local/bin/bash --version
+        shell: bash
 
       - name: Build
         run: make
