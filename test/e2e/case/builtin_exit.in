@@ -3,9 +3,9 @@ echo $?
 exit | exit -9223372036854775808
 echo $?
 exit 2 7
-echo $
+echo $?
 exit 2 a
-echo $
+echo $?
 exit a | exit b
 echo $?
 exit a | exit 2
