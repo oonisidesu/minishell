@@ -22,3 +22,6 @@ jobs:
       - name: Run E2E tests
         shell: bash
         run: make e2e_test
+      
+      - name: Check Bash version
+        run: bash --version
