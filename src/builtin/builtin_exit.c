@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_exit.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ootsuboyoshiyuki <ootsuboyoshiyuki@stud    +#+  +:+       +#+        */
+/*   By: susumuyagi <susumuyagi@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/23 19:23:01 by susumuyagi        #+#    #+#             */
-/*   Updated: 2024/04/02 19:09:32 by ootsuboyosh      ###   ########.fr       */
+/*   Updated: 2024/04/04 15:11:05 by susumuyagi       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,12 +112,10 @@ int	builtin_exit(t_minishell *minish, t_node *node)
 			NUM_ARG_REQUIRED);
 		node->wait_status = EXIT_OUT_OF_RANGE_STATUS;
 		minish->status_code = EXIT_OUT_OF_RANGE_STATUS;
-		die_minishell(minish);
-		exit(minish->status_code);
+		die_minishell_and_exit(minish, minish->status_code);
 	}
 	if (!node->in_pipe)
 		ft_printf_fd(STDOUT_FILENO, "exit\n");
-	die_minishell(minish);
-	exit(minish->status_code);
+	die_minishell_and_exit(minish, minish->status_code);
 	return (0);
 }

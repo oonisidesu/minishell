@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   signal.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ootsuboyoshiyuki <ootsuboyoshiyuki@stud    +#+  +:+       +#+        */
+/*   By: susumuyagi <susumuyagi@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/22 12:15:51 by ootsuboyosh       #+#    #+#             */
-/*   Updated: 2024/03/31 18:48:18 by ootsuboyosh      ###   ########.fr       */
+/*   Updated: 2024/04/02 16:46:21 by susumuyagi       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,5 @@ void	ctrl_d_clean_handler(t_minishell *minish)
 
 	node = minish->node;
 	node_kill(node);
-	die_minishell(minish);
-	exit(minish->status_code);
+	die_minishell_and_exit(minish, minish->status_code);
 }
