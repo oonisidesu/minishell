@@ -6,7 +6,7 @@
 /*   By: ootsuboyoshiyuki <ootsuboyoshiyuki@stud    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/23 19:23:01 by susumuyagi        #+#    #+#             */
-/*   Updated: 2024/03/28 17:17:26 by ootsuboyosh      ###   ########.fr       */
+/*   Updated: 2024/04/07 16:38:23 by ootsuboyosh      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,32 @@ static void	print_env(t_minishell *minish)
 	free_array((void **)key_list);
 }
 
+static char	**set_key_value(t_minishell *minish, t_node *node, int i)
+{
+	char	**key_value;
+
+	key_value = divide_key_val(node->argv[i]);
+	if (key_value == NULL)
+	{
+		if (key_value == NULL)
+			node->wait_status = 1;
+		key_value = (char **)ft_calloc(2, sizeof(char *));
+		if (key_value == NULL)
+		{
+			minish->error_kind = ERR_MALLOC;
+			return (NULL);
+		}
+		key_value[0] = ft_substr(node->argv[i], 0, ft_strlen(node->argv[i]));
+	}
+	return (key_value);
+}
+
+static void	print_identifier_err(t_node *node, int i)
+{
+	ft_printf_fd(STDERR_FILENO, IDENTIFIER_ERROR, "export", node->argv[i]);
+	node->wait_status = 1;
+}
+
 static void	set_env(t_minishell *minish, t_node *node)
 {
 	int		i;
@@ -45,18 +71,9 @@ static void	set_env(t_minishell *minish, t_node *node)
 	i = 1;
 	while (i < node->argc)
 	{
-		key_value = divide_key_val(node->argv[i]);
+		key_value = set_key_value(minish, node, i);
 		if (key_value == NULL)
-		{
-			key_value = (char **)ft_calloc(2, sizeof(char *));
-			if (key_value == NULL)
-			{
-				minish->error_kind = ERR_MALLOC;
-				return ;
-			}
-			key_value[0] = ft_substr(node->argv[i], 0,
-					ft_strlen(node->argv[i]));
-		}
+			return ;
 		if (is_var_declaration(node->argv[i], ft_strlen(node->argv[i])))
 			add_or_update_var(minish, key_value[0], key_value[1], VAR_ENV);
 		else if (is_var_dec_exclude_equal(node->argv[i],
@@ -66,11 +83,7 @@ static void	set_env(t_minishell *minish, t_node *node)
 				set_type(minish, key_value[0], VAR_ENV);
 		}
 		else
-		{
-			ft_printf_fd(STDERR_FILENO, IDENTIFIER_ERROR, "export",
-				node->argv[i]);
-			node->wait_status = 1;
-		}
+			print_identifier_err(node, i);
 		free_array((void **)key_value);
 		i++;
 	}
