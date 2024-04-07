@@ -6,7 +6,7 @@
 /*   By: ootsuboyoshiyuki <ootsuboyoshiyuki@stud    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/23 19:23:01 by susumuyagi        #+#    #+#             */
-/*   Updated: 2024/04/07 16:38:23 by ootsuboyosh      ###   ########.fr       */
+/*   Updated: 2024/04/07 19:33:03 by ootsuboyosh      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 #include "libft.h"
 #include "message/message.h"
 #include "minishell.h"
+#include "utils/exit_status.h"
 #include "utils/utils.h"
 #include "variable/env.h"
 #include "variable/var.h"
@@ -44,11 +45,10 @@ static char	**set_key_value(t_minishell *minish, t_node *node, int i)
 	key_value = divide_key_val(node->argv[i]);
 	if (key_value == NULL)
 	{
-		if (key_value == NULL)
-			node->wait_status = 1;
 		key_value = (char **)ft_calloc(2, sizeof(char *));
 		if (key_value == NULL)
 		{
+			node->wait_status = EXIT_FAILURE;
 			minish->error_kind = ERR_MALLOC;
 			return (NULL);
 		}
@@ -60,7 +60,7 @@ static char	**set_key_value(t_minishell *minish, t_node *node, int i)
 static void	print_identifier_err(t_node *node, int i)
 {
 	ft_printf_fd(STDERR_FILENO, IDENTIFIER_ERROR, "export", node->argv[i]);
-	node->wait_status = 1;
+	node->wait_status = EXIT_FAILURE;
 }
 
 static void	set_env(t_minishell *minish, t_node *node)
@@ -69,6 +69,7 @@ static void	set_env(t_minishell *minish, t_node *node)
 	char	**key_value;
 
 	i = 1;
+	node->wait_status = EXIT_SUCCESS;
 	while (i < node->argc)
 	{
 		key_value = set_key_value(minish, node, i);
