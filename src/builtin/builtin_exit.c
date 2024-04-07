@@ -6,7 +6,7 @@
 /*   By: ootsuboyoshiyuki <ootsuboyoshiyuki@stud    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/23 19:23:01 by susumuyagi        #+#    #+#             */
-/*   Updated: 2024/04/07 16:58:04 by ootsuboyosh      ###   ########.fr       */
+/*   Updated: 2024/04/07 17:00:16 by ootsuboyosh      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,7 +98,6 @@ int	builtin_exit(t_minishell *minish, t_node *node)
 	}
 	else
 		print_builtin_err(minish, node);
-	die_minishell(minish);
 	if (!node->in_pipe)
 		ft_printf_fd(STDOUT_FILENO, "exit\n");
 	die_minishell_and_exit(minish, minish->status_code);
