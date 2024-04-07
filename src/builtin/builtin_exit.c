@@ -3,18 +3,18 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_exit.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: susumuyagi <susumuyagi@student.42.fr>      +#+  +:+       +#+        */
+/*   By: ootsuboyoshiyuki <ootsuboyoshiyuki@stud    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/23 19:23:01 by susumuyagi        #+#    #+#             */
-/*   Updated: 2024/04/04 15:11:05 by susumuyagi       ###   ########.fr       */
+/*   Updated: 2024/04/07 16:58:04 by ootsuboyosh      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "builtin/builtin.h"
+#include "builtin/builtin_exit.h"
 #include "libft.h"
 #include "message/message.h"
 #include "minishell.h"
-#include "utils/exit_status.h"
 #include <errno.h>
 #include <limits.h>
 #include <stdlib.h>
@@ -94,26 +94,11 @@ int	builtin_exit(t_minishell *minish, t_node *node)
 		if (node->argc == 2)
 			minish->status_code = (unsigned char)ft_atoi(node->argv[1]);
 		else if (node->argc > 2)
-		{
-			if (!node->in_pipe)
-				ft_printf_fd(STDERR_FILENO, "exit\n");
-			ft_printf_fd(STDERR_FILENO, MINISHELL_ERROR, "exit",
-				B_TOO_MANY_ARGS);
-			node->wait_status = EXIT_FAILURE;
-			minish->status_code = EXIT_FAILURE;
-			return (minish->status_code);
-		}
+			return (print_minishell_err(minish, node));
 	}
 	else
-	{
-		if (!node->in_pipe)
-			ft_printf_fd(STDERR_FILENO, "exit\n");
-		ft_printf_fd(STDERR_FILENO, BUILTIN_ERROR, "exit", node->argv[1],
-			NUM_ARG_REQUIRED);
-		node->wait_status = EXIT_OUT_OF_RANGE_STATUS;
-		minish->status_code = EXIT_OUT_OF_RANGE_STATUS;
-		die_minishell_and_exit(minish, minish->status_code);
-	}
+		print_builtin_err(minish, node);
+	die_minishell(minish);
 	if (!node->in_pipe)
 		ft_printf_fd(STDOUT_FILENO, "exit\n");
 	die_minishell_and_exit(minish, minish->status_code);
