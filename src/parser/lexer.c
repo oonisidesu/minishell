@@ -6,7 +6,7 @@
 /*   By: susumuyagi <susumuyagi@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/15 17:20:20 by susumuyagi        #+#    #+#             */
-/*   Updated: 2024/04/01 16:12:12 by susumuyagi       ###   ########.fr       */
+/*   Updated: 2024/04/08 14:50:18 by susumuyagi       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,28 +18,7 @@
 #include <stdbool.h>
 #include <stdlib.h>
 
-/////////////// debug /////////////////////////////////////////////////
-// #include <stdio.h>
-
-// static void	print_tokens(t_token *tok)
-// {
-// 	char	c;
-
-// 	printf("=== token ==================================\n");
-// 	while (tok)
-// 	{
-// 		c = '0' + tok->kind;
-// 		write(STDOUT_FILENO, &c, 1);
-// 		write(STDOUT_FILENO, " ", 1);
-// 		write(STDOUT_FILENO, tok->str, tok->len);
-// 		write(STDOUT_FILENO, "\n", 1);
-// 		tok = tok->next;
-// 	}
-// }
-////////////////////////////////////////////////////////////////
-
-// generate new token and connect to the current token
-static t_token	*new_token(t_minishell *minish, e_token_kind kind, t_token *cur,
+static t_token	*new_token(t_minishell *minish, t_token_kind kind, t_token *cur,
 		char *str, size_t len)
 {
 	t_token	*tok;
@@ -63,47 +42,10 @@ static bool	is_starts_with(char *s1, char *s2, int len)
 	return (ft_strncmp(s1, s2, len) == 0);
 }
 
-static bool	is_reserved(char p)
-{
-	return (p == '<' || p == '>' || p == '|' || p == ';');
-}
-
-static e_inside_status	update_in_status(char p, e_inside_status in_status)
-{
-	if (p == '\'')
-	{
-		if (in_status == IN_QUOTE)
-			return (IN_NONE);
-		else if (in_status == IN_NONE)
-			return (IN_QUOTE);
-	}
-	else if (p == '\"')
-	{
-		if (in_status == IN_D_QUOTE)
-			return (IN_NONE);
-		else if (in_status == IN_NONE)
-			return (IN_D_QUOTE);
-	}
-	return (in_status);
-}
-
-static bool	is_word_char(char p, e_inside_status in_status)
-{
-	if (in_status == IN_QUOTE)
-	{
-		return (true);
-	}
-	else if (in_status == IN_D_QUOTE)
-	{
-		return (true);
-	}
-	return (!ft_isspace(p) && !is_reserved(p));
-}
-
 static ssize_t	count_word_len(char *p)
 {
 	char			*q;
-	e_inside_status	in_status;
+	t_inside_status	in_status;
 
 	bool is_continue ;
 	in_status = IN_NONE;
@@ -122,18 +64,6 @@ static ssize_t	count_word_len(char *p)
 		return (-1);
 	}
 	return (p - q);
-}
-
-void	free_tokens(t_token *cur)
-{
-	t_token	*next;
-
-	while (cur)
-	{
-		next = cur->next;
-		free(cur);
-		cur = next;
-	}
 }
 
 static int	error_at(t_minishell *minish, t_token *head, char *p)
@@ -195,9 +125,5 @@ int	tokenize(t_minishell *minish)
 	if (no_error(minish))
 		new_token(minish, TK_EOF, cur, p, 0);
 	minish->token = head.next;
-	///////////////////////////////////////
-	// TODO 後で消す
-	// print_tokens(minish->token);
-	///////////////////////////////////////
 	return (!no_error(minish));
 }

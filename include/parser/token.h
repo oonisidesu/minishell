@@ -3,38 +3,43 @@
 /*                                                        :::      ::::::::   */
 /*   token.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ootsuboyoshiyuki <ootsuboyoshiyuki@stud    +#+  +:+       +#+        */
+/*   By: susumuyagi <susumuyagi@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/15 14:19:35 by susumuyagi        #+#    #+#             */
-/*   Updated: 2024/03/19 16:57:12 by ootsuboyosh      ###   ########.fr       */
+/*   Updated: 2024/04/08 14:55:58 by susumuyagi       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef TOKEN_H
 # define TOKEN_H
 
-# include <stddef.h>
+# include <stdbool.h>
 
-typedef enum
+typedef enum e_inside_status
 {
 	IN_NONE,
 	IN_QUOTE,
 	IN_D_QUOTE,
-}	e_inside_status;
+}					t_inside_status;
 
-typedef enum
+typedef enum e_token_kind
 {
-	TK_RESERVED, // 予約語
-	TK_WORD,     // 単語
-	TK_EOF,      // 入力の終わりを示すトークン
-}	e_token_kind;
+	TK_RESERVED,
+	TK_WORD,
+	TK_EOF,
+}					t_token_kind;
 
 typedef struct s_token
 {
-	e_token_kind kind;    // トークンの種類
-	const char *str;      // トークン文字列
-	size_t len;           // トークンの長さ
-	struct s_token *next; // 次のトークン
-}	t_token;
+	t_token_kind	kind;
+	const char		*str;
+	size_t			len;
+	struct s_token	*next;
+}					t_token;
+
+bool				is_reserved(char p);
+bool				is_word_char(char p, t_inside_status in_status);
+t_inside_status		update_in_status(char p, t_inside_status in_status);
+void				free_tokens(t_token *cur);
 
 #endif
