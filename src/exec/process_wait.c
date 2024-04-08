@@ -6,7 +6,7 @@
 /*   By: susumuyagi <susumuyagi@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/12 12:06:41 by susumuyagi        #+#    #+#             */
-/*   Updated: 2024/04/08 18:22:24 by susumuyagi       ###   ########.fr       */
+/*   Updated: 2024/04/08 19:42:56 by susumuyagi       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@
 #include "utils/minishell_error.h"
 #include <sys/wait.h>
 
-static void	wait_signal(t_minishell *minish, t_node *node)
+static void	wait_signal(t_node *node)
 {
 	if (node->next == NULL)
 	{
@@ -47,7 +47,7 @@ void	wait_prosesses(t_minishell *minish)
 		}
 		else if (WIFSIGNALED(node->wait_status))
 		{
-			wait_signal(minish, node);
+			wait_signal(node);
 		}
 		else if (WIFSTOPPED(node->wait_status))
 		{
