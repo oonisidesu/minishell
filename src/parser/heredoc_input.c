@@ -6,7 +6,7 @@
 /*   By: susumuyagi <susumuyagi@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/15 15:43:15 by susumuyagi        #+#    #+#             */
-/*   Updated: 2024/04/08 12:08:20 by susumuyagi       ###   ########.fr       */
+/*   Updated: 2024/04/08 13:51:40 by susumuyagi       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,13 +18,70 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+static char	*expand_line(t_minishell *minish, char *line, char *doc, int idx)
+{
+	char	*ret;
+
+	if (minish->heredoc.need_expansion[idx])
+	{
+		ret = expand_heredoc(minish, line);
+		if (!ret)
+		{
+			free(line);
+			free(doc);
+			return (NULL);
+		}
+		free(line);
+	}
+	else
+	{
+		ret = line;
+	}
+	return (ret);
+}
+
+static char	*join_line(t_minishell *minish, char *doc, char *line)
+{
+	char	*ret;
+
+	ret = ft_join_words(3, doc, line, "\n");
+	if (!ret)
+	{
+		free(doc);
+		free(line);
+		occurred_malloc_error_return_null(minish);
+		return (NULL);
+	}
+	free(doc);
+	free(line);
+	return (ret);
+}
+
+static bool	is_break_readline(t_minishell *minish, char **doc, char *line,
+		int idx)
+{
+	if (line == NULL)
+		return (true);
+	if (ft_strlen(line) == 0)
+	{
+		free(*doc);
+		free(line);
+		*doc = NULL;
+		return (true);
+	}
+	if (ft_strcmp(line, minish->heredoc.delimiters[idx]) == 0)
+	{
+		free(line);
+		return (true);
+	}
+	return (false);
+}
+
 static int	read_heredoc(t_minishell *minish, int idx)
 {
 	char	*line;
-	char	*tmp;
 	char	*doc;
 
-	// char	*tmp;
 	doc = (char *)ft_calloc(1, sizeof(char));
 	if (!doc)
 	{
@@ -34,47 +91,14 @@ static int	read_heredoc(t_minishell *minish, int idx)
 	while (1)
 	{
 		line = readline(HEREDOC_PROMPT);
-		if (line == NULL)
+		if (is_break_readline(minish, &doc, line, idx))
 			break ;
-		// ctrl + Cの場合
-		if (ft_strlen(line) == 0)
-		{
-			free(doc);
-			free(line);
-			doc = NULL;
-			break ;
-		}
-		// 終端文字列の場合
-		if (ft_strcmp(line, minish->heredoc.delimiters[idx]) == 0)
-		{
-			free(line);
-			break ;
-		}
-		// 変数展開
-		if (minish->heredoc.need_expansion[idx])
-		{
-			tmp = line;
-			line = expand_heredoc(minish, line);
-			if (!line)
-			{
-				free(tmp);
-				free(doc);
-				return (1);
-			}
-			free(tmp);
-		}
-		// lineを結合
-		tmp = doc;
-		doc = ft_join_words(3, doc, line, "\n");
-		if (!doc)
-		{
-			free(line);
-			free(tmp);
-			occurred_malloc_error_return_null(minish);
+		line = expand_line(minish, line, doc, idx);
+		if (!line)
 			return (1);
-		}
-		free(tmp);
-		free(line);
+		doc = join_line(minish, doc, line);
+		if (!doc)
+			return (1);
 	}
 	minish->heredoc.docs[idx] = doc;
 	return (0);
