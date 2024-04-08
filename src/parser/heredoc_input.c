@@ -1,75 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   heredoc.c                                          :+:      :+:    :+:   */
+/*   heredoc_input.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: susumuyagi <susumuyagi@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/15 15:43:15 by susumuyagi        #+#    #+#             */
-/*   Updated: 2024/04/02 16:46:16 by susumuyagi       ###   ########.fr       */
+/*   Updated: 2024/04/08 12:08:20 by susumuyagi       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 #include "message/message.h"
 #include "parser/expansion.h"
-#include "parser/heredoc.h"
 #include "readline.h"
-#include "utils/exit_status.h"
 #include "utils/minishell_error.h"
 #include <stdio.h>
 #include <stdlib.h>
-
-void	init_heredoc(t_heredoc *heredoc)
-{
-	int	i;
-
-	heredoc->num = 0;
-	i = 0;
-	while (i < 16)
-	{
-		heredoc->delimiters[i] = NULL;
-		heredoc->docs[i] = NULL;
-		i++;
-	}
-}
-
-void	free_heredoc(t_heredoc *heredoc)
-{
-	int	i;
-
-	i = 0;
-	while (i < 16)
-	{
-		if (heredoc->delimiters[i])
-			free(heredoc->delimiters[i]);
-		if (heredoc->docs[i])
-			free(heredoc->docs[i]);
-		i++;
-	}
-}
-
-int	set_heredoc_delimiter(t_minishell *minish, t_token *tok)
-{
-	int	idx;
-
-	if (minish->heredoc.num >= MAX_HEREDOC)
-	{
-		ft_printf_fd(STDERR_FILENO, ERROR_MAX_HEREDOC);
-		die_minishell_and_exit(minish, EXIT_MAX_HEREDOC);
-	}
-	idx = minish->heredoc.num;
-	minish->heredoc.num++;
-	minish->heredoc.delimiters[idx] = expand_delimiter(minish, tok);
-	if (minish->heredoc.delimiters[idx] == NULL)
-	{
-		return (-1);
-	}
-	minish->heredoc.need_expansion[idx] = (ft_memchr(tok->str, '\'',
-				tok->len) == NULL) && (ft_memchr(tok->str, '\"',
-				tok->len) == NULL);
-	return (idx);
-}
 
 static int	read_heredoc(t_minishell *minish, int idx)
 {
@@ -77,6 +24,7 @@ static int	read_heredoc(t_minishell *minish, int idx)
 	char	*tmp;
 	char	*doc;
 
+	// char	*tmp;
 	doc = (char *)ft_calloc(1, sizeof(char));
 	if (!doc)
 	{
@@ -86,11 +34,8 @@ static int	read_heredoc(t_minishell *minish, int idx)
 	while (1)
 	{
 		line = readline(HEREDOC_PROMPT);
-		// ctrl + Dの場合
 		if (line == NULL)
-		{
 			break ;
-		}
 		// ctrl + Cの場合
 		if (ft_strlen(line) == 0)
 		{
@@ -152,41 +97,4 @@ void	input_heredoc(t_minishell *minish)
 		}
 		i++;
 	}
-}
-
-void	write_heredoc(t_minishell *minish, int idx)
-{
-	int		fds[2];
-	pid_t	pid;
-	char	*buf;
-
-	buf = minish->heredoc.docs[idx];
-	if (pipe(fds) < 0)
-	{
-		perror("pipe");
-		// TODO exitしちゃだめ
-		exit(EXIT_FAILURE);
-	}
-	pid = fork();
-	if (pid < 0)
-	{
-		perror("fork");
-		// TODO exitしちゃだめ
-		exit(EXIT_FAILURE);
-	}
-	if (pid == 0)
-	{
-		// 子プロセス
-		close(fds[0]);
-		write(fds[1], buf, ft_strlen(buf));
-		close(fds[1]);
-		exit(EXIT_SUCCESS);
-	}
-	// 親プロセス
-	close(fds[1]);
-	dup2(fds[0], STDIN_FILENO);
-	close(fds[0]);
-	// TODO waitしていないので親で実行するとゾンビになる
-	// catなどビルトインでなければ孫プロセスになるため問題なし
-	// waitpid(pid, &status, 0);
 }
