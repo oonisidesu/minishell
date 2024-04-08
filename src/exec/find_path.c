@@ -6,7 +6,7 @@
 /*   By: susumuyagi <susumuyagi@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/21 12:26:12 by susumuyagi        #+#    #+#             */
-/*   Updated: 2024/04/08 17:00:42 by susumuyagi       ###   ########.fr       */
+/*   Updated: 2024/04/01 15:29:20 by susumuyagi       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,33 +41,6 @@ static int	find_path(t_node *node, char **path_array)
 	return (0);
 }
 
-static int	set_path(t_minishell *minish, char **path_array, t_node *cur)
-{
-	if (cur->kind == ND_COMMAND && cur->argc > 0)
-	{
-		if (ft_strchr(cur->argv[0], '/'))
-		{
-			cur->path = ft_strdup(cur->argv[0]);
-			if (!cur->path)
-			{
-				occurred_malloc_error_return_null(minish);
-				return (1);
-			}
-			cur->has_x = (access(cur->path, X_OK) == 0);
-			cur->exist_cmd |= (access(cur->path, F_OK) == 0);
-		}
-		else
-		{
-			if (find_path(cur, path_array))
-			{
-				occurred_malloc_error_return_null(minish);
-				return (1);
-			}
-		}
-	}
-	return (0);
-}
-
 int	set_cmd_path(t_minishell *minish)
 {
 	t_node	*cur;
@@ -86,8 +59,28 @@ int	set_cmd_path(t_minishell *minish)
 	cur = minish->node;
 	while (cur)
 	{
-		if (set_path(minish, path_array, cur))
-			break ;
+		if (cur->kind == ND_COMMAND && cur->argc > 0)
+		{
+			if (ft_strchr(cur->argv[0], '/'))
+			{
+				cur->path = ft_strdup(cur->argv[0]);
+				if (!cur->path)
+				{
+					occurred_malloc_error_return_null(minish);
+					break ;
+				}
+				cur->has_x = (access(cur->path, X_OK) == 0);
+				cur->exist_cmd |= (access(cur->path, F_OK) == 0);
+			}
+			else
+			{
+				if (find_path(cur, path_array))
+				{
+					occurred_malloc_error_return_null(minish);
+					break ;
+				}
+			}
+		}
 		cur = cur->next;
 	}
 	free_array((void **)path_array);
