@@ -6,7 +6,7 @@
 /*   By: susumuyagi <susumuyagi@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/15 17:20:20 by susumuyagi        #+#    #+#             */
-/*   Updated: 2024/04/08 15:37:22 by susumuyagi       ###   ########.fr       */
+/*   Updated: 2024/04/08 16:17:43 by susumuyagi       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,29 +42,6 @@ static bool	is_starts_with(char *s1, char *s2, int len)
 	return (ft_strncmp(s1, s2, len) == 0);
 }
 
-static ssize_t	count_word_len(char *p)
-{
-	char			*q;
-	t_inside_status	in_status;
-
-	bool is_continue ;
-	in_status = IN_NONE;
-	q = p;
-	while (*p != '\n' && *p != '\0')
-	{
-		is_continue = is_word_char(*p, in_status);
-		in_status = update_in_status(*p, in_status);
-		if (!is_continue)
-			break ;
-		p++;
-	}
-	if (in_status != IN_NONE)
-	{
-		return (-1);
-	}
-	return (p - q);
-}
-
 static int	error_at(t_minishell *minish, t_token *head, char *p)
 {
 	char	*space;
@@ -83,11 +60,36 @@ static int	error_at(t_minishell *minish, t_token *head, char *p)
 	return (EXIT_FAILURE);
 }
 
+static int	add_token(t_minishell *minish, char **p)
+{
+	ssize_t	word_len;
+
+	if (is_starts_with("<<", *p, 2) || is_starts_with(">>", *p, 2))
+	{
+		new_token(minish, TK_RESERVED, *p, 2);
+		*p += 2;
+		return (1);
+	}
+	if (is_reserved(**p))
+	{
+		new_token(minish, TK_RESERVED, *p, 1);
+		(*p)++;
+		return (1);
+	}
+	word_len = count_token_word_len(*p);
+	if (word_len > 0)
+	{
+		new_token(minish, TK_WORD, *p, word_len);
+		*p += word_len;
+		return (1);
+	}
+	return (0);
+}
+
 int	tokenize(t_minishell *minish)
 {
 	char	*p;
 	t_token	head;
-	ssize_t	word_len;
 
 	head.next = NULL;
 	minish->cur_token = &head;
@@ -99,25 +101,8 @@ int	tokenize(t_minishell *minish)
 			p++;
 			continue ;
 		}
-		if (is_starts_with("<<", p, 2) || is_starts_with(">>", p, 2))
-		{
-			new_token(minish, TK_RESERVED, p, 2);
-			p += 2;
+		if (add_token(minish, &p))
 			continue ;
-		}
-		if (is_reserved(*p))
-		{
-			new_token(minish, TK_RESERVED, p, 1);
-			p++;
-			continue ;
-		}
-		word_len = count_word_len(p);
-		if (word_len > 0)
-		{
-			new_token(minish, TK_WORD, p, word_len);
-			p += word_len;
-			continue ;
-		}
 		return (error_at(minish, &head, p));
 	}
 	if (no_error(minish))

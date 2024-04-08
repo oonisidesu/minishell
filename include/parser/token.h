@@ -6,7 +6,7 @@
 /*   By: susumuyagi <susumuyagi@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/15 14:19:35 by susumuyagi        #+#    #+#             */
-/*   Updated: 2024/04/08 14:55:58 by susumuyagi       ###   ########.fr       */
+/*   Updated: 2024/04/08 15:53:09 by susumuyagi       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 # define TOKEN_H
 
 # include <stdbool.h>
+# include <sys/types.h>
 
 typedef enum e_inside_status
 {
@@ -40,6 +41,7 @@ typedef struct s_token
 bool				is_reserved(char p);
 bool				is_word_char(char p, t_inside_status in_status);
 t_inside_status		update_in_status(char p, t_inside_status in_status);
+ssize_t				count_token_word_len(char *p);
 void				free_tokens(t_token *cur);
 
 #endif

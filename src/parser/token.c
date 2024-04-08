@@ -6,7 +6,7 @@
 /*   By: susumuyagi <susumuyagi@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/15 17:20:20 by susumuyagi        #+#    #+#             */
-/*   Updated: 2024/04/08 14:55:25 by susumuyagi       ###   ########.fr       */
+/*   Updated: 2024/04/08 15:52:31 by susumuyagi       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,29 @@ t_inside_status	update_in_status(char p, t_inside_status in_status)
 			return (IN_D_QUOTE);
 	}
 	return (in_status);
+}
+
+ssize_t	count_token_word_len(char *p)
+{
+	char			*q;
+	bool			is_continue;
+	t_inside_status	in_status;
+
+	in_status = IN_NONE;
+	q = p;
+	while (*p != '\n' && *p != '\0')
+	{
+		is_continue = is_word_char(*p, in_status);
+		in_status = update_in_status(*p, in_status);
+		if (!is_continue)
+			break ;
+		p++;
+	}
+	if (in_status != IN_NONE)
+	{
+		return (-1);
+	}
+	return (p - q);
 }
 
 void	free_tokens(t_token *cur)
