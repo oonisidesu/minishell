@@ -27,7 +27,8 @@ SRCS := src/main.c src/minishell.c \
 	src/parser/prompt.c src/parser/parser.c src/parser/node.c src/parser/expansion.c \
 	src/parser/heredoc_input.c src/parser/heredoc_output.c src/parser/heredoc_utils.c \
 	src/variable/env.c src/variable/var.c \
-	src/exec/exec.c src/exec/find_path.c src/exec/pipe.c src/exec/process.c src/exec/redirect.c src/exec/ft_strsignal.c \
+	src/exec/exec.c src/exec/find_path.c src/exec/pipe.c src/exec/redirect.c src/exec/ft_strsignal.c \
+	src/exec/process_exec.c src/exec/process_wait.c \
 	src/builtin/builtin.c src/builtin/builtin_echo.c src/builtin/builtin_cd.c src/builtin/builtin_pwd.c src/builtin/builtin_export.c \
 	src/builtin/builtin_unset.c src/builtin/builtin_env.c src/builtin/builtin_exit.c src/builtin/builtin_exit_print.c src/builtin/builtin_var.c \
   	src/signal/signal.c \
