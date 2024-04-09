@@ -1,5 +1,11 @@
 export | grep -v "declare -x SHLVL=" | grep -v "declare -x _=" | grep -v "declare -x OLDPWD"
 echo $?
+export | grep -v "declare -x SHLVL=" | grep -v "declare -x _=" | grep -v "declare -x OLDPWD"
+env | sort | grep -v "_=" | grep -v "OLDPWD=" | grep -v "SHLVL="
+echo $?
+export | grep -v "declare -x SHLVL=" | grep -v "declare -x _=" | grep -v "declare -x OLDPWD"
+export | grep -v "declare -x SHLVL=" | grep -v "declare -x _=" | grep -v "declare -x OLDPWD"
+echo $?
 export TEST=bb
 echo $?
 env | grep TEST
