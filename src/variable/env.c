@@ -6,7 +6,7 @@
 /*   By: ootsuboyoshiyuki <ootsuboyoshiyuki@stud    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/20 16:23:06 by susumuyagi        #+#    #+#             */
-/*   Updated: 2024/04/09 15:34:39 by ootsuboyosh      ###   ########.fr       */
+/*   Updated: 2024/04/10 00:58:41 by ootsuboyosh      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,4 +118,18 @@ char	**get_key_list(t_minishell *minish)
 		i++;
 	}
 	return (key_list);
+}
+
+e_var_type	get_type_from_key(t_minishell *minish, char *key)
+{
+	t_var	*current;
+
+	current = minish->var;
+	while (current)
+	{
+		if (ft_strcmp(current->key, key) == 0)
+			return (current->type);
+		current = current->next;
+	}
+	return (VAR_NONE);
 }

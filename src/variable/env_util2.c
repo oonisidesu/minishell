@@ -6,7 +6,7 @@
 /*   By: ootsuboyoshiyuki <ootsuboyoshiyuki@stud    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/08 11:54:11 by ootsuboyosh       #+#    #+#             */
-/*   Updated: 2024/04/09 15:36:07 by ootsuboyosh      ###   ########.fr       */
+/*   Updated: 2024/04/10 00:58:51 by ootsuboyosh      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ char	*get_key_from_minish(t_minishell *minish, t_var *current)
 {
 	char	*key;
 
-	if (current->type == VAR_ENV)
+	if (current->type == VAR_ENV || current->type == VAR_EXPORT)
 	{
 		key = ft_strdup(current->key);
 		if (key == NULL)

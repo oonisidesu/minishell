@@ -6,7 +6,7 @@
 /*   By: ootsuboyoshiyuki <ootsuboyoshiyuki@stud    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/23 19:23:01 by susumuyagi        #+#    #+#             */
-/*   Updated: 2024/04/07 19:33:03 by ootsuboyosh      ###   ########.fr       */
+/*   Updated: 2024/04/10 00:53:18 by ootsuboyosh      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,8 +31,13 @@ static void	print_env(t_minishell *minish)
 	i = 0;
 	while (key_list[i] != NULL)
 	{
-		ft_printf_fd(STDOUT_FILENO, DECLARE, key_list[i], get_var(minish,
-				key_list[i]));
+		if (get_type_from_key(minish, key_list[i]) == VAR_EXPORT)
+			ft_printf_fd(STDOUT_FILENO, DECLARE_ONLY_KEY, key_list[i]);
+		else if (get_type_from_key(minish, key_list[i]) == VAR_ENV)
+		{
+			ft_printf_fd(STDOUT_FILENO, DECLARE, key_list[i], get_var(minish,
+					key_list[i]));
+		}
 		i++;
 	}
 	free_array((void **)key_list);
@@ -82,6 +87,8 @@ static void	set_env(t_minishell *minish, t_node *node)
 		{
 			if (has_key(minish, key_value[0]))
 				set_type(minish, key_value[0], VAR_ENV);
+			else if (key_value[1] == NULL)
+				add_or_update_var(minish, key_value[0], "", VAR_EXPORT);
 		}
 		else
 			print_identifier_err(node, i);

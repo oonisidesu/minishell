@@ -6,7 +6,7 @@
 /*   By: ootsuboyoshiyuki <ootsuboyoshiyuki@stud    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/14 16:21:32 by ootsuboyosh       #+#    #+#             */
-/*   Updated: 2024/03/14 14:31:41 by ootsuboyosh      ###   ########.fr       */
+/*   Updated: 2024/04/10 00:50:37 by ootsuboyosh      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,8 @@ typedef enum
 {
 	VAR_SHELL,
 	VAR_ENV,
+	VAR_EXPORT,
+	VAR_NONE,
 }					e_var_type;
 
 typedef struct s_var

@@ -6,7 +6,7 @@
 /*   By: ootsuboyoshiyuki <ootsuboyoshiyuki@stud    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/20 16:23:06 by susumuyagi        #+#    #+#             */
-/*   Updated: 2024/03/14 15:53:24 by ootsuboyosh      ###   ########.fr       */
+/*   Updated: 2024/04/10 01:24:31 by ootsuboyosh      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,8 @@ void	add_or_update_var(t_minishell *minish, const char *key, const char *val,
 			current->val = ft_strdup(val);
 			if (current->type == VAR_SHELL)
 				current->type = type;
+			else if (current->type == VAR_EXPORT)
+				current->type = VAR_ENV;
 			return ;
 		}
 		current = current->next;
