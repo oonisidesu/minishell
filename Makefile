@@ -46,7 +46,7 @@ $(NAME): $(READLINE) $(OBJS) $(LIBFT)
 	$(CC) $(CFLAGS) $(INCLUDES) -c $< -o $@
 
 $(LIBFT):
-	$(MAKE) -j4 -C $(LIBFT_DIR)
+	$(MAKE) -j2 -C $(LIBFT_DIR)
 
 $(READLINE_TAR_GZ):
 	curl -O ftp://ftp.gnu.org/gnu/readline/readline-8.2.tar.gz
