@@ -6,7 +6,7 @@
 /*   By: susumuyagi <susumuyagi@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/07 16:58:41 by susumuyagi        #+#    #+#             */
-/*   Updated: 2024/04/08 14:49:20 by susumuyagi       ###   ########.fr       */
+/*   Updated: 2024/04/09 16:37:18 by susumuyagi       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,13 @@ typedef struct s_expansion
 
 	t_inside_status	in_status;
 }					t_expansion;
+
+int					init_expansion(t_expansion *exp, t_token *tok);
+int					done(t_expansion *exp);
+bool				is_special_param(t_expansion *exp);
+
+int					join_up_to_terminator(t_expansion *exp,
+						t_inside_status in_status, char *terminator);
 
 char				*expand(t_minishell *minish, t_token *tok);
 char				*expand_redirect(t_minishell *minish, t_token *tok);

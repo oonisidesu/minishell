@@ -6,7 +6,7 @@
 /*   By: susumuyagi <susumuyagi@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/15 14:19:35 by susumuyagi        #+#    #+#             */
-/*   Updated: 2024/04/08 15:53:09 by susumuyagi       ###   ########.fr       */
+/*   Updated: 2024/04/09 15:16:05 by susumuyagi       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@
 
 typedef enum e_inside_status
 {
+	IN_ANY,
 	IN_NONE,
 	IN_QUOTE,
 	IN_D_QUOTE,
