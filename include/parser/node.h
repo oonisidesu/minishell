@@ -6,7 +6,7 @@
 /*   By: susumuyagi <susumuyagi@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/14 16:25:22 by ootsuboyosh       #+#    #+#             */
-/*   Updated: 2024/03/16 17:21:06 by susumuyagi       ###   ########.fr       */
+/*   Updated: 2024/04/09 12:50:48 by susumuyagi       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,19 +15,19 @@
 
 # include <stdbool.h>
 
-typedef enum
+typedef enum e_node_kind
 {
-	ND_REDIRECT_OUT,    // >
-	ND_REDIRECT_APPEND, // >>
-	ND_REDIRECT_IN,     // <
-	ND_HEREDOC,         // <<
-	ND_DECLARE,         // declare variable
-	ND_COMMAND,         // command
-}					e_node_kind;
+	ND_REDIRECT_OUT,
+	ND_REDIRECT_APPEND,
+	ND_REDIRECT_IN,
+	ND_HEREDOC,
+	ND_DECLARE,
+	ND_COMMAND,
+}					t_node_kind;
 
 typedef struct s_node
 {
-	e_node_kind		kind;
+	t_node_kind		kind;
 	int				argc;
 	char			**argv;
 
@@ -46,6 +46,7 @@ typedef struct s_node
 	struct s_node	*next;
 }					t_node;
 
+t_node				*malloc_and_init_node(t_node_kind kind);
 void				free_nodes(t_node *node);
 
 #endif

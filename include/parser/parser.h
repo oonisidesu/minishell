@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ootsuboyoshiyuki <ootsuboyoshiyuki@stud    +#+  +:+       +#+        */
+/*   By: susumuyagi <susumuyagi@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/15 14:19:35 by susumuyagi        #+#    #+#             */
-/*   Updated: 2024/03/19 16:55:14 by ootsuboyosh      ###   ########.fr       */
+/*   Updated: 2024/04/09 13:07:55 by susumuyagi       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,15 @@
 
 # include "minishell.h"
 
-int	parse(t_minishell *minish);
+int		parse(t_minishell *minish);
+
+bool	consume(t_minishell *minish, char *op);
+bool	expect_word(t_minishell *minish);
+bool	at_eof(t_token *tok);
+bool	at_pipe(t_token *tok);
+
+void	redirection(t_minishell *minish, t_node **redirect_cur);
+void	declaration(t_minishell *minish, t_node **declare_cur);
+t_node	*command(t_minishell *minish);
 
 #endif
