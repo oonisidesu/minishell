@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc_input.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: susumuyagi <susumuyagi@student.42.fr>      +#+  +:+       +#+        */
+/*   By: ootsuboyoshiyuki <ootsuboyoshiyuki@stud    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/15 15:43:15 by susumuyagi        #+#    #+#             */
-/*   Updated: 2024/04/08 13:51:40 by susumuyagi       ###   ########.fr       */
+/*   Updated: 2024/04/08 18:36:11 by ootsuboyosh      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 #include "message/message.h"
 #include "parser/expansion.h"
 #include "readline.h"
+#include "signal/signal.h"
 #include "utils/minishell_error.h"
 #include <stdio.h>
 #include <stdlib.h>
@@ -62,11 +63,12 @@ static bool	is_break_readline(t_minishell *minish, char **doc, char *line,
 {
 	if (line == NULL)
 		return (true);
-	if (ft_strlen(line) == 0)
+	if (ft_strlen(line) == 0 && g_signal == CTRL_C)
 	{
 		free(*doc);
 		free(line);
 		*doc = NULL;
+		g_signal = 0;
 		return (true);
 	}
 	if (ft_strcmp(line, minish->heredoc.delimiters[idx]) == 0)
