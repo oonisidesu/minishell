@@ -6,7 +6,7 @@
 /*   By: susumuyagi <susumuyagi@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/14 16:25:22 by ootsuboyosh       #+#    #+#             */
-/*   Updated: 2024/04/09 11:40:56 by susumuyagi       ###   ########.fr       */
+/*   Updated: 2024/04/09 12:50:48 by susumuyagi       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,7 @@ typedef struct s_node
 	struct s_node	*next;
 }					t_node;
 
+t_node				*malloc_and_init_node(t_node_kind kind);
 void				free_nodes(t_node *node);
 
 #endif

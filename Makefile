@@ -24,7 +24,8 @@ endif
 
 SRCS := src/main.c src/minishell.c \
 	src/parser/token.c src/parser/lexer.c \
-	src/parser/prompt.c src/parser/parser.c src/parser/node.c src/parser/expansion.c \
+	src/parser/parser.c src/parser/parser_utils.c src/parser/parser_redirect.c src/parser/parser_declare.c src/parser/parser_command.c \
+	src/parser/prompt.c src/parser/node.c src/parser/expansion.c \
 	src/parser/heredoc_input.c src/parser/heredoc_output.c src/parser/heredoc_utils.c \
 	src/variable/env.c src/variable/env_util1.c src/variable/env_util2.c src/variable/var.c \
 	src/exec/exec.c src/exec/find_path.c src/exec/pipe.c src/exec/redirect.c src/exec/ft_strsignal.c \
