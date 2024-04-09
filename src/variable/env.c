@@ -6,7 +6,7 @@
 /*   By: ootsuboyoshiyuki <ootsuboyoshiyuki@stud    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/20 16:23:06 by susumuyagi        #+#    #+#             */
-/*   Updated: 2024/04/09 13:14:39 by ootsuboyosh      ###   ########.fr       */
+/*   Updated: 2024/04/09 15:34:39 by ootsuboyosh      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,12 +89,8 @@ void	sort_key_list(char **key_list)
 		cmp_len = 1;
 		while (key_list[i + 1] != NULL)
 		{
-			swap_if_greater(key_list, i, cmp_len, &sort_flag);
-			if (ft_strncmp(key_list[i], key_list[i + 1], cmp_len) == 0)
-			{
-				cmp_len++;
+			if (!swap_if_greater(key_list, i, &cmp_len, &sort_flag))
 				continue ;
-			}
 			i++;
 		}
 	}
@@ -108,17 +104,16 @@ char	**get_key_list(t_minishell *minish)
 	size_t	i;
 
 	env_elements = env_el_counter(minish);
-	current = minish->var;
 	key_list = (char **)ft_calloc(env_elements + 1, sizeof(char *));
 	if (key_list == NULL)
 		return (set_err_kind(minish, ERR_MALLOC), NULL);
+	current = minish->var;
 	i = 0;
 	while (current)
 	{
-		if (current->type == VAR_ENV)
-			key_list[i] = current->key;
-		else
-			key_list[i] = NULL;
+		key_list[i] = get_key_from_minish(minish, current);
+		if (minish->error_kind == ERR_MALLOC)
+			return (free_array((void **)key_list), NULL);
 		current = current->next;
 		i++;
 	}
