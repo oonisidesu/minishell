@@ -6,7 +6,7 @@
 /*   By: susumuyagi <susumuyagi@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/15 17:37:32 by susumuyagi        #+#    #+#             */
-/*   Updated: 2024/04/09 13:05:08 by susumuyagi       ###   ########.fr       */
+/*   Updated: 2024/04/09 14:20:29 by susumuyagi       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,23 +16,15 @@
 #include "parser/parser.h"
 #include "utils/minishell_error.h"
 
-static t_node	*new_redirect_node(t_node_kind kind, t_minishell *minish)
+static int	set_redirect_path(t_minishell *minish, t_node_kind kind,
+		t_node *node, t_token *tok)
 {
-	t_node	*node;
-	t_token	*tok;
-
-	tok = minish->cur_token;
-	node = malloc_and_init_node(kind);
-	if (!node)
-	{
-		return (occurred_malloc_error_return_null(minish));
-	}
 	if (kind == ND_HEREDOC)
 	{
 		node->heredoc_idx = set_heredoc_delimiter(minish, tok);
 		if (node->heredoc_idx < 0)
 		{
-			return (NULL);
+			return (1);
 		}
 	}
 	else
@@ -41,10 +33,26 @@ static t_node	*new_redirect_node(t_node_kind kind, t_minishell *minish)
 		if (!node->path)
 		{
 			free_nodes(node);
-			return (NULL);
+			return (1);
 		}
 	}
-	minish->cur_token = tok->next;
+	return (0);
+}
+
+static t_node	*new_redirect_node(t_node_kind kind, t_minishell *minish)
+{
+	t_node	*node;
+
+	node = malloc_and_init_node(kind);
+	if (!node)
+	{
+		return (occurred_malloc_error_return_null(minish));
+	}
+	if (set_redirect_path(minish, kind, node, minish->cur_token))
+	{
+		return (NULL);
+	}
+	minish->cur_token = minish->cur_token->next;
 	return (node);
 }
 
