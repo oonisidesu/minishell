@@ -6,7 +6,7 @@
 /*   By: susumuyagi <susumuyagi@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/15 17:37:32 by susumuyagi        #+#    #+#             */
-/*   Updated: 2024/04/09 13:07:46 by susumuyagi       ###   ########.fr       */
+/*   Updated: 2024/04/09 14:04:48 by susumuyagi       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,22 @@ static void	put_argv(t_node *node, t_minishell *minish)
 	minish->cur_token = minish->cur_token->next;
 }
 
+static void	parse_token(t_minishell *minish, t_node *node,
+		t_node **redirect_cur, t_node **declare_cur)
+{
+	redirection(minish, redirect_cur);
+	if (node->argc == 0 && is_var_declaration(minish->cur_token->str,
+			minish->cur_token->len))
+	{
+		declaration(minish, declare_cur);
+		return ;
+	}
+	if (minish->cur_token->kind == TK_WORD)
+	{
+		put_argv(node, minish);
+	}
+}
+
 t_node	*command(t_minishell *minish)
 {
 	t_node	*node;
@@ -65,17 +81,7 @@ t_node	*command(t_minishell *minish)
 	while (!at_eof(minish->cur_token) && !at_pipe(minish->cur_token)
 		&& no_error(minish))
 	{
-		redirection(minish, &redirect_cur);
-		if (node->argc == 0 && is_var_declaration(minish->cur_token->str,
-				minish->cur_token->len))
-		{
-			declaration(minish, &declare_cur);
-			continue ;
-		}
-		if (minish->cur_token->kind == TK_WORD)
-		{
-			put_argv(node, minish);
-		}
+		parse_token(minish, node, &redirect_cur, &declare_cur);
 	}
 	node->redirect = redirect_head.next;
 	node->declare = declare_head.next;
