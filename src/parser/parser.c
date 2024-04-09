@@ -6,7 +6,7 @@
 /*   By: susumuyagi <susumuyagi@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/15 17:37:32 by susumuyagi        #+#    #+#             */
-/*   Updated: 2024/03/31 17:58:04 by susumuyagi       ###   ########.fr       */
+/*   Updated: 2024/04/09 11:43:36 by susumuyagi       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@
 // }
 ////////////////////////////////////////////////////////////////
 
-static t_node	*malloc_and_init_node(e_node_kind kind)
+static t_node	*malloc_and_init_node(t_node_kind kind)
 {
 	t_node	*node;
 
@@ -79,7 +79,7 @@ static t_node	*malloc_and_init_node(e_node_kind kind)
 	return (node);
 }
 
-static t_node	*new_redirect_node(e_node_kind kind, t_minishell *minish)
+static t_node	*new_redirect_node(t_node_kind kind, t_minishell *minish)
 {
 	t_node	*node;
 	t_token	*tok;
@@ -111,7 +111,7 @@ static t_node	*new_redirect_node(e_node_kind kind, t_minishell *minish)
 	return (node);
 }
 
-static t_node	*new_declare_node(e_node_kind kind, t_minishell *minish)
+static t_node	*new_declare_node(t_node_kind kind, t_minishell *minish)
 {
 	t_node	*node;
 	t_token	*tok;
