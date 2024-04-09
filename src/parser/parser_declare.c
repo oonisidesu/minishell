@@ -6,7 +6,7 @@
 /*   By: susumuyagi <susumuyagi@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/15 17:37:32 by susumuyagi        #+#    #+#             */
-/*   Updated: 2024/04/09 13:05:25 by susumuyagi       ###   ########.fr       */
+/*   Updated: 2024/04/09 14:13:49 by susumuyagi       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,23 +16,15 @@
 #include "utils/minishell_error.h"
 #include <stdlib.h>
 
-static t_node	*new_declare_node(t_node_kind kind, t_minishell *minish)
+static int	set_key_val(t_minishell *minish, t_node *node, t_token *tok)
 {
-	t_node	*node;
-	t_token	*tok;
 	char	*key_val;
 
-	tok = minish->cur_token;
-	node = malloc_and_init_node(kind);
-	if (!node)
-	{
-		return (occurred_malloc_error_return_null(minish));
-	}
 	key_val = expand(minish, tok);
 	if (!key_val)
 	{
 		free(node);
-		return (occurred_malloc_error_return_null(minish));
+		return (1);
 	}
 	free(node->argv);
 	node->argv = divide_key_val(key_val);
@@ -40,10 +32,26 @@ static t_node	*new_declare_node(t_node_kind kind, t_minishell *minish)
 	{
 		free(node);
 		free(key_val);
-		return (occurred_malloc_error_return_null(minish));
+		return (1);
 	}
 	free(key_val);
-	minish->cur_token = tok->next;
+	return (0);
+}
+
+static t_node	*new_declare_node(t_node_kind kind, t_minishell *minish)
+{
+	t_node	*node;
+
+	node = malloc_and_init_node(kind);
+	if (!node)
+	{
+		return (occurred_malloc_error_return_null(minish));
+	}
+	if (set_key_val(minish, node, minish->cur_token))
+	{
+		return (occurred_malloc_error_return_null(minish));
+	}
+	minish->cur_token = minish->cur_token->next;
 	return (node);
 }
 
