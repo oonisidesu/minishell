@@ -6,7 +6,7 @@
 /*   By: ootsuboyoshiyuki <ootsuboyoshiyuki@stud    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/20 16:23:06 by susumuyagi        #+#    #+#             */
-/*   Updated: 2024/04/10 00:58:41 by ootsuboyosh      ###   ########.fr       */
+/*   Updated: 2024/04/10 11:55:29 by ootsuboyosh      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,7 +120,7 @@ char	**get_key_list(t_minishell *minish)
 	return (key_list);
 }
 
-e_var_type	get_type_from_key(t_minishell *minish, char *key)
+e_var_type	get_type_from_key(t_minishell *minish, const char *key)
 {
 	t_var	*current;
 

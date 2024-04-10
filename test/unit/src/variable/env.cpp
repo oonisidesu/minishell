@@ -83,3 +83,25 @@ TEST(Variable, sort)
     EXPECT_STREQ(expect[i], actual[i]);
   }
 }
+
+TEST(Variable, get_type_from_key)
+{
+  t_minishell minish;
+
+  const char *envp[] = {"HOME=/home", "USER=me", "PATH=/usr/bin",
+                        NULL};
+  init_minishell(&minish);
+  set_envp(&minish, envp);
+  set_type(&minish, "HOME", VAR_SHELL);
+  set_type(&minish, "USER", VAR_ENV);
+  set_type(&minish, "PATH", VAR_EXPORT);
+  e_var_type expect1 = VAR_SHELL;
+  e_var_type expect2 = VAR_ENV;
+  e_var_type expect3 = VAR_EXPORT;
+  e_var_type actual1 = get_type_from_key(&minish, "HOME");
+  e_var_type actual2 = get_type_from_key(&minish, "USER");
+  e_var_type actual3 = get_type_from_key(&minish, "PATH");
+  EXPECT_EQ(expect1, actual1);
+  EXPECT_EQ(expect2, actual2);
+  EXPECT_EQ(expect3, actual3);
+}
