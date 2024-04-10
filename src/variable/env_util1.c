@@ -6,7 +6,7 @@
 /*   By: ootsuboyoshiyuki <ootsuboyoshiyuki@stud    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/08 10:09:48 by ootsuboyosh       #+#    #+#             */
-/*   Updated: 2024/04/09 15:20:01 by ootsuboyosh      ###   ########.fr       */
+/*   Updated: 2024/04/10 18:12:17 by ootsuboyosh      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,24 +56,6 @@ char	*get_val_from_env(const char *envp)
 	return (val);
 }
 
-char	*join_three_word(char *s1, char *s2, char *s3)
-{
-	char	*s1_s2;
-	char	*result;
-
-	s1_s2 = ft_strjoin(s1, s2);
-	if (s1_s2 == NULL)
-		return (NULL);
-	result = ft_strjoin(s1_s2, s3);
-	if (result == NULL)
-	{
-		free(s1_s2);
-		return (NULL);
-	}
-	free(s1_s2);
-	return (result);
-}
-
 int	env_el_counter(t_minishell *minish)
 {
 	size_t	env_elements;
@@ -87,4 +69,22 @@ int	env_el_counter(t_minishell *minish)
 		current = current->next;
 	}
 	return (env_elements);
+}
+
+char	*get_key_from_minish(t_minishell *minish, t_var *current)
+{
+	char	*key;
+
+	if (current->type == VAR_ENV)
+	{
+		key = ft_strdup(current->key);
+		if (key == NULL)
+		{
+			minish->error_kind = ERR_MALLOC;
+			return (NULL);
+		}
+	}
+	else
+		key = NULL;
+	return (key);
 }

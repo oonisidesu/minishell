@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   message.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: susumuyagi <susumuyagi@student.42.fr>      +#+  +:+       +#+        */
+/*   By: ootsuboyoshiyuki <ootsuboyoshiyuki@stud    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 16:45:14 by ootsuboyosh       #+#    #+#             */
-/*   Updated: 2024/03/31 11:29:04 by susumuyagi       ###   ########.fr       */
+/*   Updated: 2024/04/10 15:29:32 by ootsuboyosh      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@
 # define B_TOO_MANY_ARGS "too many arguments"
 # define NUM_ARG_REQUIRED "numeric argument required"
 # define DECLARE "declare -x %s=\"%s\"\n"
+# define DECLARE_VAL_NULL "declare -x %s\n"
 # define IDENTIFIER_ERROR "minishell: %s: `%s': not a valid identifier\n"
 
 // --- exec ---

@@ -7,25 +7,51 @@ export | grep -v "declare -x SHLVL=" | grep -v "declare -x _=" | grep -v "declar
 export | grep -v "declare -x SHLVL=" | grep -v "declare -x _=" | grep -v "declare -x OLDPWD"
 echo $?
 export TEST=bb
-echo $?
 env | grep TEST
+export | grep TEST
+echo $?
 export TEST=
 env | grep TEST
+export | grep TEST
+echo $?
 export TEST="abc"
 env | grep TEST
+export | grep TEST
+echo $?
 export TEST1= TEST2=hello
 env | grep TEST1
+export | grep TEST1
+echo $?
 env | grep TEST2
+export | grep TEST2
+echo $?
 export _TEST1=123
 env | grep _TEST1
 export 1_TEST1=123
 env | grep 1_TEST1
 export AA=11 1 BB=22 2
 echo $?
+env | grep AA
+export | grep AA
+env | grep BB
+export | grep BB
 export ?a=_1 ?b=2
 echo $?
 export a=_1 ?b=2
 echo $?
 AAA=99
 export AAA
-export XX
+export CCC
+export | grep CCC
+export DDD
+DDD=dkdk
+export | grep DDD
+export EEE
+export EEE=llll
+export | grep EEE
+export FFF
+export FFF
+export | grep FFF
+export GGG=123
+export GGG
+export | grep GGG
