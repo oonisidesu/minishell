@@ -6,7 +6,7 @@
 /*   By: susumuyagi <susumuyagi@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/12 12:06:41 by susumuyagi        #+#    #+#             */
-/*   Updated: 2024/04/08 18:18:30 by susumuyagi       ###   ########.fr       */
+/*   Updated: 2024/04/10 14:49:31 by susumuyagi       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,11 +60,10 @@ void	exec_cmd(t_minishell *minish, t_node *node)
 	die_minishell_and_exit(minish, EXIT_FAILURE);
 }
 
-t_node	*parent_process(t_node *node, int prev_fds[])
+void	parent_process(int prev_fds[])
 {
 	if (prev_fds[0] != -1)
 		close(prev_fds[0]);
 	if (prev_fds[1] != -1)
 		close(prev_fds[1]);
-	return (node->next);
 }
