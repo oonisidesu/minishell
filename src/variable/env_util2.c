@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env_util2.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ootsuboyoshiyuki <ootsuboyoshiyuki@stud    +#+  +:+       +#+        */
+/*   By: susumuyagi <susumuyagi@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/08 11:54:11 by ootsuboyosh       #+#    #+#             */
-/*   Updated: 2024/04/09 15:36:07 by ootsuboyosh      ###   ########.fr       */
+/*   Updated: 2024/04/10 15:28:46 by susumuyagi       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,12 +14,12 @@
 #include "variable/env.h"
 #include "variable/var.h"
 
-void	set_err_kind(t_minishell *minish, e_error_kind kind)
+void	set_err_kind(t_minishell *minish, t_error_kind kind)
 {
 	minish->error_kind = kind;
 }
 
-void	set_err_kind_free(t_minishell *minish, e_error_kind kind, char **s)
+void	set_err_kind_free(t_minishell *minish, t_error_kind kind, char **s)
 {
 	set_err_kind(minish, kind);
 	free_array((void **)s);
