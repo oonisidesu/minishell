@@ -6,18 +6,12 @@
 /*   By: susumuyagi <susumuyagi@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/06 19:45:27 by susumuyagi        #+#    #+#             */
-/*   Updated: 2024/04/09 16:38:16 by susumuyagi       ###   ########.fr       */
+/*   Updated: 2024/04/10 12:17:13 by susumuyagi       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
-#include "minishell.h"
 #include "parser/expansion.h"
-#include "utils/minishell_error.h"
-#include "variable/env.h"
-#include <parser/token.h>
-#include <stddef.h>
-#include <stdio.h>
 #include <stdlib.h>
 
 static void	count_up_to_terminator(t_expansion *exp, t_inside_status in_status,
@@ -25,7 +19,7 @@ static void	count_up_to_terminator(t_expansion *exp, t_inside_status in_status,
 {
 	if (in_status != IN_ANY && exp->in_status != in_status)
 		return ;
-	while (!done(exp))
+	while (!expansion_done(exp))
 	{
 		if (ft_strchr(terminator, exp->str[exp->i]) != NULL)
 		{
@@ -60,5 +54,24 @@ int	join_up_to_terminator(t_expansion *exp, t_inside_status in_status,
 	free(word);
 	free(tmp);
 	exp->n += num;
+	return (0);
+}
+
+int	join_var(t_expansion *exp, const char *var, size_t var_len)
+{
+	char	*tmp;
+
+	if (var != NULL && ft_strlen(var) > 0)
+	{
+		tmp = exp->ret;
+		exp->ret = ft_strjoin(exp->ret, var);
+		if (!exp->ret)
+		{
+			return (1);
+		}
+		free(tmp);
+	}
+	exp->i += var_len;
+	exp->n += var_len;
 	return (0);
 }

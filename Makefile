@@ -25,7 +25,7 @@ endif
 SRCS := src/main.c src/minishell.c \
 	src/parser/token.c src/parser/lexer.c \
 	src/parser/parser.c src/parser/parser_utils.c src/parser/parser_redirect.c src/parser/parser_declare.c src/parser/parser_command.c \
-	src/parser/expansion.c src/parser/expansion_utils.c src/parser/expansion_join.c \
+	src/parser/expansion.c src/parser/expansion_utils.c src/parser/expansion_join.c src/parser/expansion_variable.c src/parser/expansion_special.c\
 	src/parser/prompt.c src/parser/node.c \
 	src/parser/heredoc_input.c src/parser/heredoc_output.c src/parser/heredoc_utils.c \
 	src/variable/env.c src/variable/env_util1.c src/variable/env_util2.c src/variable/var.c \
@@ -88,3 +88,9 @@ e2e_test: $(NAME) $(e2e_clean)
 e2e_clean:
 	$(RM) test/e2e/out/*.out
 	$(RM) test/e2e/out/*.diff
+
+.PHONY: norm
+norm:
+	norminette include
+	norminette src
+	norminette libft
