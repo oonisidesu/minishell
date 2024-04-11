@@ -55,10 +55,11 @@ TEST(Variable, get_key_list)
 
   const char *envp[] = {"HOME=/home", "USER=me", "PATH=/usr/bin",
                         "ENV=", "ENV2=a=b=c", NULL};
-  const char *expect[] = {"HOME", "USER", "PATH",
+  const char *expect[] = {"USER", "PATH",
                           "ENV", "ENV2", NULL};
   init_minishell(&minish);
   set_envp(&minish, envp);
+  set_type(&minish, "HOME", VAR_SHELL);
   char **actual = get_key_list(&minish);
   for (size_t i = 0; expect[i]; ++i)
   {
