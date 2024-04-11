@@ -6,7 +6,7 @@
 /*   By: susumuyagi <susumuyagi@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/14 16:25:22 by ootsuboyosh       #+#    #+#             */
-/*   Updated: 2024/04/09 12:50:48 by susumuyagi       ###   ########.fr       */
+/*   Updated: 2024/04/11 12:37:06 by susumuyagi       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,9 @@
 # define NODE_H
 
 # include <stdbool.h>
+# include <stddef.h>
+
+# define ARGV_BLOCK 128
 
 typedef enum e_node_kind
 {
@@ -30,6 +33,7 @@ typedef struct s_node
 	t_node_kind		kind;
 	int				argc;
 	char			**argv;
+	int				capa;
 
 	int				wait_status;
 	int				pid;

@@ -93,4 +93,20 @@ e2e_clean:
 norm:
 	norminette libft
 #	norminette include
+	norminette include/builtin
+	norminette include/exec
+	norminette include/message
+	norminette include/parser
+	norminette include/signal
+	norminette include/utils
+#	norminette include/variable
+	norminette include/minishell.h
 #	norminette src
+	norminette src/builtin
+	norminette src/exec
+	norminette src/parser
+	norminette src/signal
+	norminette src/utils
+#	norminette src/variable
+	norminette src/main.c
+	norminette src/minishell.c
