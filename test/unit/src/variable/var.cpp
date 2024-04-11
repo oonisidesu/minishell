@@ -12,7 +12,7 @@ TEST(Variable, add)
 {
   t_minishell minish;
   const char *expect[] = {"HOME=/home", "USER=me", "PATH=/usr/bin",
-                          "ENV1=", "ENV3=", "ENV2=a=b=c", NULL};
+                          "ENV1=", "ENV2=a=b=c", NULL};
   char **actual;
 
   init_minishell(&minish);
@@ -20,6 +20,7 @@ TEST(Variable, add)
   add_or_update_var(&minish, "USER", "me", VAR_ENV);
   add_or_update_var(&minish, "PATH", "/usr/bin", VAR_ENV);
   add_or_update_var(&minish, "ENV1", "", VAR_ENV);
+  // varがNULLの場合はget_envpで取得しない
   add_or_update_var(&minish, "ENV3", NULL, VAR_ENV);
   add_or_update_var(&minish, "ENV2", "a=b=c", VAR_ENV);
   actual = get_envp(&minish);
@@ -44,6 +45,7 @@ TEST(Variable, update)
   set_envp(&minish, envp);
   add_or_update_var(&minish, "ENV1", "update", VAR_ENV);
   add_or_update_var(&minish, "ENV", "add", VAR_ENV);
+  // varがNULLの場合は更新しない
   add_or_update_var(&minish, "ENV2", NULL, VAR_ENV);
   actual = get_envp(&minish);
   for (size_t i = 0; expect[i]; ++i)
