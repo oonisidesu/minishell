@@ -6,7 +6,7 @@
 /*   By: susumuyagi <susumuyagi@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/06 19:45:27 by susumuyagi        #+#    #+#             */
-/*   Updated: 2024/04/10 12:14:10 by susumuyagi       ###   ########.fr       */
+/*   Updated: 2024/04/11 17:53:23 by susumuyagi       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,8 @@ int	expand_variable(t_minishell *minish, t_expansion *exp)
 	key = extract_key(minish, exp);
 	if (!no_error(minish))
 	{
-		return (1);
+		free(key);
+		return (free_expansion_and_return_error(exp));
 	}
 	if (!key)
 	{

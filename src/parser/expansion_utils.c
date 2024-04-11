@@ -6,12 +6,13 @@
 /*   By: susumuyagi <susumuyagi@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/06 19:45:27 by susumuyagi        #+#    #+#             */
-/*   Updated: 2024/04/10 12:16:20 by susumuyagi       ###   ########.fr       */
+/*   Updated: 2024/04/11 17:55:41 by susumuyagi       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 #include "parser/expansion.h"
+#include <stdlib.h>
 
 int	init_expansion(t_expansion *exp, t_token *tok)
 {
@@ -26,23 +27,15 @@ int	init_expansion(t_expansion *exp, t_token *tok)
 	return (0);
 }
 
+int	free_expansion_and_return_error(t_expansion *exp)
+{
+	free(exp->ret);
+	return (1);
+}
+
 int	expansion_done(t_expansion *exp)
 {
 	return (exp->i >= exp->len);
-}
-
-bool	is_special_param(t_expansion *exp)
-{
-	if (exp->str[exp->i] != '$')
-		return (false);
-	if (ft_isdigit(exp->str[exp->i + 1]) || exp->str[exp->i + 1] == '#'
-		|| exp->str[exp->i + 1] == '$' || exp->str[exp->i + 1] == '*'
-		|| exp->str[exp->i + 1] == '@' || exp->str[exp->i + 1] == '?'
-		|| exp->str[exp->i + 1] == '-' || exp->str[exp->i + 1] == '!')
-	{
-		return (true);
-	}
-	return (false);
 }
 
 bool	has_quotes(t_token *tok)

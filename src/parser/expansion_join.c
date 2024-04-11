@@ -6,7 +6,7 @@
 /*   By: susumuyagi <susumuyagi@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/06 19:45:27 by susumuyagi        #+#    #+#             */
-/*   Updated: 2024/04/10 12:17:13 by susumuyagi       ###   ########.fr       */
+/*   Updated: 2024/04/11 17:54:23 by susumuyagi       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,14 +42,14 @@ int	join_up_to_terminator(t_expansion *exp, t_inside_status in_status,
 		return (0);
 	word = ft_substr(exp->str, exp->n, num);
 	if (!word)
-		return (1);
+		return (free_expansion_and_return_error(exp));
 	tmp = exp->ret;
 	exp->ret = ft_strjoin(exp->ret, word);
 	if (!exp->ret)
 	{
 		free(word);
 		free(tmp);
-		return (1);
+		return (free_expansion_and_return_error(exp));
 	}
 	free(word);
 	free(tmp);
@@ -67,7 +67,7 @@ int	join_var(t_expansion *exp, const char *var, size_t var_len)
 		exp->ret = ft_strjoin(exp->ret, var);
 		if (!exp->ret)
 		{
-			return (1);
+			return (free_expansion_and_return_error(exp));
 		}
 		free(tmp);
 	}

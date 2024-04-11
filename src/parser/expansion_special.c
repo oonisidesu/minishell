@@ -6,7 +6,7 @@
 /*   By: susumuyagi <susumuyagi@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/06 19:45:27 by susumuyagi        #+#    #+#             */
-/*   Updated: 2024/04/10 13:07:19 by susumuyagi       ###   ########.fr       */
+/*   Updated: 2024/04/11 17:49:14 by susumuyagi       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,20 @@
 #include "minishell.h"
 #include "parser/expansion.h"
 #include <stdlib.h>
+
+bool	is_special_param(t_expansion *exp)
+{
+	if (exp->str[exp->i] != '$')
+		return (false);
+	if (ft_isdigit(exp->str[exp->i + 1]) || exp->str[exp->i + 1] == '#'
+		|| exp->str[exp->i + 1] == '$' || exp->str[exp->i + 1] == '*'
+		|| exp->str[exp->i + 1] == '@' || exp->str[exp->i + 1] == '?'
+		|| exp->str[exp->i + 1] == '-' || exp->str[exp->i + 1] == '!')
+	{
+		return (true);
+	}
+	return (false);
+}
 
 int	expand_special_param(t_minishell *minish, t_expansion *exp)
 {
