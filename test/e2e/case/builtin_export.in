@@ -39,19 +39,28 @@ export ?a=_1 ?b=2
 echo $?
 export a=_1 ?b=2
 echo $?
-AAA=99
-export AAA
 export CCC
 export | grep CCC
+env | grep CCC
 export DDD
 DDD=dkdk
 export | grep DDD
+env | grep DDD
 export EEE
 export EEE=llll
 export | grep EEE
+env | grep EEE
 export FFF
 export FFF
 export | grep FFF
+env | grep FFF
 export GGG=123
 export GGG
 export | grep GGG
+env | grep GGG
+BBBB=123
+export AAAA=123
+export | grep AAAA
+export | grep BBBB
+env | grep AAAA
+env | grep BBBB
