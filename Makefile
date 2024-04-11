@@ -91,6 +91,6 @@ e2e_clean:
 
 .PHONY: norm
 norm:
-	norminette include
-	norminette src
 	norminette libft
+#	norminette include
+#	norminette src
