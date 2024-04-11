@@ -60,4 +60,7 @@ export | grep GGG
 env | grep GGG
 BBBB=123
 export AAAA=123
+export | grep AAAA
+export | grep BBBB
 env | grep AAAA
+env | grep BBBB

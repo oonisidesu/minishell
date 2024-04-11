@@ -6,7 +6,7 @@
 /*   By: ootsuboyoshiyuki <ootsuboyoshiyuki@stud    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/20 16:23:06 by susumuyagi        #+#    #+#             */
-/*   Updated: 2024/04/11 13:12:09 by ootsuboyosh      ###   ########.fr       */
+/*   Updated: 2024/04/11 15:57:19 by ootsuboyosh      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ char	**get_envp(t_minishell *minish)
 	char	**envp;
 	size_t	i;
 
-	env_elements = env_el_counter(minish);
+	env_elements = env_el_counter(minish, false);
 	envp = (char **)ft_calloc(env_elements + 1, sizeof(char *));
 	if (envp == NULL)
 		return (set_err_kind(minish, ERR_MALLOC), NULL);
@@ -101,7 +101,7 @@ char	**get_key_list(t_minishell *minish)
 	char	**key_list;
 	size_t	i;
 
-	env_elements = env_el_counter(minish);
+	env_elements = env_el_counter(minish, true);
 	key_list = (char **)ft_calloc(env_elements + 1, sizeof(char *));
 	if (key_list == NULL)
 		return (set_err_kind(minish, ERR_MALLOC), NULL);
@@ -109,11 +109,14 @@ char	**get_key_list(t_minishell *minish)
 	i = 0;
 	while (current)
 	{
-		key_list[i] = get_key_from_minish(minish, current);
-		if (minish->error_kind == ERR_MALLOC)
-			return (free_array((void **)key_list), NULL);
+		if (current->type == VAR_ENV)
+		{
+			key_list[i] = get_key_from_minish(minish, current);
+			if (key_list[i] == NULL)
+				return (free_array((void **)key_list), NULL);
+			i++;
+		}
 		current = current->next;
-		i++;
 	}
 	return (key_list);
 }

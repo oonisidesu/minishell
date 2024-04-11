@@ -6,7 +6,7 @@
 /*   By: ootsuboyoshiyuki <ootsuboyoshiyuki@stud    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/08 10:09:48 by ootsuboyosh       #+#    #+#             */
-/*   Updated: 2024/04/10 18:12:17 by ootsuboyosh      ###   ########.fr       */
+/*   Updated: 2024/04/11 15:55:24 by ootsuboyosh      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ char	*get_val_from_env(const char *envp)
 	return (val);
 }
 
-int	env_el_counter(t_minishell *minish)
+int	env_el_counter(t_minishell *minish, bool val_null_flag)
 {
 	size_t	env_elements;
 	t_var	*current;
@@ -65,7 +65,16 @@ int	env_el_counter(t_minishell *minish)
 	current = minish->var;
 	while (current)
 	{
-		env_elements++;
+		if (current->type == VAR_ENV)
+		{
+			if (val_null_flag)
+				env_elements++;
+			else
+			{
+				if (current->val != NULL)
+					env_elements++;
+			}
+		}
 		current = current->next;
 	}
 	return (env_elements);
@@ -75,16 +84,11 @@ char	*get_key_from_minish(t_minishell *minish, t_var *current)
 {
 	char	*key;
 
-	if (current->type == VAR_ENV)
+	key = ft_strdup(current->key);
+	if (key == NULL)
 	{
-		key = ft_strdup(current->key);
-		if (key == NULL)
-		{
-			minish->error_kind = ERR_MALLOC;
-			return (NULL);
-		}
+		minish->error_kind = ERR_MALLOC;
+		return (NULL);
 	}
-	else
-		key = NULL;
 	return (key);
 }
