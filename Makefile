@@ -28,7 +28,7 @@ SRCS := src/main.c src/minishell.c \
 	src/parser/expansion.c src/parser/expansion_utils.c src/parser/expansion_join.c src/parser/expansion_variable.c src/parser/expansion_special.c\
 	src/parser/prompt.c src/parser/node.c \
 	src/parser/heredoc_input.c src/parser/heredoc_output.c src/parser/heredoc_utils.c \
-	src/variable/env.c src/variable/env_util1.c src/variable/env_util2.c src/variable/var.c \
+	src/variable/env.c src/variable/env_util1.c src/variable/env_util2.c src/variable/var.c src/variable/var_edit.c src/variable/var_check.c\
 	src/exec/exec.c src/exec/find_path.c src/exec/pipe.c src/exec/redirect.c src/exec/ft_strsignal.c \
 	src/exec/process_exec.c src/exec/process_wait.c \
 	src/builtin/builtin.c src/builtin/builtin_echo.c src/builtin/builtin_cd.c src/builtin/builtin_pwd.c src/builtin/builtin_export.c \
@@ -92,21 +92,21 @@ e2e_clean:
 .PHONY: norm
 norm:
 	norminette libft
-#	norminette include
-	norminette include/builtin
-	norminette include/exec
-	norminette include/message
-	norminette include/parser
-	norminette include/signal
-	norminette include/utils
+	norminette include
+#	norminette include/builtin
+#	norminette include/exec
+#	norminette include/message
+#	norminette include/parser
+#	norminette include/signal
+#	norminette include/utils
 #	norminette include/variable
-	norminette include/minishell.h
-#	norminette src
-	norminette src/builtin
-	norminette src/exec
-	norminette src/parser
-	norminette src/signal
-	norminette src/utils
+#	norminette include/minishell.h
+	norminette src
+#	norminette src/builtin
+#	norminette src/exec
+#	norminette src/parser
+#	norminette src/signal
+#	norminette src/utils
 #	norminette src/variable
-	norminette src/main.c
-	norminette src/minishell.c
+#	norminette src/main.c
+#	norminette src/minishell.c

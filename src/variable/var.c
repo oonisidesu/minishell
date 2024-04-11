@@ -6,36 +6,13 @@
 /*   By: ootsuboyoshiyuki <ootsuboyoshiyuki@stud    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/20 16:23:06 by susumuyagi        #+#    #+#             */
-/*   Updated: 2024/04/10 15:23:46 by ootsuboyosh      ###   ########.fr       */
+/*   Updated: 2024/04/11 18:17:56 by ootsuboyosh      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "utils/utils.h"
 #include "variable/env.h"
 #include "variable/var.h"
-
-static t_var	*create_var(e_var_type type, const char *key, const char *val)
-{
-	t_var	*new_var;
-
-	new_var = (t_var *)malloc(sizeof(t_var));
-	if (new_var == NULL)
-		return (NULL);
-	new_var->type = type;
-	new_var->key = ft_strdup(key);
-	if (new_var->key == NULL)
-		return (free(new_var), NULL);
-	if (val == NULL)
-		new_var->val = NULL;
-	else
-	{
-		new_var->val = ft_strdup(val);
-		if (new_var->val == NULL)
-			return (free(new_var->key), free(new_var), NULL);
-	}
-	new_var->next = NULL;
-	return (new_var);
-}
 
 char	*get_var(t_minishell *minish, const char *key)
 {
@@ -49,66 +26,6 @@ char	*get_var(t_minishell *minish, const char *key)
 		current = current->next;
 	}
 	return (NULL);
-}
-
-void	add_or_update_var(t_minishell *minish, const char *key, const char *val,
-		e_var_type type)
-{
-	t_var	*new_var;
-	t_var	*current;
-
-	// update
-	current = minish->var;
-	while (current)
-	{
-		if (ft_strcmp(current->key, key) == 0)
-		{
-			if (val == NULL)
-				return ;
-			free(current->val);
-			current->val = ft_strdup(val);
-			if (current->type == VAR_SHELL)
-				current->type = type;
-			return ;
-		}
-		current = current->next;
-	}
-	// add
-	new_var = create_var(type, key, val);
-	if (minish->var == NULL)
-		minish->var = new_var;
-	else
-	{
-		current = minish->var;
-		while (current->next)
-			current = current->next;
-		current->next = new_var;
-	}
-}
-
-void	del_var(t_minishell *minish, const char *key)
-{
-	t_var	*current;
-	t_var	*prev;
-
-	current = minish->var;
-	prev = NULL;
-	while (current)
-	{
-		if (ft_strcmp(current->key, key) == 0)
-		{
-			if (prev == NULL)
-				minish->var = current->next;
-			else
-				prev->next = current->next;
-			free(current->key);
-			free(current->val);
-			free(current);
-			return ;
-		}
-		prev = current;
-		current = current->next;
-	}
 }
 
 void	free_var(t_minishell *minish)
@@ -128,46 +45,7 @@ void	free_var(t_minishell *minish)
 	minish->var = NULL;
 }
 
-bool	is_var_declaration(const char *str, size_t n)
-{
-	size_t	i;
-
-	if (n == 0)
-		return (false);
-	i = 0;
-	if (!ft_isalpha(str[i]) && str[i] != '_')
-		return (false);
-	i++;
-	while (str[i] && str[i] != '=' && i < n)
-	{
-		if (!ft_isalnum(str[i]) && str[i] != '_')
-			return (false);
-		i++;
-	}
-	if (i < n && str[i] == '=')
-	{
-		return (true);
-	}
-	return (false);
-}
-
-bool	has_key(t_minishell *minish, const char *key)
-{
-	t_var	*current;
-
-	if (key == NULL)
-		return (false);
-	current = minish->var;
-	while (current)
-	{
-		if (ft_strcmp(current->key, key) == 0)
-			return (true);
-		current = current->next;
-	}
-	return (false);
-}
-
-void	set_type(t_minishell *minish, const char *key, e_var_type type)
+void	set_type(t_minishell *minish, const char *key, t_var_type type)
 {
 	t_var	*current;
 
@@ -183,25 +61,6 @@ void	set_type(t_minishell *minish, const char *key, e_var_type type)
 		}
 		current = current->next;
 	}
-}
-
-bool	is_var_dec_exclude_equal(const char *str, size_t n)
-{
-	size_t	i;
-
-	if (n == 0)
-		return (false);
-	i = 0;
-	if (!ft_isalpha(str[i]) && str[i] != '_')
-		return (false);
-	i++;
-	while (str[i] && i < n)
-	{
-		if (!ft_isalnum(str[i]) && str[i] != '_')
-			return (false);
-		i++;
-	}
-	return (true);
 }
 
 char	**divide_key_val(const char *key_val)
