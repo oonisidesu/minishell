@@ -6,7 +6,7 @@
 /*   By: susumuyagi <susumuyagi@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/15 17:37:32 by susumuyagi        #+#    #+#             */
-/*   Updated: 2024/04/09 17:46:51 by susumuyagi       ###   ########.fr       */
+/*   Updated: 2024/04/11 16:18:40 by susumuyagi       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,11 +44,11 @@ int	parse(t_minishell *minish)
 		node = command(minish);
 		if (!node)
 			return (1);
+		cur->next = node;
+		cur = node;
 		if (!check_syntax(minish))
 			break ;
 		consume(minish, "|");
-		cur->next = node;
-		cur = node;
 	}
 	minish->node = head.next;
 	input_heredoc(minish);
