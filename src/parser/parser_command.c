@@ -6,14 +6,17 @@
 /*   By: susumuyagi <susumuyagi@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/15 17:37:32 by susumuyagi        #+#    #+#             */
-/*   Updated: 2024/04/09 14:04:48 by susumuyagi       ###   ########.fr       */
+/*   Updated: 2024/04/11 12:39:50 by susumuyagi       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "libft.h"
 #include "minishell.h"
 #include "parser/expansion.h"
+#include "parser/node.h"
 #include "parser/parser.h"
 #include "utils/minishell_error.h"
+#include "utils/utils.h"
 #include <stdlib.h>
 
 static t_node	*new_command_node(t_minishell *minish)
@@ -28,19 +31,46 @@ static t_node	*new_command_node(t_minishell *minish)
 	return (node);
 }
 
-static void	put_argv(t_node *node, t_minishell *minish)
+static int	push_argv(t_minishell *minish, t_node *node, char *str)
+{
+	char	**tmp;
+
+	if (node->argc + 1 >= node->capa)
+	{
+		tmp = node->argv;
+		node->capa += ARGV_BLOCK;
+		node->argv = (char **)ft_calloc(node->capa, sizeof(char *));
+		if (!node->argv)
+		{
+			free_array((void **)tmp);
+			occurred_malloc_error_return_null(minish);
+			return (1);
+		}
+		copy_array((void **)tmp, (void **)node->argv);
+		free(tmp);
+	}
+	node->argv[node->argc] = str;
+	node->argc++;
+	return (0);
+}
+
+static void	expand_and_set_argv(t_node *node, t_minishell *minish)
 {
 	char	**argv;
 	int		i;
 
 	argv = expand_argv(minish, minish->cur_token);
 	if (!argv)
+	{
 		return ;
+	}
 	i = 0;
 	while (argv[i])
 	{
-		node->argv[node->argc] = argv[i];
-		node->argc++;
+		if (push_argv(minish, node, argv[i]))
+		{
+			return ;
+		}
 		i++;
 	}
 	free(argv);
@@ -59,7 +89,7 @@ static void	parse_token(t_minishell *minish, t_node *node,
 	}
 	if (minish->cur_token->kind == TK_WORD)
 	{
-		put_argv(node, minish);
+		expand_and_set_argv(node, minish);
 	}
 }
 
