@@ -6,7 +6,7 @@
 /*   By: ootsuboyoshiyuki <ootsuboyoshiyuki@stud    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/20 16:23:06 by susumuyagi        #+#    #+#             */
-/*   Updated: 2024/03/14 15:53:24 by ootsuboyosh      ###   ########.fr       */
+/*   Updated: 2024/04/10 15:23:46 by ootsuboyosh      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,9 +25,14 @@ static t_var	*create_var(e_var_type type, const char *key, const char *val)
 	new_var->key = ft_strdup(key);
 	if (new_var->key == NULL)
 		return (free(new_var), NULL);
-	new_var->val = ft_strdup(val);
-	if (new_var->val == NULL)
-		return (free(new_var->key), free(new_var), NULL);
+	if (val == NULL)
+		new_var->val = NULL;
+	else
+	{
+		new_var->val = ft_strdup(val);
+		if (new_var->val == NULL)
+			return (free(new_var->key), free(new_var), NULL);
+	}
 	new_var->next = NULL;
 	return (new_var);
 }
@@ -58,6 +63,8 @@ void	add_or_update_var(t_minishell *minish, const char *key, const char *val,
 	{
 		if (ft_strcmp(current->key, key) == 0)
 		{
+			if (val == NULL)
+				return ;
 			free(current->val);
 			current->val = ft_strdup(val);
 			if (current->type == VAR_SHELL)

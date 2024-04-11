@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env_util2.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: susumuyagi <susumuyagi@student.42.fr>      +#+  +:+       +#+        */
+/*   By: ootsuboyoshiyuki <ootsuboyoshiyuki@stud    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/08 11:54:11 by ootsuboyosh       #+#    #+#             */
-/*   Updated: 2024/04/10 15:28:46 by susumuyagi       ###   ########.fr       */
+/*   Updated: 2024/04/10 18:11:51 by ootsuboyosh      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,20 +41,31 @@ bool	swap_if_greater(char **key_list, size_t i, size_t *cmp_len,
 	return (true);
 }
 
-char	*get_key_from_minish(t_minishell *minish, t_var *current)
+char	*join_three_word(char *s1, char *s2, char *s3)
 {
-	char	*key;
+	char	*s1_s2;
+	char	*result;
 
-	if (current->type == VAR_ENV)
+	s1_s2 = ft_strjoin(s1, s2);
+	if (s1_s2 == NULL)
+		return (NULL);
+	result = ft_strjoin(s1_s2, s3);
+	if (result == NULL)
 	{
-		key = ft_strdup(current->key);
-		if (key == NULL)
-		{
-			minish->error_kind = ERR_MALLOC;
-			return (NULL);
-		}
+		free(s1_s2);
+		return (NULL);
 	}
+	free(s1_s2);
+	return (result);
+}
+
+char	*join_key_val(t_var *current)
+{
+	char	*key_val;
+
+	if (current->val == NULL)
+		key_val = ft_strjoin(current->key, "=");
 	else
-		key = NULL;
-	return (key);
+		key_val = join_three_word(current->key, "=", current->val);
+	return (key_val);
 }

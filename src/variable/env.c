@@ -6,7 +6,7 @@
 /*   By: ootsuboyoshiyuki <ootsuboyoshiyuki@stud    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/20 16:23:06 by susumuyagi        #+#    #+#             */
-/*   Updated: 2024/04/09 15:34:39 by ootsuboyosh      ###   ########.fr       */
+/*   Updated: 2024/04/10 18:09:41 by ootsuboyosh      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ char	**get_envp(t_minishell *minish)
 	{
 		if (current->type == VAR_ENV)
 		{
-			envp[i] = join_three_word(current->key, "=", current->val);
+			envp[i] = join_key_val(current);
 			if (envp[i] == NULL)
 				return (set_err_kind_free(minish, ERR_MALLOC, envp), NULL);
 		}
