@@ -6,7 +6,7 @@
 /*   By: susumuyagi <susumuyagi@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/15 17:37:32 by susumuyagi        #+#    #+#             */
-/*   Updated: 2024/04/11 12:39:50 by susumuyagi       ###   ########.fr       */
+/*   Updated: 2024/04/12 17:23:20 by susumuyagi       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,8 @@ static void	expand_and_set_argv(t_node *node, t_minishell *minish)
 static void	parse_token(t_minishell *minish, t_node *node,
 		t_node **redirect_cur, t_node **declare_cur)
 {
-	redirection(minish, redirect_cur);
+	if (redirection(minish, redirect_cur))
+		return ;
 	if (node->argc == 0 && is_var_declaration(minish->cur_token->str,
 			minish->cur_token->len))
 	{

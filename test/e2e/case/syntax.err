@@ -2,3 +2,5 @@
 ls | | cat
 ls | cat | cat | | cat
 ls | cat |
+AA="a a"
+> $AA
