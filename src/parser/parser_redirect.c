@@ -6,7 +6,7 @@
 /*   By: susumuyagi <susumuyagi@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/15 17:37:32 by susumuyagi        #+#    #+#             */
-/*   Updated: 2024/04/09 14:20:29 by susumuyagi       ###   ########.fr       */
+/*   Updated: 2024/04/12 17:23:13 by susumuyagi       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ static t_node	*new_redirect_node(t_node_kind kind, t_minishell *minish)
 	return (node);
 }
 
-void	redirection(t_minishell *minish, t_node **redirect_cur)
+int	redirection(t_minishell *minish, t_node **redirect_cur)
 {
 	t_node	*node;
 
@@ -82,4 +82,5 @@ void	redirection(t_minishell *minish, t_node **redirect_cur)
 		(*redirect_cur)->next = node;
 		*redirect_cur = node;
 	}
+	return (!no_error(minish));
 }

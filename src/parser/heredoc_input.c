@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc_input.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ootsuboyoshiyuki <ootsuboyoshiyuki@stud    +#+  +:+       +#+        */
+/*   By: susumuyagi <susumuyagi@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/15 15:43:15 by susumuyagi        #+#    #+#             */
-/*   Updated: 2024/04/08 18:36:11 by ootsuboyosh      ###   ########.fr       */
+/*   Updated: 2024/04/12 17:31:03 by susumuyagi       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,6 +110,8 @@ void	input_heredoc(t_minishell *minish)
 {
 	size_t	i;
 
+	if (!no_error(minish))
+		return ;
 	i = 0;
 	while (i < minish->heredoc.num)
 	{
