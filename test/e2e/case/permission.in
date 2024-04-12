@@ -1,2 +1,7 @@
 ../bin/ls
+../bin
+ls -l case/data/no_permission
+case/data/no_permission
 ./
+./abc
+hello
