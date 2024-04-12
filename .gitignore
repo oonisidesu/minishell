@@ -13,4 +13,5 @@ test/unit/build
 .vscode/*
 
 test/e2e/out/*.out
+test/e2e/out/*.err
 test/e2e/out/*.diff

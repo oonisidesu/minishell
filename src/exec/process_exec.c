@@ -6,7 +6,7 @@
 /*   By: susumuyagi <susumuyagi@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/12 12:06:41 by susumuyagi        #+#    #+#             */
-/*   Updated: 2024/04/10 14:49:31 by susumuyagi       ###   ########.fr       */
+/*   Updated: 2024/04/12 14:09:43 by susumuyagi       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,9 @@
 #include "utils/exit_status.h"
 #include "utils/minishell_error.h"
 #include "variable/env.h"
+#include <errno.h>
+#include <string.h>
+#include <sys/stat.h>
 
 static void	not_found(t_minishell *minish, t_node *node)
 {
@@ -35,6 +38,34 @@ static void	not_found(t_minishell *minish, t_node *node)
 	die_minishell_and_exit(minish, EXIT_COMMAND_NOT_FOUND);
 }
 
+static void	check_permission(t_minishell *minish, t_node *node)
+{
+	if (!node->has_x)
+	{
+		ft_printf_fd(STDERR_FILENO, MINISHELL_ERROR, node->argv[0],
+			PERMISSION_DENIED);
+		die_minishell_and_exit(minish, EXIT_CANNOT_EXECUTE_COMMAND);
+	}
+}
+
+void	check_dir(t_minishell *minish, t_node *node)
+{
+	struct stat	statbuf;
+
+	if (stat(node->path, &statbuf) != 0)
+	{
+		ft_printf_fd(STDERR_FILENO, MINISHELL_ERROR, node->path,
+			strerror(errno));
+		die_minishell_and_exit(minish, EXIT_CANNOT_EXECUTE_COMMAND);
+	}
+	if (S_ISDIR(statbuf.st_mode))
+	{
+		ft_printf_fd(STDERR_FILENO, MINISHELL_ERROR, node->path,
+			IS_A_DIRECTORY);
+		die_minishell_and_exit(minish, EXIT_CANNOT_EXECUTE_COMMAND);
+	}
+}
+
 void	exec_cmd(t_minishell *minish, t_node *node)
 {
 	char	**envp;
@@ -43,11 +74,10 @@ void	exec_cmd(t_minishell *minish, t_node *node)
 		die_minishell_and_exit(minish, EXIT_SUCCESS);
 	if (!node->exist_cmd)
 		not_found(minish, node);
-	else if (!node->has_x)
+	else
 	{
-		ft_printf_fd(STDERR_FILENO, MINISHELL_ERROR, node->argv[0],
-			PERMISSION_DENIED);
-		die_minishell_and_exit(minish, EXIT_CANNOT_EXECUTE_COMMAND);
+		check_dir(minish, node);
+		check_permission(minish, node);
 	}
 	envp = get_envp(minish);
 	if (!envp)

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   message.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ootsuboyoshiyuki <ootsuboyoshiyuki@stud    +#+  +:+       +#+        */
+/*   By: susumuyagi <susumuyagi@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 16:45:14 by ootsuboyosh       #+#    #+#             */
-/*   Updated: 2024/04/10 15:29:32 by ootsuboyosh      ###   ########.fr       */
+/*   Updated: 2024/04/12 13:56:00 by susumuyagi       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,7 @@
 # define COMMAND_NOT_FOUND "command not found"
 # define PERMISSION_DENIED "permission denied"
 # define NO_SUCH_FILE_OR_DIR "No such file or directory"
+# define IS_A_DIRECTORY "is a directory"
 
 // --- parser ---
 # define SYNTAX_ERROR "minishell: syntax error near unexpected token "
