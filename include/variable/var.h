@@ -6,22 +6,22 @@
 /*   By: ootsuboyoshiyuki <ootsuboyoshiyuki@stud    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/14 16:21:32 by ootsuboyosh       #+#    #+#             */
-/*   Updated: 2024/03/14 14:31:41 by ootsuboyosh      ###   ########.fr       */
+/*   Updated: 2024/04/11 18:21:09 by ootsuboyosh      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef VAR_H
 # define VAR_H
 
-typedef enum
+typedef enum e_var_type
 {
 	VAR_SHELL,
 	VAR_ENV,
-}					e_var_type;
+}					t_var_type;
 
 typedef struct s_var
 {
-	e_var_type		type;
+	t_var_type		type;
 	char			*key;
 	char			*val;
 	struct s_var	*next;
