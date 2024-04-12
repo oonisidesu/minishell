@@ -4,3 +4,4 @@ ls | cat | cat | | cat
 ls | cat |
 AA="a a"
 > $AA
+cat << EOF | cat << EOF2 | | cat << EOF3
