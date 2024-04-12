@@ -6,7 +6,7 @@
 /*   By: susumuyagi <susumuyagi@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/15 17:20:20 by susumuyagi        #+#    #+#             */
-/*   Updated: 2024/04/12 15:44:30 by susumuyagi       ###   ########.fr       */
+/*   Updated: 2024/04/12 16:08:23 by susumuyagi       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,9 +55,9 @@ t_inside_status	update_in_status(char p, t_inside_status in_status)
 ssize_t	count_token_word_len(char *p)
 {
 	char			*q;
+	bool			is_continue;
 	t_inside_status	in_status;
 
-	bool is_continue ;
 	in_status = IN_NONE;
 	q = p;
 	while (*p != '\n' && *p != '\0')
