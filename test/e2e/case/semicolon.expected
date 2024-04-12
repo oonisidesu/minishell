@@ -1,5 +1,2 @@
 minishell: ;: command not found
 minishell: cat;: command not found
-cat: ;: No such file or directory
-minishell: cat;: command not found
-cat: ;: No such file or directory
