@@ -6,7 +6,7 @@
 /*   By: susumuyagi <susumuyagi@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/15 17:20:20 by susumuyagi        #+#    #+#             */
-/*   Updated: 2024/04/08 15:52:31 by susumuyagi       ###   ########.fr       */
+/*   Updated: 2024/04/12 16:08:23 by susumuyagi       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 
 bool	is_reserved(char p)
 {
-	return (p == '<' || p == '>' || p == '|' || p == ';');
+	return (p == '<' || p == '>' || p == '|');
 }
 
 bool	is_word_char(char p, t_inside_status in_status)
