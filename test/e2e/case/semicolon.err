@@ -1,0 +1,4 @@
+ls;
+ls ;
+ls | cat | cat;
+ls | cat | cat ;
