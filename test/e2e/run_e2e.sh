@@ -13,22 +13,41 @@ for test_case in case/*.in; do
   filename="${filename%.*}"
 
   # minishellとbashを実行
-  ../../minishell < "$test_case" > "out/${filename}_minishell.out"
-  bash < "$test_case" > "out/${filename}_bash.out"
+  ../../minishell < "$test_case" > "out/${filename}_minishell.out" 2> "out/${filename}_minishell.err"
+  bash < "$test_case" > "out/${filename}_bash.out" 2> "out/${filename}_bash.err"
 
   # 出力を比較
   diff "out/${filename}_minishell.out" "out/${filename}_bash.out" > out/${filename}.diff
   if [ $? -eq 0 ]; then
-    echo -e "Test case $filename:\t\t${GREEN}passed${NC}"
+    echo -e "${GREEN}passed${NC}:\t$filename"
   else
-	echo "----------------------------------------diff-----"
+  	echo "---------------------------------------- diff ----------"
     cat "out/${filename}.diff"
-	echo "----------------------------------------minishell-----"
+  	echo "---------------------------------------- minishell -----"
     cat "out/${filename}_minishell.out"
-	echo "----------------------------------------bash-----"
+	  echo "---------------------------------------- bash ----------"
     cat "out/${filename}_bash.out"
-	echo "--------------------------------------------------"
-    echo -e "Test case $filename:\t\t${RED}failed${NC}"
+  	echo "--------------------------------------------------------"
+    echo -e "${RED}failed${NC}:\t$filename"
+    all_tests_passed=false
+  fi
+
+  # エラー予測があればエラー結果を比較
+  if [ ! -f "case/${filename}.err" ]; then
+    continue
+  fi
+  diff "out/${filename}_minishell.err" "case/${filename}.err" > out/${filename}.err.diff
+  if [ $? -eq 0 ]; then
+    echo -e "${GREEN}passed${NC}:\t$filename(error)"
+  else
+  	echo "---------------------------------------- diff(error) ----------"
+    cat "out/${filename}.err.diff"
+  	echo "---------------------------------------- minishell(error) -----"
+    cat "out/${filename}_minishell.err"
+  	echo "---------------------------------------- expected(error) ------"
+    cat "case/${filename}.err"
+	  echo "---------------------------------------------------------------"
+    echo -e "${RED}failed${NC}:\t$filename(error)"
     all_tests_passed=false
   fi
 done

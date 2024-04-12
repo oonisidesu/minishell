@@ -1,0 +1,2 @@
+minishell: ../bin/ls: permission denied
+minishell: ./: is a directory
