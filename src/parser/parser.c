@@ -6,7 +6,7 @@
 /*   By: susumuyagi <susumuyagi@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/15 17:37:32 by susumuyagi        #+#    #+#             */
-/*   Updated: 2024/04/11 16:18:40 by susumuyagi       ###   ########.fr       */
+/*   Updated: 2024/04/15 10:32:05 by susumuyagi       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,8 @@
 
 static bool	check_syntax(t_minishell *minish)
 {
+	if (!no_error(minish))
+		return (false);
 	if (at_pipe(minish->cur_token) && (at_pipe(minish->cur_token->next)
 			|| at_eof(minish->cur_token->next)))
 	{
@@ -43,7 +45,7 @@ int	parse(t_minishell *minish)
 	{
 		node = command(minish);
 		if (!node)
-			return (1);
+			break ;
 		cur->next = node;
 		cur = node;
 		if (!check_syntax(minish))
