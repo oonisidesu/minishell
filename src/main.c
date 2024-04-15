@@ -6,7 +6,7 @@
 /*   By: ootsuboyoshiyuki <ootsuboyoshiyuki@stud    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/15 13:22:07 by susumuyagi        #+#    #+#             */
-/*   Updated: 2024/03/31 19:09:05 by ootsuboyosh      ###   ########.fr       */
+/*   Updated: 2024/04/15 17:26:51 by ootsuboyosh      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,7 @@ int	main(int argc, const char **argv, const char **envp)
 	minish.argc = argc;
 	minish.argv = argv;
 	signal(SIGINT, ctrl_c_handler);
+	signal(SIGQUIT, ctrl_backslash_handler);
 	rl_event_hook = event;
 	if (argc > 1)
 	{
