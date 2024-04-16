@@ -1,0 +1,9 @@
+FILE1=out/redirect1.txt
+FILE2=out/redirect2.txt
+echo "abc" > $FILE1
+echo $? $FILE1 $PWD >> $FILE1
+ls -a >> $FILE1
+env | sort | grep -v "_=" | grep -v "OLDPWD=" | grep -v "SHLVL=" > $FILE2
+export | grep -v "declare -x SHLVL=" | grep -v "declare -x _=" | grep -v "declare -x OLDPWD" >> $FILE2
+cat $FILE1 $FILE2
+rm $FILE1 $FILE2
