@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   signal.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: susumuyagi <susumuyagi@student.42.fr>      +#+  +:+       +#+        */
+/*   By: ootsuboyoshiyuki <ootsuboyoshiyuki@stud    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/22 12:15:51 by ootsuboyosh       #+#    #+#             */
-/*   Updated: 2024/04/02 16:46:21 by susumuyagi       ###   ########.fr       */
+/*   Updated: 2024/04/15 17:27:58 by ootsuboyosh      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,11 @@ void	ctrl_c_handler(int sig)
 	g_signal = CTRL_C;
 	rl_replace_line("", 0);
 	rl_done = 1;
+}
+
+void	ctrl_backslash_handler(int sig)
+{
+	(void)sig;
 }
 
 void	ctrl_c_blank_line_handler(t_minishell *minish)
