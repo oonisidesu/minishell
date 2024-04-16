@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc_input.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: susumuyagi <susumuyagi@student.42.fr>      +#+  +:+       +#+        */
+/*   By: ootsuboyoshiyuki <ootsuboyoshiyuki@stud    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/15 15:43:15 by susumuyagi        #+#    #+#             */
-/*   Updated: 2024/04/12 17:31:03 by susumuyagi       ###   ########.fr       */
+/*   Updated: 2024/04/16 22:21:25 by ootsuboyosh      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,6 @@
 #include "readline.h"
 #include "signal/signal.h"
 #include "utils/minishell_error.h"
-#include <stdio.h>
 #include <stdlib.h>
 
 static char	*expand_line(t_minishell *minish, char *line, char *doc, int idx)

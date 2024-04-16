@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   find_path.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: susumuyagi <susumuyagi@student.42.fr>      +#+  +:+       +#+        */
+/*   By: ootsuboyoshiyuki <ootsuboyoshiyuki@stud    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/21 12:26:12 by susumuyagi        #+#    #+#             */
-/*   Updated: 2024/04/08 17:00:42 by susumuyagi       ###   ########.fr       */
+/*   Updated: 2024/04/16 22:21:14 by ootsuboyosh      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,6 @@
 #include "utils/minishell_error.h"
 #include "utils/utils.h"
 #include "variable/env.h"
-#include <stdio.h>
 #include <stdlib.h>
 
 static int	find_path(t_node *node, char **path_array)

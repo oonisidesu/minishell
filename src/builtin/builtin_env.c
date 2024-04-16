@@ -6,7 +6,7 @@
 /*   By: ootsuboyoshiyuki <ootsuboyoshiyuki@stud    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/23 19:23:01 by susumuyagi        #+#    #+#             */
-/*   Updated: 2024/03/13 00:09:13 by ootsuboyosh      ###   ########.fr       */
+/*   Updated: 2024/04/16 22:20:56 by ootsuboyosh      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,6 @@
 #include "variable/var.h"
 #include <stdlib.h>
 #include <unistd.h>
-// TODO 後で消す
-#include <stdio.h>
 
 int	builtin_env(t_minishell *minish, t_node *node)
 {
