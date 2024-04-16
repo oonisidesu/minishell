@@ -6,7 +6,7 @@
 /*   By: susumuyagi <susumuyagi@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/07 16:58:41 by susumuyagi        #+#    #+#             */
-/*   Updated: 2024/04/11 17:51:53 by susumuyagi       ###   ########.fr       */
+/*   Updated: 2024/04/16 16:27:17 by susumuyagi       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,9 +16,13 @@
 # include "minishell.h"
 # include <stddef.h>
 
+# define EXP_STR_INIT_SIZE 1024
+
 typedef struct s_expansion
 {
 	char			*ret;
+	size_t			size;
+	size_t			capa;
 
 	const char		*str;
 	size_t			len;
@@ -29,18 +33,13 @@ typedef struct s_expansion
 	t_inside_status	in_status;
 }					t_expansion;
 
-int					init_expansion(t_expansion *exp, t_token *tok);
+int					init_expansion(t_expansion *exp, const char *str,
+						size_t len);
 int					free_expansion_and_return_error(t_expansion *exp);
-int					expansion_done(t_expansion *exp);
-bool				has_quotes(t_token *tok);
-void				update_inside_status(t_expansion *exp);
+int					done_expansion(t_expansion *exp);
 
-int					join_up_to_terminator(t_expansion *exp,
-						t_inside_status in_status, char *terminator);
+int					push_string(t_expansion *exp, const char *str, size_t len);
 int					join_var(t_expansion *exp, const char *var, size_t var_len);
-
-int					expand_variable(t_minishell *minish, t_expansion *exp);
-int					consume_and_join_dollar(t_expansion *exp);
 
 bool				is_special_param(t_expansion *exp);
 int					expand_special_param(t_minishell *minish, t_expansion *exp);
