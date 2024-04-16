@@ -6,7 +6,7 @@
 /*   By: susumuyagi <susumuyagi@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/12 12:06:41 by susumuyagi        #+#    #+#             */
-/*   Updated: 2024/04/10 14:49:36 by susumuyagi       ###   ########.fr       */
+/*   Updated: 2024/04/16 17:23:34 by susumuyagi       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,21 +32,22 @@ static void	init_pipe(t_minishell *minish, t_node **node, int *prev_fds,
 static int	connect_io(t_minishell *minish, t_node *node, int prev_fds[],
 		int fds[])
 {
-	if (node->pid == RUN_PARENT)
-		return (0);
-	if (node != minish->node)
+	if (node->pid != RUN_PARENT)
 	{
-		close(STDIN_FILENO);
-		dup2(prev_fds[0], STDIN_FILENO);
-		close(prev_fds[0]);
-		close(prev_fds[1]);
-	}
-	if (node->next != NULL)
-	{
-		close(fds[0]);
-		close(STDOUT_FILENO);
-		dup2(fds[1], STDOUT_FILENO);
-		close(fds[1]);
+		if (node != minish->node)
+		{
+			close(STDIN_FILENO);
+			dup2(prev_fds[0], STDIN_FILENO);
+			close(prev_fds[0]);
+			close(prev_fds[1]);
+		}
+		if (node->next != NULL)
+		{
+			close(fds[0]);
+			close(STDOUT_FILENO);
+			dup2(fds[1], STDOUT_FILENO);
+			close(fds[1]);
+		}
 	}
 	if (redirect(minish, node))
 	{
