@@ -6,7 +6,7 @@
 /*   By: susumuyagi <susumuyagi@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/06 19:45:27 by susumuyagi        #+#    #+#             */
-/*   Updated: 2024/04/11 17:53:23 by susumuyagi       ###   ########.fr       */
+/*   Updated: 2024/04/16 13:52:13 by susumuyagi       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ static char	*extract_key(t_minishell *minish, t_expansion *exp)
 		return (NULL);
 	}
 	exp->i += 2;
-	while (!expansion_done(exp) && (ft_isalnum(exp->str[exp->i])
+	while (!done_expansion(exp) && (ft_isalnum(exp->str[exp->i])
 			|| exp->str[exp->i] == '_'))
 	{
 		exp->i++;

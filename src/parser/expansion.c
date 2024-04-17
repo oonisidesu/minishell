@@ -6,7 +6,7 @@
 /*   By: susumuyagi <susumuyagi@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/06 19:45:27 by susumuyagi        #+#    #+#             */
-/*   Updated: 2024/04/10 12:18:09 by susumuyagi       ###   ########.fr       */
+/*   Updated: 2024/04/17 16:22:36 by susumuyagi       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,11 +20,11 @@ char	*expand(t_minishell *minish, t_token *tok)
 {
 	t_expansion	exp;
 
-	if (init_expansion(&exp, tok))
+	if (init_expansion(&exp, tok->str, tok->len))
 	{
 		return (NULL);
 	}
-	while (!expansion_done(&exp))
+	while (!done_expansion(&exp))
 	{
 		update_inside_status(&exp);
 		if (expand_special_param(minish, &exp))
@@ -99,11 +99,11 @@ char	*expand_delimiter(t_minishell *minish, t_token *tok)
 {
 	t_expansion	exp;
 
-	if (init_expansion(&exp, tok))
+	if (init_expansion(&exp, tok->str, tok->len))
 	{
 		return (occurred_malloc_error_return_null(minish));
 	}
-	while (!expansion_done(&exp))
+	while (!done_expansion(&exp))
 	{
 		update_inside_status(&exp);
 		if (join_up_to_terminator(&exp, IN_NONE, "\'\"$"))
@@ -121,15 +121,12 @@ char	*expand_delimiter(t_minishell *minish, t_token *tok)
 char	*expand_heredoc(t_minishell *minish, const char *str)
 {
 	t_expansion	exp;
-	t_token		tok;
 
-	tok.str = str;
-	tok.len = ft_strlen(str);
-	if (init_expansion(&exp, &tok))
+	if (init_expansion(&exp, str, ft_strlen(str)))
 	{
 		return (occurred_malloc_error_return_null(minish));
 	}
-	while (!expansion_done(&exp))
+	while (!done_expansion(&exp))
 	{
 		if (expand_special_param(minish, &exp))
 			return (occurred_malloc_error_return_null(minish));
