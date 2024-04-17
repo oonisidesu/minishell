@@ -6,7 +6,7 @@
 /*   By: susumuyagi <susumuyagi@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/06 19:45:27 by susumuyagi        #+#    #+#             */
-/*   Updated: 2024/04/17 16:22:36 by susumuyagi       ###   ########.fr       */
+/*   Updated: 2024/04/17 17:10:00 by susumuyagi       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,7 @@ char	*expand(t_minishell *minish, t_token *tok)
 		if (join_up_to_terminator(&exp, IN_D_QUOTE, "\"$"))
 			return (NULL);
 	}
+	free(exp.arr_ret);
 	return (exp.ret);
 }
 
@@ -115,6 +116,7 @@ char	*expand_delimiter(t_minishell *minish, t_token *tok)
 		if (join_up_to_terminator(&exp, IN_D_QUOTE, "\"$"))
 			return (occurred_malloc_error_return_null(minish));
 	}
+	free(exp.arr_ret);
 	return (exp.ret);
 }
 
@@ -135,5 +137,6 @@ char	*expand_heredoc(t_minishell *minish, const char *str)
 		if (join_up_to_terminator(&exp, IN_ANY, "$"))
 			return (occurred_malloc_error_return_null(minish));
 	}
+	free(exp.arr_ret);
 	return (exp.ret);
 }
