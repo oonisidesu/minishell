@@ -56,3 +56,20 @@ TEST(Expansion, add_exp_array) {
     EXPECT_STREQ(expected, exp.arr_ret[i]);
   }
 }
+
+TEST(Expansion, split_and_join_var) {
+  t_expansion exp;
+  char c;
+
+  init_expansion(&exp, "123456789012345678901234567890", 30);
+
+  push_exp_string(&exp, "1234567890xx", 10);
+  join_var(&exp, "abc", 5);
+  split_and_join_var(&exp, "  'a   bb		  ccc dddd'   	", 5);
+  push_exp_string(&exp, "1234567890xx", 10);
+
+  EXPECT_STREQ("1234567890abc'a", exp.arr_ret[0]);
+  EXPECT_STREQ("bb", exp.arr_ret[1]);
+  EXPECT_STREQ("ccc", exp.arr_ret[2]);
+  EXPECT_STREQ("dddd'1234567890", exp.arr_ret[3]);
+}

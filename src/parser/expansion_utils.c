@@ -6,7 +6,7 @@
 /*   By: susumuyagi <susumuyagi@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/06 19:45:27 by susumuyagi        #+#    #+#             */
-/*   Updated: 2024/04/17 13:51:08 by susumuyagi       ###   ########.fr       */
+/*   Updated: 2024/04/17 15:00:25 by susumuyagi       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,4 +45,26 @@ int	free_expansion_and_return_error(t_expansion *exp)
 int	done_expansion(t_expansion *exp)
 {
 	return (exp->i >= exp->len);
+}
+
+void	update_inside_status(t_expansion *exp)
+{
+	if (exp->str[exp->i] == '\'')
+	{
+		if (exp->in_status == IN_NONE)
+			exp->in_status = IN_QUOTE;
+		else if (exp->in_status == IN_QUOTE)
+			exp->in_status = IN_NONE;
+		exp->i++;
+		exp->n++;
+	}
+	else if (exp->str[exp->i] == '\"')
+	{
+		if (exp->in_status == IN_NONE)
+			exp->in_status = IN_D_QUOTE;
+		else if (exp->in_status == IN_D_QUOTE)
+			exp->in_status = IN_NONE;
+		exp->i++;
+		exp->n++;
+	}
 }
