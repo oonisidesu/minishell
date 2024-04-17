@@ -1,0 +1,5 @@
+minishell: ""$AA"": ambiguous redirect
+minishell: 'abc: command not found
+minishell: 'abc       def': command not found
+minishell: 'abc: command not found
+minishell: 'abc       def': command not found

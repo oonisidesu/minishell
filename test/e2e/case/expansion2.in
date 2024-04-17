@@ -1,0 +1,18 @@
+AA="abc    def"
+echo $AA
+echo "$AA"
+echo ""$AA
+AA="'abc    def'"
+echo $AA
+echo "$AA"
+echo ""$AA
+AA='"abc    def"'
+echo $AA
+echo "$AA"
+echo ""$AA
+BB=$AA
+CC="$AA"
+DD=""$AA
+echo "$BB"
+echo "$CC"
+echo "$DD"

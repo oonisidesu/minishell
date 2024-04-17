@@ -1,0 +1,7 @@
+AA="out/abc    def"
+> ""$AA""
+AA="'abc       def'"
+$AA
+"$AA"
+""$AA""
+"""$AA"""
