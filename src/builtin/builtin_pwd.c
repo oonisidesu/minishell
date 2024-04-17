@@ -6,7 +6,7 @@
 /*   By: ootsuboyoshiyuki <ootsuboyoshiyuki@stud    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/23 19:23:01 by susumuyagi        #+#    #+#             */
-/*   Updated: 2024/03/19 17:18:50 by ootsuboyosh      ###   ########.fr       */
+/*   Updated: 2024/04/16 22:25:27 by ootsuboyosh      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,6 @@ int	builtin_pwd(t_minishell *minish, t_node *node)
 		}
 		minish->pwd = pathname;
 	}
-	printf("%s\n", minish->pwd);
+	ft_printf_fd(STDOUT_FILENO, "%s\n", minish->pwd);
 	return (node->wait_status);
 }

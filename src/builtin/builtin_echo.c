@@ -6,20 +6,18 @@
 /*   By: ootsuboyoshiyuki <ootsuboyoshiyuki@stud    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/23 19:23:01 by susumuyagi        #+#    #+#             */
-/*   Updated: 2024/03/13 13:43:00 by ootsuboyosh      ###   ########.fr       */
+/*   Updated: 2024/04/16 22:20:48 by ootsuboyosh      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 #include "minishell.h"
 #include <stdlib.h>
-// TODO 後で消す
-#include <stdio.h>
 #include <unistd.h>
 
 static void	print_arg(t_node *node, int start)
 {
-	int		i;
+	int	i;
 
 	i = start;
 	while (node->argv[i] != NULL)

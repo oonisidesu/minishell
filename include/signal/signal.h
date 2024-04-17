@@ -6,14 +6,14 @@
 /*   By: ootsuboyoshiyuki <ootsuboyoshiyuki@stud    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/22 12:16:18 by ootsuboyosh       #+#    #+#             */
-/*   Updated: 2024/04/15 17:28:19 by ootsuboyosh      ###   ########.fr       */
+/*   Updated: 2024/04/16 22:22:12 by ootsuboyosh      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef SIGNAL_H
 # define SIGNAL_H
 
-# include "../minishell.h"
+# include "minishell.h"
 # include "readline.h"
 # include <signal.h>
 
