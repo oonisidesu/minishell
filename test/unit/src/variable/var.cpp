@@ -84,6 +84,32 @@ TEST(Variable, update_dont_demotion)
   }
 }
 
+// valを既存のvalにくっつける
+TEST(Variable, append_val)
+{
+  t_minishell minish;
+  const char *envp[] = {"HOME=/home", "USER=me", "PATH=/usr/bin",
+                        "ENV1=", "ENV2=a=b=c", NULL};
+  const char *expect[] = {"HOME=/home",
+                          "USER=me",
+                          "PATH=/usr/bin",
+                          "ENV1=update",
+                          "ENV2=a=b=cupdate",
+                          NULL};
+  char **actual;
+
+  init_minishell(&minish);
+  set_envp(&minish, envp);
+  append_val(&minish, "ENV1", "update", VAR_ENV);
+  append_val(&minish, "ENV1", "", VAR_ENV);
+  append_val(&minish, "ENV2", "update", VAR_ENV);
+  actual = get_envp(&minish);
+  for (size_t i = 0; expect[i]; ++i)
+  {
+    EXPECT_STREQ(expect[i], actual[i]);
+  }
+}
+
 // 削除
 TEST(Variable, del)
 {
@@ -223,4 +249,26 @@ TEST(Variable, divide_key_val4)
   char **actual = divide_key_val("ABC");
 
   EXPECT_EQ(NULL, actual);
+}
+
+TEST(Variable, is_var_dec_exclude_plus)
+{
+  EXPECT_TRUE(is_var_dec_exclude_plus("A123+=", 6));
+  EXPECT_TRUE(is_var_dec_exclude_plus("A123+=aa", 8));
+  EXPECT_TRUE(is_var_dec_exclude_plus("A12+=123", 8));
+  EXPECT_TRUE(is_var_dec_exclude_plus("A12+=132", 8));
+  EXPECT_TRUE(is_var_dec_exclude_plus("_12+=123", 8));
+  EXPECT_TRUE(is_var_dec_exclude_plus("A_1+=123", 8));
+  EXPECT_TRUE(is_var_dec_exclude_plus("A12+=$AB", 8));
+  EXPECT_TRUE(is_var_dec_exclude_plus("A12+=@!$", 8));
+  EXPECT_TRUE(is_var_dec_exclude_plus("A+=0=1=2", 8));
+  EXPECT_TRUE(is_var_dec_exclude_plus("A+=0+=1=+2", 10));
+
+  EXPECT_FALSE(is_var_dec_exclude_plus("A123+", 5));
+  EXPECT_FALSE(is_var_dec_exclude_plus("1AA=123", 7));
+  EXPECT_FALSE(is_var_dec_exclude_plus("A12=+132", 8));
+  EXPECT_FALSE(is_var_dec_exclude_plus("A@!$", 7));
+  EXPECT_FALSE(is_var_dec_exclude_plus("1AA", 3));
+  EXPECT_FALSE(is_var_dec_exclude_plus("#AA", 3));
+  EXPECT_FALSE(is_var_dec_exclude_plus("AA$", 3));
 }
