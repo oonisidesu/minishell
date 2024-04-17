@@ -6,7 +6,7 @@
 /*   By: susumuyagi <susumuyagi@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/06 19:45:27 by susumuyagi        #+#    #+#             */
-/*   Updated: 2024/04/17 14:31:41 by susumuyagi       ###   ########.fr       */
+/*   Updated: 2024/04/17 19:21:49 by susumuyagi       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ int	push_exp_string(t_expansion *exp, const char *str, size_t len)
 {
 	char	*tmp;
 
-	if (exp->size + len + 1 > exp->capa)
+	if (exp->arr_size == 0 || exp->size + len + 1 > exp->capa)
 	{
 		while (exp->size + len + 1 > exp->capa)
 			exp->capa *= 2;
@@ -32,6 +32,8 @@ int	push_exp_string(t_expansion *exp, const char *str, size_t len)
 		}
 		ft_memcpy(exp->ret, tmp, exp->size);
 		free(tmp);
+		if (exp->arr_size == 0)
+			exp->arr_size++;
 		exp->arr_ret[exp->arr_size - 1] = exp->ret;
 	}
 	ft_strlcpy(exp->ret + exp->size, str, len + 1);

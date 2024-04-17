@@ -6,7 +6,7 @@
 /*   By: susumuyagi <susumuyagi@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/06 19:45:27 by susumuyagi        #+#    #+#             */
-/*   Updated: 2024/04/17 15:00:25 by susumuyagi       ###   ########.fr       */
+/*   Updated: 2024/04/17 19:25:25 by susumuyagi       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,14 +20,11 @@ int	init_expansion(t_expansion *exp, const char *str, size_t len)
 	exp->arr_ret = (char **)ft_calloc(EXP_INIT_SIZE, sizeof(char *));
 	if (!exp->arr_ret)
 		return (1);
-	exp->ret = (char *)ft_calloc(EXP_INIT_SIZE, sizeof(char));
-	if (!exp->ret)
-		return (1);
+	exp->arr_capa = EXP_INIT_SIZE;
+	exp->arr_size = 0;
+	exp->ret = NULL;
 	exp->capa = EXP_INIT_SIZE;
 	exp->size = 0;
-	exp->arr_capa = EXP_INIT_SIZE;
-	exp->arr_size = 1;
-	exp->arr_ret[0] = exp->ret;
 	exp->str = str;
 	exp->len = len;
 	exp->i = 0;
