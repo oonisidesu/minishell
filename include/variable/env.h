@@ -6,7 +6,7 @@
 /*   By: ootsuboyoshiyuki <ootsuboyoshiyuki@stud    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/14 16:21:32 by ootsuboyosh       #+#    #+#             */
-/*   Updated: 2024/04/11 18:18:08 by ootsuboyosh      ###   ########.fr       */
+/*   Updated: 2024/04/17 20:45:40 by ootsuboyosh      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,8 @@ void	set_envp(t_minishell *minish, const char **envp);
 char	**get_envp(t_minishell *minish);
 char	*get_var(t_minishell *minish, const char *key);
 void	add_or_update_var(t_minishell *minish, const char *key, const char *val,
+			t_var_type type);
+void	append_val(t_minishell *minish, const char *key, const char *val,
 			t_var_type type);
 void	del_var(t_minishell *minish, const char *key);
 void	free_var(t_minishell *minish);

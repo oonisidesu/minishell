@@ -6,12 +6,13 @@
 /*   By: ootsuboyoshiyuki <ootsuboyoshiyuki@stud    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/11 17:32:19 by ootsuboyosh       #+#    #+#             */
-/*   Updated: 2024/04/11 18:22:45 by ootsuboyosh      ###   ########.fr       */
+/*   Updated: 2024/04/17 23:51:46 by ootsuboyosh      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "utils/utils.h"
 #include "variable/env.h"
+#include "variable/env_util.h"
 #include "variable/var.h"
 
 static t_var	*create_var(t_var_type type, const char *key, const char *val)
@@ -69,6 +70,38 @@ void	add_or_update_var(t_minishell *minish, const char *key, const char *val,
 				return ;
 			free(current->val);
 			current->val = ft_strdup(val);
+			if (current->val == NULL)
+				return (set_err_kind(minish, ERR_MALLOC));
+			if (current->type == VAR_SHELL)
+				current->type = type;
+			return ;
+		}
+		current = current->next;
+	}
+	add_var(minish, key, val, type);
+}
+
+void	append_val(t_minishell *minish, const char *key, const char *val,
+		t_var_type type)
+{
+	t_var	*current;
+	char	*tmp;
+
+	current = minish->var;
+	while (current)
+	{
+		if (ft_strcmp(current->key, key) == 0)
+		{
+			tmp = check_malloc_and_set_err_kind(ft_strdup(current->val), minish,
+					ERR_MALLOC);
+			if (tmp == NULL || val == NULL)
+				return ;
+			free(current->val);
+			current->val = check_malloc_and_set_err_kind(ft_strjoin(tmp, val),
+					minish, ERR_MALLOC);
+			free(tmp);
+			if (current->val == NULL)
+				return ;
 			if (current->type == VAR_SHELL)
 				current->type = type;
 			return ;

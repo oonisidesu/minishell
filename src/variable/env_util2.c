@@ -6,24 +6,13 @@
 /*   By: ootsuboyoshiyuki <ootsuboyoshiyuki@stud    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/08 11:54:11 by ootsuboyosh       #+#    #+#             */
-/*   Updated: 2024/04/10 18:11:51 by ootsuboyosh      ###   ########.fr       */
+/*   Updated: 2024/04/17 23:40:10 by ootsuboyosh      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "utils/utils.h"
 #include "variable/env.h"
 #include "variable/var.h"
-
-void	set_err_kind(t_minishell *minish, t_error_kind kind)
-{
-	minish->error_kind = kind;
-}
-
-void	set_err_kind_free(t_minishell *minish, t_error_kind kind, char **s)
-{
-	set_err_kind(minish, kind);
-	free_array((void **)s);
-}
 
 bool	swap_if_greater(char **key_list, size_t i, size_t *cmp_len,
 		bool *sort_flag)
@@ -68,4 +57,12 @@ char	*join_key_val(t_var *current)
 	else
 		key_val = join_three_word(current->key, "=", current->val);
 	return (key_val);
+}
+
+void	set_or_update_env_var(t_minishell *minish, char **key_value)
+{
+	if (has_key(minish, key_value[0]))
+		set_type(minish, key_value[0], VAR_ENV);
+	else
+		add_or_update_var(minish, key_value[0], key_value[1], VAR_ENV);
 }

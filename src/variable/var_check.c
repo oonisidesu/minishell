@@ -6,7 +6,7 @@
 /*   By: ootsuboyoshiyuki <ootsuboyoshiyuki@stud    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/11 17:35:43 by ootsuboyosh       #+#    #+#             */
-/*   Updated: 2024/04/11 17:37:00 by ootsuboyosh      ###   ########.fr       */
+/*   Updated: 2024/04/17 22:41:18 by ootsuboyosh      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,4 +70,28 @@ bool	is_var_dec_exclude_equal(const char *str, size_t n)
 		i++;
 	}
 	return (true);
+}
+
+bool	is_var_dec_exclude_plus(const char *str, size_t n)
+{
+	size_t	i;
+
+	if (n == 0)
+		return (false);
+	i = 0;
+	if (!ft_isalpha(str[i]) && str[i] != '_')
+		return (false);
+	i++;
+	while (str[i] && i < n)
+	{
+		if (str[i] == '+')
+		{
+			if (str[i + 1] && str[i + 1] == '=')
+				return (true);
+		}
+		if (!ft_isalnum(str[i]) && str[i] != '_')
+			return (false);
+		i++;
+	}
+	return (false);
 }
