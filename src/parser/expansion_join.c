@@ -6,7 +6,7 @@
 /*   By: susumuyagi <susumuyagi@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/06 19:45:27 by susumuyagi        #+#    #+#             */
-/*   Updated: 2024/04/17 19:51:19 by susumuyagi       ###   ########.fr       */
+/*   Updated: 2024/04/18 14:29:12 by susumuyagi       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,13 +57,21 @@ int	join_var(t_expansion *exp, const char *var, size_t var_len)
 	return (0);
 }
 
-static int	push_arr_i(t_expansion *exp, const char *str, const char *next)
+static int	push_arr_i(t_expansion *exp, char **arr, size_t i,
+		int is_start_delimiter)
 {
-	if (push_exp_string(exp, str, ft_strlen(str)))
+	if (is_start_delimiter && exp->size > 0)
+	{
+		if (add_exp_array(exp))
+		{
+			return (1);
+		}
+	}
+	if (push_exp_string(exp, arr[i], ft_strlen(arr[i])))
 	{
 		return (1);
 	}
-	if (next != NULL)
+	if (arr[i + 1] != NULL)
 	{
 		if (add_exp_array(exp))
 		{
@@ -86,7 +94,7 @@ int	split_and_join_var(t_expansion *exp, const char *var, size_t var_len)
 		i = 0;
 		while (arr[i])
 		{
-			if (push_arr_i(exp, arr[i], arr[i + 1]))
+			if (push_arr_i(exp, arr, i, ft_strchr(" \t", var[0]) != NULL))
 			{
 				free_array((void **)arr);
 				return (1);

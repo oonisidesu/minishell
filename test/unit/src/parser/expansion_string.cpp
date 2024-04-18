@@ -64,12 +64,18 @@ TEST(Expansion, split_and_join_var) {
   init_expansion(&exp, "123456789012345678901234567890", 30);
 
   push_exp_string(&exp, "1234567890xx", 10);
-  join_var(&exp, "abc", 5);
-  split_and_join_var(&exp, "  'a   bb		  ccc dddd'   	", 5);
+  join_var(&exp, "abc", 2);
+  split_and_join_var(&exp, "'a   bb		  ccc dddd'   	", 2);
+  split_and_join_var(&exp, "	  e ff  ", 2);
+  split_and_join_var(&exp, " g hh", 2);
   push_exp_string(&exp, "1234567890xx", 10);
 
   EXPECT_STREQ("1234567890abc'a", exp.arr_ret[0]);
   EXPECT_STREQ("bb", exp.arr_ret[1]);
   EXPECT_STREQ("ccc", exp.arr_ret[2]);
-  EXPECT_STREQ("dddd'1234567890", exp.arr_ret[3]);
+  EXPECT_STREQ("dddd'", exp.arr_ret[3]);
+  EXPECT_STREQ("e", exp.arr_ret[4]);
+  EXPECT_STREQ("ff", exp.arr_ret[5]);
+  EXPECT_STREQ("g", exp.arr_ret[6]);
+  EXPECT_STREQ("hh1234567890", exp.arr_ret[7]);
 }
