@@ -6,7 +6,7 @@
 /*   By: susumuyagi <susumuyagi@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/07 16:58:41 by susumuyagi        #+#    #+#             */
-/*   Updated: 2024/04/18 13:52:07 by susumuyagi       ###   ########.fr       */
+/*   Updated: 2024/04/18 14:51:05 by susumuyagi       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,8 +61,8 @@ bool				is_special_param(t_expansion *exp);
 int					expand_special_param(t_minishell *minish, t_expansion *exp);
 
 char				*expand(t_minishell *minish, t_token *tok);
+char				**expand_split(t_minishell *minish, t_token *tok);
 char				*expand_redirect(t_minishell *minish, t_token *tok);
-char				**expand_argv(t_minishell *minish, t_token *tok);
 char				*expand_delimiter(t_minishell *minish, t_token *tok);
 char				*expand_heredoc(t_minishell *minish, const char *str);
 

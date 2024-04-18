@@ -6,7 +6,7 @@
 /*   By: susumuyagi <susumuyagi@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/06 19:45:27 by susumuyagi        #+#    #+#             */
-/*   Updated: 2024/04/18 13:52:41 by susumuyagi       ###   ########.fr       */
+/*   Updated: 2024/04/18 14:51:30 by susumuyagi       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,16 +66,6 @@ char	**expand_split(t_minishell *minish, t_token *tok)
 			return (NULL);
 	}
 	return (exp.arr_ret);
-}
-
-char	**expand_argv(t_minishell *minish, t_token *tok)
-{
-	char	**ret;
-
-	ret = expand_split(minish, tok);
-	if (!ret)
-		return (occurred_malloc_error_return_null(minish));
-	return (ret);
 }
 
 char	*expand_redirect(t_minishell *minish, t_token *tok)
