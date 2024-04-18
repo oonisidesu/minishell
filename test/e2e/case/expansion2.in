@@ -16,3 +16,9 @@ DD=""$AA
 echo "$BB"
 echo "$CC"
 echo "$DD"
+E1="   -a  "
+ls$E1
+E2="  ls -a  "
+$E2
+E3="         "
+$E3
