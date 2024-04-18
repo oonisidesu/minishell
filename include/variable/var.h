@@ -6,7 +6,7 @@
 /*   By: ootsuboyoshiyuki <ootsuboyoshiyuki@stud    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/14 16:21:32 by ootsuboyosh       #+#    #+#             */
-/*   Updated: 2024/04/11 18:21:09 by ootsuboyosh      ###   ########.fr       */
+/*   Updated: 2024/04/17 20:48:44 by ootsuboyosh      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,7 @@ typedef struct s_var
 
 bool				is_var_declaration(const char *str, size_t n);
 bool				is_var_dec_exclude_equal(const char *str, size_t n);
+bool				is_var_dec_exclude_plus(const char *str, size_t n);
 char				**divide_key_val(const char *key_val);
 
 #endif

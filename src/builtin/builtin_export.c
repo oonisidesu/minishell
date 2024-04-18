@@ -6,7 +6,7 @@
 /*   By: ootsuboyoshiyuki <ootsuboyoshiyuki@stud    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/23 19:23:01 by susumuyagi        #+#    #+#             */
-/*   Updated: 2024/04/10 15:29:57 by ootsuboyosh      ###   ########.fr       */
+/*   Updated: 2024/04/17 23:41:03 by ootsuboyosh      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@
 #include "utils/exit_status.h"
 #include "utils/utils.h"
 #include "variable/env.h"
+#include "variable/env_util.h"
 #include "variable/var.h"
 #include <stdlib.h>
 #include <unistd.h>
@@ -46,18 +47,28 @@ static void	print_env(t_minishell *minish)
 static char	**set_key_value(t_minishell *minish, t_node *node, int i)
 {
 	char	**key_value;
+	char	*tmp;
 
 	key_value = divide_key_val(node->argv[i]);
 	if (key_value == NULL)
 	{
 		key_value = (char **)ft_calloc(2, sizeof(char *));
 		if (key_value == NULL)
-		{
-			node->wait_status = EXIT_FAILURE;
-			minish->error_kind = ERR_MALLOC;
-			return (NULL);
-		}
+			return (set_err_kind_status(minish, node, ERR_MALLOC), NULL);
 		key_value[0] = ft_substr(node->argv[i], 0, ft_strlen(node->argv[i]));
+	}
+	if (ft_strchr(key_value[0], '+'))
+	{
+		tmp = ft_strdup(key_value[0]);
+		if (tmp == NULL)
+			return (set_err_kind_status_free(minish, node, ERR_MALLOC,
+					key_value), NULL);
+		free(key_value[0]);
+		key_value[0] = ft_substr(tmp, 0, ft_strlen(tmp) - 1);
+		free(tmp);
+		if (key_value[0] == NULL)
+			return (set_err_kind_status_free(minish, node, ERR_MALLOC,
+					key_value), NULL);
 	}
 	return (key_value);
 }
@@ -84,12 +95,10 @@ static void	set_env(t_minishell *minish, t_node *node)
 			add_or_update_var(minish, key_value[0], key_value[1], VAR_ENV);
 		else if (is_var_dec_exclude_equal(node->argv[i],
 				ft_strlen(node->argv[i])))
-		{
-			if (has_key(minish, key_value[0]))
-				set_type(minish, key_value[0], VAR_ENV);
-			else
-				add_or_update_var(minish, key_value[0], key_value[1], VAR_ENV);
-		}
+			set_or_update_env_var(minish, key_value);
+		else if (is_var_dec_exclude_plus(node->argv[i],
+				ft_strlen(node->argv[i])))
+			append_val(minish, key_value[0], key_value[1], VAR_ENV);
 		else
 			print_identifier_err(node, i);
 		free_array((void **)key_value);
