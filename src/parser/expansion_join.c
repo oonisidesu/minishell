@@ -6,7 +6,7 @@
 /*   By: susumuyagi <susumuyagi@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/06 19:45:27 by susumuyagi        #+#    #+#             */
-/*   Updated: 2024/04/17 16:45:25 by susumuyagi       ###   ########.fr       */
+/*   Updated: 2024/04/17 19:51:19 by susumuyagi       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ int	join_up_to_terminator(t_expansion *exp, t_inside_status in_status,
 
 	count_up_to_terminator(exp, in_status, terminator);
 	num = exp->i - exp->n;
-	if (num == 0)
+	if (exp->in_status == IN_NONE && num == 0)
 		return (0);
 	if (push_exp_string(exp, exp->str + exp->n, num))
 		return (1);

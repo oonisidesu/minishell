@@ -1,5 +1,7 @@
 AA="out/abc    def"
 > ""$AA""
+BB="     "
+> $BB
 AA="'abc       def'"
 $AA
 "$AA"

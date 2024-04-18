@@ -6,7 +6,7 @@
 /*   By: susumuyagi <susumuyagi@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/06 19:45:27 by susumuyagi        #+#    #+#             */
-/*   Updated: 2024/04/17 18:36:33 by susumuyagi       ###   ########.fr       */
+/*   Updated: 2024/04/18 13:52:41 by susumuyagi       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 #include "minishell.h"
 #include "parser/expansion.h"
 #include "utils/minishell_error.h"
+#include "utils/utils.h"
 #include <stdlib.h>
 
 char	*expand(t_minishell *minish, t_token *tok)
@@ -80,26 +81,23 @@ char	**expand_argv(t_minishell *minish, t_token *tok)
 char	*expand_redirect(t_minishell *minish, t_token *tok)
 {
 	char	*ret;
-	char	*tmp;
+	char	**arr;
+	size_t	count;
 
-	ret = expand(minish, tok);
-	if (!ret)
+	arr = expand_split(minish, tok);
+	if (!arr)
 		return (occurred_malloc_error_return_null(minish));
-	if (has_quotes(tok))
-		return (ret);
-	tmp = ret;
-	ret = ft_strtrim(ret, " \t");
-	free(tmp);
-	if (!ret)
-	{
-		return (occurred_malloc_error_return_null(minish));
-	}
-	if (ft_strchr(ret, ' ') != NULL || ft_strchr(ret, '\t') != NULL)
+	count = 0;
+	while (arr[count])
+		count++;
+	if (count != 1)
 	{
 		occurred_redirect_error(minish, tok);
-		free(ret);
+		free_array((void **)arr);
 		return (NULL);
 	}
+	ret = arr[0];
+	free(arr);
 	return (ret);
 }
 
