@@ -6,7 +6,7 @@
 /*   By: susumuyagi <susumuyagi@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/06 19:45:27 by susumuyagi        #+#    #+#             */
-/*   Updated: 2024/04/17 18:09:30 by susumuyagi       ###   ########.fr       */
+/*   Updated: 2024/04/19 17:26:51 by susumuyagi       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,12 +55,39 @@ int	consume_and_join_dollar(t_expansion *exp)
 	return (0);
 }
 
+static bool	dollar_quote(t_expansion *exp)
+{
+	if (exp->in_heredoc)
+	{
+		return (false);
+	}
+	if (exp->in_status == IN_NONE && ft_strncmp("$'", &exp->str[exp->i],
+			2) == 0)
+	{
+		exp->in_status = IN_QUOTE;
+		exp->i += 2;
+		exp->n = exp->i;
+		return (true);
+	}
+	if (exp->in_status == IN_NONE && ft_strncmp("$\"", &exp->str[exp->i],
+			2) == 0)
+	{
+		exp->in_status = IN_D_QUOTE;
+		exp->i += 2;
+		exp->n = exp->i;
+		return (true);
+	}
+	return (false);
+}
+
 int	expand_variable(t_minishell *minish, t_expansion *exp, bool need_split)
 {
 	int		ret;
 	char	*key;
 
 	if (!(exp->in_status == IN_NONE || exp->in_status == IN_D_QUOTE))
+		return (0);
+	if (dollar_quote(exp))
 		return (0);
 	if (is_special_param(exp))
 		return (0);

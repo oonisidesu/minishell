@@ -139,7 +139,26 @@ TEST(Expansion, variable) {
   tok.str = str.c_str();
   tok.len = str.size();
 
-  const char* expected = "12/bin:/usr/bin%/homeABC%$$1$abc$ENVa=b=c";
+  const char* expected = "12/bin:/usr/bin%/homeABC%$1$abc$ENVa=b=c";
+  char* actual = expand(&minish, &tok);
+
+  EXPECT_STREQ(expected, actual);
+}
+
+TEST(Expansion, dollar_quote) {
+  t_minishell minish;
+  t_token tok;
+
+  const char* envp[] = {"HOME=/home", "USER=me",    "PATH=/bin:/usr/bin",
+                        "ENV=",       "ENV2=a=b=c", NULL};
+  init_minishell(&minish);
+  set_envp(&minish, envp);
+
+  std::string str = "$\"$\"\"\"$'$'''$\"HOME\"$'HOME'";
+  tok.str = str.c_str();
+  tok.len = str.size();
+
+  const char* expected = "$$HOMEHOME";
   char* actual = expand(&minish, &tok);
 
   EXPECT_STREQ(expected, actual);
@@ -179,6 +198,25 @@ TEST(Expansion, expand_heredoc) {
   std::string str = "12' '\" \"$HOME\"'a'\"'\"b\"'$?$$'\"\"'\"''\"";
 
   const char* expected = "12' '\" \"/home\"'a'\"'\"b\"'120$$'\"\"'\"''\"";
+  char* actual = expand_heredoc(&minish, str.c_str());
+
+  EXPECT_STREQ(expected, actual);
+}
+
+// heredoc内では$"" $''は解釈しない
+TEST(Expansion, expand_heredoc_dollar_quote) {
+  t_minishell minish;
+  t_token tok;
+
+  const char* envp[] = {"HOME=/home", "USER=me",    "PATH=/bin:/usr/bin",
+                        "ENV=",       "ENV2=a=b=c", NULL};
+  init_minishell(&minish);
+  set_envp(&minish, envp);
+  minish.status_code = 120;
+
+  std::string str = "$\"HOME\"$\"$\"\"\"$'USER'$'$'''";
+
+  const char* expected = "$\"HOME\"$\"$\"\"\"$'USER'$'$'''";
   char* actual = expand_heredoc(&minish, str.c_str());
 
   EXPECT_STREQ(expected, actual);

@@ -6,7 +6,7 @@
 /*   By: susumuyagi <susumuyagi@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/06 19:45:27 by susumuyagi        #+#    #+#             */
-/*   Updated: 2024/04/18 14:51:30 by susumuyagi       ###   ########.fr       */
+/*   Updated: 2024/04/19 17:25:59 by susumuyagi       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -123,6 +123,7 @@ char	*expand_heredoc(t_minishell *minish, const char *str)
 	{
 		return (occurred_malloc_error_return_null(minish));
 	}
+	exp.in_heredoc = true;
 	while (!done_expansion(&exp))
 	{
 		if (expand_special_param(minish, &exp))
