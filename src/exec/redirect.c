@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirect.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ootsuboyoshiyuki <ootsuboyoshiyuki@stud    +#+  +:+       +#+        */
+/*   By: susumuyagi <susumuyagi@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/12 12:06:41 by susumuyagi        #+#    #+#             */
-/*   Updated: 2024/04/16 22:21:19 by ootsuboyosh      ###   ########.fr       */
+/*   Updated: 2024/04/19 16:33:07 by susumuyagi       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,7 +95,7 @@ int	redirect(t_minishell *minish, t_node *node)
 			is_error = redirect_append(redirect_node->path);
 		else if (redirect_node->kind == ND_HEREDOC)
 		{
-			if (!is_builtin(node) && redirect_node->next == NULL)
+			if (!(is_builtin(node) && !node->in_pipe))
 				is_error = write_heredoc(minish, redirect_node->heredoc_idx);
 		}
 		if (is_error)
