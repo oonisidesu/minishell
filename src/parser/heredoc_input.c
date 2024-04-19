@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc_input.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ootsuboyoshiyuki <ootsuboyoshiyuki@stud    +#+  +:+       +#+        */
+/*   By: susumuyagi <susumuyagi@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/15 15:43:15 by susumuyagi        #+#    #+#             */
-/*   Updated: 2024/04/16 22:21:25 by ootsuboyosh      ###   ########.fr       */
+/*   Updated: 2024/04/19 17:05:23 by susumuyagi       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,13 +25,12 @@ static char	*expand_line(t_minishell *minish, char *line, char *doc, int idx)
 	if (minish->heredoc.need_expansion[idx])
 	{
 		ret = expand_heredoc(minish, line);
+		free(line);
 		if (!ret)
 		{
-			free(line);
 			free(doc);
 			return (NULL);
 		}
-		free(line);
 	}
 	else
 	{

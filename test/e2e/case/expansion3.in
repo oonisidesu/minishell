@@ -1,0 +1,16 @@
+AA="  123  456  "
+echo $"$AA"
+echo $'$AA'
+echo $"$"AA""
+echo $'$'AA''
+echo $"$HOME"
+echo $'$HOME'
+echo $"HOME"
+echo $'HOME'
+echo $"$""$"$"$'"
+echo $'$''$'$'$"'
+echo $"$"HOME""
+echo $'$'HOME''
+echo $"$"$""
+echo $"$"""
+echo $'$'''

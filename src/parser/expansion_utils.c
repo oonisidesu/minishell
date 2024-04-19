@@ -6,7 +6,7 @@
 /*   By: susumuyagi <susumuyagi@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/06 19:45:27 by susumuyagi        #+#    #+#             */
-/*   Updated: 2024/04/18 13:52:24 by susumuyagi       ###   ########.fr       */
+/*   Updated: 2024/04/19 17:20:10 by susumuyagi       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,7 @@ int	init_expansion(t_expansion *exp, const char *str, size_t len)
 	exp->i = 0;
 	exp->n = 0;
 	exp->in_status = IN_NONE;
+	exp->in_heredoc = false;
 	return (0);
 }
 

@@ -6,7 +6,7 @@
 /*   By: susumuyagi <susumuyagi@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/07 16:58:41 by susumuyagi        #+#    #+#             */
-/*   Updated: 2024/04/18 14:51:05 by susumuyagi       ###   ########.fr       */
+/*   Updated: 2024/04/19 17:19:30 by susumuyagi       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,7 @@ typedef struct s_expansion
 	size_t			n;
 
 	t_inside_status	in_status;
+	bool			in_heredoc;
 }					t_expansion;
 
 int					init_expansion(t_expansion *exp, const char *str,
