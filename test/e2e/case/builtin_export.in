@@ -39,9 +39,9 @@ export ?a=_1 ?b=2
 echo $?
 export a=_1 ?b=2
 echo $?
-export CCC
-export | grep CCC=
-env | grep CCC=
+export CCCTEST
+export | grep CCCTEST
+env | grep CCCTEST
 export DDD
 DDD=dkdk
 export | grep DDD=
@@ -50,10 +50,10 @@ export EEE
 export EEE=llll
 export | grep EEE=
 env | grep EEE=
-export FFF
-export FFF
-export | grep FFF=
-env | grep FFF=
+export FFFTEST
+export FFFTEST
+export | grep FFFTEST
+env | grep FFFTEST
 export GGG=123
 export GGG
 export | grep GGG=
