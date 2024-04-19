@@ -6,7 +6,7 @@
 /*   By: ootsuboyoshiyuki <ootsuboyoshiyuki@stud    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/23 19:23:01 by susumuyagi        #+#    #+#             */
-/*   Updated: 2024/03/19 17:13:18 by ootsuboyosh      ###   ########.fr       */
+/*   Updated: 2024/04/18 17:05:09 by ootsuboyosh      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,20 +21,24 @@
 
 static void	unset_env(t_minishell *minish, t_node *node)
 {
-	int	i;
+	int		i;
+	bool	identifier_err_flag;
 
 	i = 1;
+	identifier_err_flag = false;
 	while (i < node->argc)
 	{
 		if (is_var_dec_exclude_equal(node->argv[i], ft_strlen(node->argv[i])))
 		{
-			node->wait_status = 0;
+			if (identifier_err_flag == false)
+				node->wait_status = 0;
 			del_var(minish, node->argv[i]);
 		}
 		else
 		{
 			ft_printf_fd(STDERR_FILENO, IDENTIFIER_ERROR, "unset",
 				node->argv[i]);
+			identifier_err_flag = true;
 			node->wait_status = 1;
 		}
 		i++;

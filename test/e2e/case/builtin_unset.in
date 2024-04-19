@@ -8,5 +8,8 @@ unset :
 unset aa=
 unset _PPID
 echo $?
-
-
+unset A B 1 C D
+echo $?
+export AAA=1 BBB=2 CCC=3 DDD=4
+unset AAA BBB 1 CCC
+export | grep -e AAA -e BBB -e CCC -e DDD
