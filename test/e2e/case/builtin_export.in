@@ -28,7 +28,7 @@ echo $?
 export _TEST1=123
 env | grep _TEST1=
 export 1_TEST1=123
-env | grep 1_TEST1=
+env | grep 1_TEST1
 export AA=11 1 BB=22 2
 echo $?
 env | grep AA=
