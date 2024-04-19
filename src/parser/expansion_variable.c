@@ -6,7 +6,7 @@
 /*   By: susumuyagi <susumuyagi@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/06 19:45:27 by susumuyagi        #+#    #+#             */
-/*   Updated: 2024/04/11 17:53:23 by susumuyagi       ###   ########.fr       */
+/*   Updated: 2024/04/17 18:09:30 by susumuyagi       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ static char	*extract_key(t_minishell *minish, t_expansion *exp)
 		return (NULL);
 	}
 	exp->i += 2;
-	while (!expansion_done(exp) && (ft_isalnum(exp->str[exp->i])
+	while (!done_expansion(exp) && (ft_isalnum(exp->str[exp->i])
 			|| exp->str[exp->i] == '_'))
 	{
 		exp->i++;
@@ -55,19 +55,15 @@ int	consume_and_join_dollar(t_expansion *exp)
 	return (0);
 }
 
-int	expand_variable(t_minishell *minish, t_expansion *exp)
+int	expand_variable(t_minishell *minish, t_expansion *exp, bool need_split)
 {
 	int		ret;
 	char	*key;
 
 	if (!(exp->in_status == IN_NONE || exp->in_status == IN_D_QUOTE))
-	{
 		return (0);
-	}
 	if (is_special_param(exp))
-	{
 		return (0);
-	}
 	key = extract_key(minish, exp);
 	if (!no_error(minish))
 	{
@@ -75,10 +71,11 @@ int	expand_variable(t_minishell *minish, t_expansion *exp)
 		return (free_expansion_and_return_error(exp));
 	}
 	if (!key)
-	{
 		return (consume_and_join_dollar(exp));
-	}
-	ret = join_var(exp, get_var(minish, key), 0);
+	if (need_split)
+		ret = split_and_join_var(exp, get_var(minish, key), 0);
+	else
+		ret = join_var(exp, get_var(minish, key), 0);
 	free(key);
 	return (ret);
 }

@@ -6,7 +6,7 @@
 /*   By: susumuyagi <susumuyagi@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/15 17:37:32 by susumuyagi        #+#    #+#             */
-/*   Updated: 2024/04/12 17:23:20 by susumuyagi       ###   ########.fr       */
+/*   Updated: 2024/04/18 14:52:01 by susumuyagi       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,9 +59,10 @@ static void	expand_and_set_argv(t_node *node, t_minishell *minish)
 	char	**argv;
 	int		i;
 
-	argv = expand_argv(minish, minish->cur_token);
+	argv = expand_split(minish, minish->cur_token);
 	if (!argv)
 	{
+		occurred_malloc_error_return_null(minish);
 		return ;
 	}
 	i = 0;

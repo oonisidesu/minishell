@@ -6,21 +6,27 @@
 /*   By: susumuyagi <susumuyagi@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/06 19:45:27 by susumuyagi        #+#    #+#             */
-/*   Updated: 2024/04/11 17:55:41 by susumuyagi       ###   ########.fr       */
+/*   Updated: 2024/04/18 13:52:24 by susumuyagi       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 #include "parser/expansion.h"
+#include "utils/utils.h"
 #include <stdlib.h>
 
-int	init_expansion(t_expansion *exp, t_token *tok)
+int	init_expansion(t_expansion *exp, const char *str, size_t len)
 {
-	exp->ret = (char *)ft_calloc(1, sizeof(char));
-	if (!exp->ret)
+	exp->arr_ret = (char **)ft_calloc(EXP_INIT_SIZE, sizeof(char *));
+	if (!exp->arr_ret)
 		return (1);
-	exp->str = tok->str;
-	exp->len = tok->len;
+	exp->arr_capa = EXP_INIT_SIZE;
+	exp->arr_size = 0;
+	exp->ret = NULL;
+	exp->capa = EXP_INIT_SIZE;
+	exp->size = 0;
+	exp->str = str;
+	exp->len = len;
 	exp->i = 0;
 	exp->n = 0;
 	exp->in_status = IN_NONE;
@@ -29,23 +35,13 @@ int	init_expansion(t_expansion *exp, t_token *tok)
 
 int	free_expansion_and_return_error(t_expansion *exp)
 {
-	free(exp->ret);
+	free_array((void **)exp->arr_ret);
 	return (1);
 }
 
-int	expansion_done(t_expansion *exp)
+int	done_expansion(t_expansion *exp)
 {
 	return (exp->i >= exp->len);
-}
-
-bool	has_quotes(t_token *tok)
-{
-	bool	has_s_quote;
-	bool	has_d_quote;
-
-	has_s_quote = ft_memchr(tok->str, '\'', tok->len) != NULL;
-	has_d_quote = ft_memchr(tok->str, '\"', tok->len) != NULL;
-	return (has_s_quote || has_d_quote);
 }
 
 void	update_inside_status(t_expansion *exp)

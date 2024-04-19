@@ -1,0 +1,29 @@
+AA="abc    def"
+echo $AA
+echo "$AA"
+echo ""$AA
+AA="'abc    def'"
+echo $AA
+echo "$AA"
+echo ""$AA
+AA='"abc    def"'
+echo $AA
+echo "$AA"
+echo ""$AA
+BB=$AA
+CC="$AA"
+DD=""$AA
+echo "$BB"
+echo "$CC"
+echo "$DD"
+E1="   -a  "
+ls$E1
+ls $E1
+E2="  ls -a  "
+$E2
+E3="         "
+$E3
+F1="   "
+echo ""$F1""$F1"" | cat -e
+F2=""
+echo ""$F2""$F2"" | cat -e

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   find_path.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ootsuboyoshiyuki <ootsuboyoshiyuki@stud    +#+  +:+       +#+        */
+/*   By: susumuyagi <susumuyagi@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/21 12:26:12 by susumuyagi        #+#    #+#             */
-/*   Updated: 2024/04/16 22:21:14 by ootsuboyosh      ###   ########.fr       */
+/*   Updated: 2024/04/19 13:51:26 by susumuyagi       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,8 @@ static int	find_path(t_node *node, char **path_array)
 	size_t	i;
 
 	if (!path_array)
+		return (0);
+	if (ft_strlen(node->argv[0]) == 0)
 		return (0);
 	i = 0;
 	while (path_array[i])
