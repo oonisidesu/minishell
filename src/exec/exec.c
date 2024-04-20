@@ -6,7 +6,7 @@
 /*   By: ootsuboyoshiyuki <ootsuboyoshiyuki@stud    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/19 16:23:27 by susumuyagi        #+#    #+#             */
-/*   Updated: 2024/04/20 13:22:35 by ootsuboyosh      ###   ########.fr       */
+/*   Updated: 2024/04/20 13:36:15 by ootsuboyosh      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,7 @@ void	exec(t_minishell *minish)
 	int				orig_io[2];
 	struct termios	term;
 
+	term = (struct termios){0};
 	if (minish->node == NULL)
 		return ;
 	if (set_cmd_path(minish))
