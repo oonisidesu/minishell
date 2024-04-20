@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: susumuyagi <susumuyagi@student.42.fr>      +#+  +:+       +#+        */
+/*   By: ootsuboyoshiyuki <ootsuboyoshiyuki@stud    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/19 16:23:27 by susumuyagi        #+#    #+#             */
-/*   Updated: 2024/04/01 15:27:58 by susumuyagi       ###   ########.fr       */
+/*   Updated: 2024/04/20 13:22:35 by ootsuboyosh      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 #include "exec/pipe.h"
 #include "exec/process.h"
 #include "minishell.h"
+#include <termios.h>
 #include <unistd.h>
 
 static void	save_orig_io(int orig_io[2])
@@ -34,15 +35,18 @@ static void	restore_orig_io(int orig_io[2])
 
 void	exec(t_minishell *minish)
 {
-	int	orig_io[2];
+	int				orig_io[2];
+	struct termios	term;
 
 	if (minish->node == NULL)
 		return ;
 	if (set_cmd_path(minish))
 		return ;
 	save_orig_io(orig_io);
+	tcgetattr(STDIN_FILENO, &term);
 	exec_pipe(minish);
 	wait_prosesses(minish);
+	tcsetattr(STDIN_FILENO, TCSANOW, &term);
 	restore_orig_io(orig_io);
 	set_status_code(minish);
 }
