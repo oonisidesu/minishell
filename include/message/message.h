@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   message.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: susumuyagi <susumuyagi@student.42.fr>      +#+  +:+       +#+        */
+/*   By: yootsubo <yootsubo@student.42.jp>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 16:45:14 by ootsuboyosh       #+#    #+#             */
-/*   Updated: 2024/04/12 13:56:00 by susumuyagi       ###   ########.fr       */
+/*   Updated: 2024/04/21 17:58:00 by yootsubo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,9 +40,9 @@
 
 // --- minishell ---
 # define TOO_MANY_ARGS "Error: too many arguments\n"
-# define GETCWD_ERROR \
-	"error retrieving current directory: \
-getcwd: cannot access parent directories: Permission denied\n"
+# define ERROR_DIRECTORY "error retrieving current directory: "
+# define ERROR_GETCWD "getcwd: cannot access parent directories"
+# define PERMIT_DENY_BREAK_LINE ": Permission denied\n"
 # define MALLOC_ERROR "cannot allocate"
 
 #endif

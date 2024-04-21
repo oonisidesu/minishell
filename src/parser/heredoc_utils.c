@@ -6,7 +6,7 @@
 /*   By: susumuyagi <susumuyagi@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/15 15:43:15 by susumuyagi        #+#    #+#             */
-/*   Updated: 2024/04/08 12:10:59 by susumuyagi       ###   ########.fr       */
+/*   Updated: 2024/04/21 19:17:21 by susumuyagi       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,8 +62,8 @@ int	set_heredoc_delimiter(t_minishell *minish, t_token *tok)
 	{
 		return (-1);
 	}
-	minish->heredoc.need_expansion[idx] = (ft_memchr(tok->str, '\'',
-				tok->len) == NULL) && (ft_memchr(tok->str, '\"',
-				tok->len) == NULL);
+	minish->heredoc.need_expansion[idx] = ((ft_memchr(tok->str, '\'',
+					tok->len) == NULL) && (ft_memchr(tok->str, '\"',
+					tok->len) == NULL));
 	return (idx);
 }

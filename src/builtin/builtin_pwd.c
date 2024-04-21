@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_pwd.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ootsuboyoshiyuki <ootsuboyoshiyuki@stud    +#+  +:+       +#+        */
+/*   By: yootsubo <yootsubo@student.42.jp>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/23 19:23:01 by susumuyagi        #+#    #+#             */
-/*   Updated: 2024/04/16 22:25:27 by ootsuboyosh      ###   ########.fr       */
+/*   Updated: 2024/04/21 17:57:52 by yootsubo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,8 @@ int	builtin_pwd(t_minishell *minish, t_node *node)
 		pathname = getcwd(NULL, MAXPATHLEN);
 		if (pathname == NULL)
 		{
-			ft_printf_fd(STDERR_FILENO, "pwd: " GETCWD_ERROR);
+			ft_printf_fd(STDERR_FILENO,
+				"pwd: " ERROR_DIRECTORY ERROR_GETCWD PERMIT_DENY_BREAK_LINE);
 			node->wait_status = 1;
 			return (node->wait_status);
 		}
