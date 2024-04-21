@@ -43,6 +43,11 @@ jobs:
           python3 -m pip install --upgrade pip setuptools
           python3 -m pip install norminette
         shell: bash
+      
+      - name: Norminette version
+        run: |
+          norminette -v
+        shell: bash
 
       - name: Run Norminette
         run: make norm
