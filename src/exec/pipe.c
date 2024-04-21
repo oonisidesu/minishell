@@ -6,7 +6,7 @@
 /*   By: susumuyagi <susumuyagi@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/12 12:06:41 by susumuyagi        #+#    #+#             */
-/*   Updated: 2024/04/16 17:23:34 by susumuyagi       ###   ########.fr       */
+/*   Updated: 2024/04/21 19:17:10 by susumuyagi       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,7 +89,7 @@ static void	exec_builtin_or_cmd(t_minishell *minish, t_node *node)
 {
 	if (is_builtin(node))
 	{
-		lookup_builtin_func(node)(minish, node);
+		(lookup_builtin_func(node))(minish, node);
 		if (node->in_pipe)
 		{
 			die_minishell_and_exit(minish, node->wait_status);
