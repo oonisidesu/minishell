@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: susumuyagi <susumuyagi@student.42.fr>      +#+  +:+       +#+        */
+/*   By: yootsubo <yootsubo@student.42.jp>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/15 13:22:07 by susumuyagi        #+#    #+#             */
-/*   Updated: 2024/04/02 16:45:30 by susumuyagi       ###   ########.fr       */
+/*   Updated: 2024/04/21 17:51:21 by yootsubo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,8 @@ void	init_minishell(t_minishell *minish)
 	minish->status_code = 0;
 	minish->pwd = getcwd(NULL, MAXPATHLEN);
 	if (minish->pwd == NULL)
-		ft_printf_fd(STDERR_FILENO, "shell-init: " GETCWD_ERROR);
+		ft_printf_fd(STDERR_FILENO,
+			"shell-init: " ERROR_DIRECTORY ERROR_GETCWD PERMIT_DENY_BREAK_LINE);
 	minish->error_kind = ERR_NONE;
 	init_heredoc(&(minish->heredoc));
 }
