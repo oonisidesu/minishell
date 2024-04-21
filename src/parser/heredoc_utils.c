@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc_utils.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yootsubo <yootsubo@student.42.jp>          +#+  +:+       +#+        */
+/*   By: susumuyagi <susumuyagi@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/15 15:43:15 by susumuyagi        #+#    #+#             */
-/*   Updated: 2024/04/21 18:28:40 by yootsubo         ###   ########.fr       */
+/*   Updated: 2024/04/08 12:10:59 by susumuyagi       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,21 +46,6 @@ void	free_heredoc(t_heredoc *heredoc)
 	}
 }
 
-static bool	is_node_expansion(t_token *tok)
-{
-	char	*single_quote_p;
-	char	*double_quote_p;
-	bool	is_node_expansion;
-
-	single_quote_p = ft_memchr(tok->str, '\'', tok->len);
-	double_quote_p = ft_memchr(tok->str, '\"', tok->len);
-	if ((single_quote_p == NULL) && (double_quote_p == NULL))
-		is_node_expansion = true;
-	else
-		is_node_expansion = false;
-	return (is_node_expansion);
-}
-
 int	set_heredoc_delimiter(t_minishell *minish, t_token *tok)
 {
 	int	idx;
@@ -77,6 +62,8 @@ int	set_heredoc_delimiter(t_minishell *minish, t_token *tok)
 	{
 		return (-1);
 	}
-	minish->heredoc.need_expansion[idx] = is_node_expansion(tok);
+	minish->heredoc.need_expansion[idx] = (ft_memchr(tok->str, '\'',
+				tok->len) == NULL) && (ft_memchr(tok->str, '\"',
+				tok->len) == NULL);
 	return (idx);
 }
