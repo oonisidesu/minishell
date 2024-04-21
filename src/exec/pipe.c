@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipe.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yootsubo <yootsubo@student.42.jp>          +#+  +:+       +#+        */
+/*   By: susumuyagi <susumuyagi@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/12 12:06:41 by susumuyagi        #+#    #+#             */
-/*   Updated: 2024/04/21 18:06:45 by yootsubo         ###   ########.fr       */
+/*   Updated: 2024/04/16 17:23:34 by susumuyagi       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,12 +87,9 @@ static int	create_pipe_and_fork(t_minishell *minish, t_node *node, int fds[])
 
 static void	exec_builtin_or_cmd(t_minishell *minish, t_node *node)
 {
-	t_builtin_func	builtin_func;
-
 	if (is_builtin(node))
 	{
-		builtin_func = lookup_builtin_func(node);
-		builtin_func(minish, node);
+		lookup_builtin_func(node)(minish, node);
 		if (node->in_pipe)
 		{
 			die_minishell_and_exit(minish, node->wait_status);
