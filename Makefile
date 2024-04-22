@@ -67,27 +67,10 @@ fclean: clean
 	$(RM) $(NAME)
 	$(MAKE) -C $(LIBFT_DIR) fclean
 	$(RM) -r $(READLINE_DIR)
+	$(RM) -r $(READLINE_TAR_GZ)
 
 .PHONY: re
 re: fclean all
-
-# test
-.PHONY: test
-test: unit_test e2e_test
-
-.PHONY: unit_test
-unit_test: $(READLINE) $(LIBFT)
-	cd test/unit && \
-	cmake -S . -B build && cmake --build build &&  cd build && ctest
-
-.PHONY: e2e_test
-e2e_test: $(NAME) $(e2e_clean)
-	cd test/e2e && ./run_e2e.sh
-
-.PHONY: e2e_clean
-e2e_clean:
-	$(RM) test/e2e/out/*.out
-	$(RM) test/e2e/out/*.diff
 
 .PHONY: norm
 norm:

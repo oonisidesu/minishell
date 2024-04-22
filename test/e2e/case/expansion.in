@@ -1,4 +1,0 @@
-echo $PWD$HOME'$PATH'--"'$HOME'""'"
-echo '$PWD'"$PWD""''"'""'
-echo $+
-echo $

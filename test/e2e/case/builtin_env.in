@@ -1,1 +1,0 @@
-env | sort | grep -v "_=" | grep -v "OLDPWD=" | grep -v "SHLVL="

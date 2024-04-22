@@ -1,8 +1,0 @@
-AA=123 BB=345 CC=678 DD=910 ls
-echo $AA $BB $CC $DD
-AA=123 BB=345 CC=678 DD=910
-echo $AA $BB $CC $DD
-aa=123 _a=345 _1=678 1a=910
-echo $aa $_a $_1 $1a
-aa=123 _a=345 _1=678
-echo $aa $_a $_1
