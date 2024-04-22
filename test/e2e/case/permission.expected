@@ -1,0 +1,6 @@
+minishell: ../bin/ls: permission denied
+minishell: ../bin: is a directory
+minishell: case/data/read_only: is a directory
+minishell: ./: is a directory
+minishell: ./abc: No such file or directory
+minishell: hello: command not found

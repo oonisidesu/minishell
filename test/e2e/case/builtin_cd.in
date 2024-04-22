@@ -1,0 +1,22 @@
+pwd
+cd case/data/aa
+pwd
+cd .
+pwd
+cd ..
+pwd
+cd .././../.././././
+pwd
+cd /
+pwd
+cd
+pwd
+unset HOME
+cd
+pwd
+cd ""
+pwd
+HOME=
+cd
+pwd
+

@@ -1,0 +1,8 @@
+FILE1="out/file1.txt" FILE2="out/file2.txt" FILE3="out/file3.txt" FILE4="out/file4.txt"
+AA="ls -a"
+$AA > $FILE1 | echo > $FILE2 -nnnn > $FILE3 "-n" > $FILE4 "-n"n "-n " --- -x >> $FILE1 $FILE1"$FILE2"'$FILE3'$FILE4 | wc -l $FILE1 $FILE2 $FILE3 $FILE4 >> $FILE1
+ls -al case > $FILE2 | ls $FILE2 >> $FILE2
+ls -al >> $FILE2 > $FILE3 case | cat < $FILE3 >> $FILE3
+ls -a |wc -l > $FILE4
+cat $FILE1$FILE2$FILE3$FILE4
+rm -f $FILE1 $FILE2 $FILE3 $FILE4

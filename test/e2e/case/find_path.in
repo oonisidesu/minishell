@@ -1,0 +1,11 @@
+unset PATH
+ls
+echo $?
+PATH=../bin
+ls
+echo $?
+PATH=../bin:/bin:../bin
+ls
+echo $?
+../bin/exit42.sh
+echo $?

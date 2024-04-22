@@ -1,0 +1,3 @@
+ls | cat | cat
+ls -al | cat -e
+pwd | pwd | pwd
